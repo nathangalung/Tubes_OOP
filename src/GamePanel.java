@@ -50,4 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         g2.fillRect(100, 100, tiles, tiles);
         g2.dispose();
     }
+
+    
+
 }
