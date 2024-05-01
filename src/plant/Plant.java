@@ -1,5 +1,7 @@
 package plant;
 
+import zombie.Zombie;
+
 public abstract class Plant {
     private String name;
     private int cost;
@@ -45,5 +47,9 @@ public abstract class Plant {
 
     public int getCooldown() {
         return this.cooldown;
+    }
+
+    public void damage_on_hit(Zombie zombie){
+        zombie.setHealth(health-attack_damage);
     }
 }

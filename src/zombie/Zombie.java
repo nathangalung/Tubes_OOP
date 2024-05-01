@@ -34,4 +34,8 @@ public abstract class Zombie {
     public boolean getIsAquatic() {
         return this.is_aquatic;
     }
+
+    public void setHealth(int newHealth){
+        health = newHealth;
+    }
 }
