@@ -1,5 +1,5 @@
 package plant;
-
+// Parent class plant
 public abstract class Plant {
     private String name;
     private int cost;

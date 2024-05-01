@@ -1,5 +1,5 @@
 package zombie;
-
+// Parent class Zombie
 public abstract class Zombie {
     private String name;
     private int health;
