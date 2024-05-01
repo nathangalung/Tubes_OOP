@@ -31,7 +31,7 @@ public abstract class Zombie {
         return this.attack_speed;
     }
 
-    public boolean getIsAquatic() {
+    public boolean getAquatic() {
         return this.is_aquatic;
     }
 }
