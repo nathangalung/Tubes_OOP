@@ -46,7 +46,7 @@ public abstract class Plant {
     public int getCooldown() {
         return this.cooldown;
     }
-    public boolean isAqua() {
+    public boolean is_aquatic() {
         return false;
     }
 }
