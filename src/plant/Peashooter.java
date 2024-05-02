@@ -10,7 +10,7 @@ public class Peashooter extends Plant {
     private ScheduledExecutorService scheduler;
 
     public Peashooter(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
-        super("Peashooter", 100, 100, 25, 4, -1, 10);
+        super(name, cost, health, attack_damage, attack_speed, range, cooldown);
         this.isReadyToAttack = true; // set awal ready to attack
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     } 
