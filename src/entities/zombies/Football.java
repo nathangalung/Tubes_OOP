@@ -1,5 +1,5 @@
 package entities.zombies;
 
-public class FlagZombie {
+public class Football {
     
 }

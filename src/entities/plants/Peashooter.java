@@ -36,5 +36,9 @@ public class Peashooter extends Plant {
     }
     public void setHealth(int health) {
         this.health = health;
-    }        
+    }
+    
+    public boolean isReadyToAttack() {
+        return isReadyToAttack;
+    }
 }
