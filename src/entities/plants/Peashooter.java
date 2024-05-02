@@ -14,4 +14,27 @@ public class Peashooter extends Plant {
         this.isReadyToAttack = true; // set awal ready to attack
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     } 
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getAttackDamage() {
+        return attack_damage;
+    }
+    
+    public int getAttackSpeed() {
+        return attack_speed;
+    }
+    
+    public int getRange() {
+        return range;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+    public void setHealth(int health) {
+        this.health = health;
+    }        
 }

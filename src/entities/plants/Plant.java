@@ -1,13 +1,13 @@
 package entities.plants;
 // Parent class plant
 public abstract class Plant {
-    private String name;
-    private int cost;
-    private int health;
-    private int attack_damage;
-    private int attack_speed;
-    private int range;
-    private int cooldown;
+    protected String name;
+    protected int cost;
+    protected int health;
+    protected int attack_damage;
+    protected int attack_speed;
+    protected int range;
+    protected int cooldown;
 
     public Plant(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
         this.name = name;
