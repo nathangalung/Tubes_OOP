@@ -1,37 +1,38 @@
 package entities.zombies;
+
 // Parent class Zombie
 public abstract class Zombie {
     private String name;
     private int health;
-    private int attack_damage;
-    private int attack_speed;
-    private boolean is_aquatic;
+    private int attackDamage;
+    private int attackSpeed;
+    private boolean isAquatic;
 
-    public Zombie(String name, int health, int attack_damage, int attack_speed, boolean is_aquatic) {
+    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean isAquatic) {
         this.name = name;
         this.health = health;
-        this.attack_damage = attack_damage;
-        this.attack_speed = attack_speed;
-        this.is_aquatic = is_aquatic;
+        this.attackDamage = attackDamage;
+        this.attackSpeed = attackSpeed;
+        this.isAquatic = isAquatic;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getHealth() {
-        return this.health;
+        return health;
     }
 
     public int getAttackDamage() {
-        return this.attack_damage;
+        return attackDamage;
     }
 
     public int getAttackSpeed() {
-        return this.attack_speed;
+        return attackSpeed;
     }
 
-    public boolean getAquatic() {
-        return this.is_aquatic;
+    public boolean isAquatic() {
+        return isAquatic;
     }
 }

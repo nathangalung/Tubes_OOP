@@ -1,21 +1,27 @@
 package mains;
 
-import javax.swing.JFrame;
+import java.awt.*;
+import javax.swing.*;
+
+import src.main.panels.MainMenuPanel;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame window = new JFrame();
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
-        window.setTitle("Plants vs Zombies");
+        JFrame frame = new JFrame("Michael vs Lalapan");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setResizable(false);
 
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
+        // Load your image file and create an ImageIcon object
+        ImageIcon icon = new ImageIcon("src/assets/icon.png");
 
-        window.pack();   
-        
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        // Set the icon of the JFrameaaawaa
+        frame.setIconImage(icon.getImage());
 
+        frame.add(MainMenuPanel.getInstance());
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
