@@ -1,8 +1,9 @@
-import src.main.Consts;
-import src.entities.handlers.*;
-import src.entities.sim.Sim;
-import src.entities.interactables.Door;
-import src.main.KeyHandler;
+package entities;
+
+import mains.Consts;
+import entities.handlers.*;
+import entities.sim.Sim;
+import mains.KeyHandler;
 
 public abstract class Entity {
     private int x;

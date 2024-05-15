@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import mains.GamePanel;
+import mains.panels.GamePanel;
 
 public class Bullet {
     private double x;
