@@ -1,4 +1,4 @@
-package entities.zombies;
+package entities.zombies.zombies;
 
 public class PoleVaulting extends Zombie {
     private boolean is_jump;

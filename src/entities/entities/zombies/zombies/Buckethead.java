@@ -1,4 +1,4 @@
-package entities.zombies;
+package entities.zombies.zombies;
 
 public class Buckethead extends Zombie {
     private boolean is_bucket;

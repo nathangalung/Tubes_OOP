@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
 
-import src.assets.ImageLoader;
+import assets.AssetsLoader;
 
 public class MainMenuPanel extends JPanel {
     public static MainMenuPanel mmp = new MainMenuPanel();

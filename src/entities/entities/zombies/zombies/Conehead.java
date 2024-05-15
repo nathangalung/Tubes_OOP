@@ -1,4 +1,4 @@
-package entities.zombies;
+package entities.zombies.zombies;
 
 public class Conehead extends Zombie {
     private boolean is_cone;

@@ -1,4 +1,4 @@
-package entities.zombies;
+package entities.zombies.zombies;
 
 public class DolphinRider extends Zombie {
     protected boolean is_pool = false;

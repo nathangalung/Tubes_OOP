@@ -1,7 +1,7 @@
 package mains.times;
 
-import src.entities.sim.Sim;
-import src.main.UserInterface;
+import entities.sim.Sim;
+import mains.UserInterface;
 import src.world.World;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;

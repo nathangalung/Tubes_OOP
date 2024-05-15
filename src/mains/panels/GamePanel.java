@@ -4,15 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import src.main.Consts;
-import src.entities.sim.Sim;
-import src.main.KeyHandler;
-import src.main.UserInterface;
-import src.main.menus.UpgradeHouseMenu;
-import src.main.menus.WorldMenu;
-import src.main.time.GameTime;
-import src.world.Room;
-import src.world.World;
+import mains.Consts;
+import entities.sim.Sim;
+import mains.KeyHandler;
+import mains.UserInterface;
+import mains.menus.UpgradeHouseMenu;
+import mains.menus.WorldMenu;
+import mains.times.GameTime;
+import world.Room;
+import world.World;
 
 public class GamePanel extends JPanel implements Runnable {
     private static GamePanel gp = new GamePanel();

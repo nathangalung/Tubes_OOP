@@ -1,7 +1,9 @@
-package entities.zombies;
+package entities.zombies.zombies;
+
+import entities.Entity;
 
 // Parent class Zombie
-public abstract class Zombie {
+public class Zombie extends Entity {
     private String name;
     private int health;
     private int attackDamage;

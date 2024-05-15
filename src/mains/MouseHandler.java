@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class GameListener implements MouseListener, MouseMotionListener{
+public class MouseHandler implements MouseListener, MouseMotionListener{
     public void mouseDragged(MouseEvent e){
 
     }
@@ -14,7 +14,17 @@ public class GameListener implements MouseListener, MouseMotionListener{
     }
 
     public void mouseClicked(MouseEvent e){
+        if (e.getButton() == MouseEvent.BUTTON1){
 
+            switch (e) {
+                case value:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
+        }
     }
 
     public void mousePressed(MouseEvent e){

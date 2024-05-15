@@ -7,19 +7,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 
-import src.main.menus.TabMenu;
-import src.main.menus.GameMenu;
-import src.main.menus.PauseMenu;
-import src.main.menus.InteractMenu;
-import src.main.menus.GameOverMenu;
-import src.main.menus.ListOfSimsMenu;
-import src.main.menus.RecipeBookMenu;
-import src.main.menus.UpgradeHouseMenu;
-import src.main.menus.ActiveActionsMenu;
-import src.main.menus.ChangeProfessionMenu;
-import src.entities.sim.Inventory;
-import src.entities.sim.Sim;
-import src.main.menus.Store;
+import mains.menus.GameMenu;
+import mains.menus.PauseMenu;
+import mains.menus.GameOverMenu;
+import entities.sim.Inventory;
 import maps.Map;
 
 public class UserInterface {

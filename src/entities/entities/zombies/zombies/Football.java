@@ -1,4 +1,4 @@
-package entities.zombies;
+package entities.zombies.zombies;
 
 public class Football extends Zombie {
     public Football(String name, int health, int attack_damage, int attack_speed, boolean is_aquatic) {

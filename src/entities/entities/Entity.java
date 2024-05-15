@@ -1,6 +1,9 @@
 package entities;
 
 import mains.Consts;
+
+import java.awt.image.BufferedImage;
+
 import entities.handlers.*;
 import entities.sim.Sim;
 import mains.KeyHandler;
@@ -10,6 +13,7 @@ public abstract class Entity {
     private int y;
     private int width;
     private int height;
+    private BufferedImage img;
 
     // CONSTRUCTOR
     public Entity(int x, int y, int width, int height) {

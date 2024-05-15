@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import mains.GamePanel;
+import mains.panels.GamePanel;
 
 public class BulletGenerator {
     private List<Bullet> bullets = new ArrayList<Bullet>();
