@@ -4,7 +4,7 @@ public class TangleKelp extends Plant {
     private boolean is_tangle;
 
     public TangleKelp(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
-        super("Tangle Kelp", 25, 100, 0, 0, 0, 10, false);
+        super(0, 0, 1, 1, 6, "Tangle Kelp", 25, 100, 0, 0, 0, 20);
         this.is_tangle = false;
     }
 

@@ -1,9 +1,9 @@
-package mains;
+package src.mains;
 
 import java.awt.*;
 import javax.swing.*;
 
-import src.main.panels.MainMenuPanel;
+import src.mains.panels.MainMenuPanel;
 
 public class Main {
     public static void main(String[] args) {

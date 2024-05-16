@@ -2,18 +2,18 @@ package src.entities.zombies;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import src.entities.Entity;
-import src.entities.Item;
+import src.entities.items.Item;
 import src.entities.plants.Plant;
 import src.mains.Consts;
 
 // Parent class Zombie
 public abstract class Zombie extends Entity implements Item {
-    private int direction = 1; // 0 = right, 1 = left
-    private float speed = (float) (Consts.SCALED_TILE / 4.7);
     private String name;
     private int health;
     private int attackDamage;
@@ -21,9 +21,12 @@ public abstract class Zombie extends Entity implements Item {
     private boolean isAquatic;
     protected boolean occupied;
     private Rectangle bounds;
+    private int direction = 3;
+    private float speed = (float) (Consts.SCALED_TILE / 4.7);
+    private List<Zombie> zombies = new ArrayList<Zombie>();
 
-    public Zombie(int x, int y, int width, int height, String name, int health, int attackDamage, int attackSpeed, boolean isAquatic) {
-        super(x, y, width, height, (float) (Consts.SCALED_TILE / 4.7), 3);
+    public Zombie(int x, int y, int width, int height, int index, String name, int health, int attackDamage, int attackSpeed, boolean isAquatic) {
+        super(x, y, width, height, 3);
         this.name = name;
         this.health = health;
         this.attackDamage = attackDamage;
@@ -33,23 +36,23 @@ public abstract class Zombie extends Entity implements Item {
 
     // GETTERS
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public int getHealth() {
-        return health;
+        return this.health;
     }
 
     public int getAttackDamage() {
-        return attackDamage;
+        return this.attackDamage;
     }
 
     public int getAttackSpeed() {
-        return attackSpeed;
+        return this.attackSpeed;
     }
 
     public boolean isAquatic() {
-        return isAquatic;
+        return this.isAquatic;
     }
 
     public boolean isOccupied() {

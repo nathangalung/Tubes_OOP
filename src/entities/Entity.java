@@ -1,12 +1,13 @@
+package src.entities;
+
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.ArrayList;
 
-import handlers.InteractionHandler;
-import handlers.CollisionHandler;
-import mains.KeyHandler;
-import plants.Plant;
-import zombies.Zombie;
+import src.entities.handlers.*;
+import src.mains.KeyHandler;
+import src.entities.plants.Plant;
+import src.entities.zombies.Zombie;
 
 public abstract class Entity {
     private int x;
@@ -17,12 +18,11 @@ public abstract class Entity {
     private int direction;
 
     // CONSTRUCTOR
-    public Entity(int x, int y, int width, int height, float speed, int direction) {
+    public Entity(int x, int y, int width, int height, int direction) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = speed;
         this.direction = direction;
     }
 
@@ -43,10 +43,6 @@ public abstract class Entity {
         return height;
     }
 
-    public float getSpeed() {
-        return speed;
-    }
-
     public int getDirection() {
         return direction;
     }
@@ -58,14 +54,6 @@ public abstract class Entity {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
     }
 
     public void checkCollision(CollisionHandler collisionHandler, int newX, int newY) {

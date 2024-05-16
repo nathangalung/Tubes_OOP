@@ -4,7 +4,7 @@ public class Sunflower extends Plant{
     private boolean isProduceSun ;
 
     public Sunflower(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown,boolean isProduceSun){
-        super("Sunflower", 50, 100, 0, 0, 0, 10, false);
+        super(0, 0, 1, 1, 0, "Sunflower", 50, 100, 0, 0, 0, 10);
         this.isProduceSun = isProduceSun;
     }
 

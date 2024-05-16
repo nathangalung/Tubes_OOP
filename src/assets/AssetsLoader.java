@@ -1,97 +1,106 @@
-package assets;
+package src.assets;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 import java.io.IOException;
 import java.io.File;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import src.entities.sim.Sim;
-import src.main.Consts;
+import src.mains.Consts;
 
 public class AssetsLoader {
-    private static BufferedImage scaleImage(BufferedImage image, int width, int height) {
-        BufferedImage scaledImage = new BufferedImage(Consts.SCALED_TILE * width, Consts.SCALED_TILE * height, image.getType());
-        Graphics2D g = scaledImage.createGraphics();
-
-        g.drawImage(image, 0, 0, Consts.SCALED_TILE * width, Consts.SCALED_TILE * height, null);
-        g.dispose();
-        return scaledImage;
-    }
-
-    public static BufferedImage readImage(String folder, String fileName, int width, int height, boolean scaled) {
-        BufferedImage image;
-
+    public static ImageIcon readImage(String folder, String fileName, int width, int height, boolean scaled) {
+        ImageIcon icon = null;
         try {
-            image = ImageIO.read(new File("./src/assets/" + folder + "/" + fileName + ".png"));
+            icon = new ImageIcon("././src/assets/" + folder + "/" + fileName + ".png");
             if (scaled) {
-                image = scaleImage(image, width, height);
+                Image image = icon.getImage().getScaledInstance(Consts.SCALED_TILE * width, Consts.SCALED_TILE * height, Image.SCALE_SMOOTH);
+                icon = new ImageIcon(image);
             }
-            return image;
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return icon;
     }
 
-    public static List<BufferedImage> readGif(String folder, String fileName, int width, int height, boolean scaled) {
-        try {
-            ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
-            ImageInputStream stream = ImageIO.createImageInputStream(new File("./src/assets/" + folder + "/" + fileName + ".gif"));
-            reader.setInput(stream);
+    public static Map<String, List<Image>> extractMultipleGifFrames(String filePaths) throws IOException {
+        Map<String, List<Image>> gifFramesMap = new HashMap<>();
 
-            int count = reader.getNumImages(true);
-            List<BufferedImage> images = new ArrayList<>(count);
+        List<Image> frames = new ArrayList<>();
+        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
+        ImageInputStream stream = ImageIO.createImageInputStream(new File(filePaths));
+        reader.setInput(stream);
 
-            for (int i = 0; i < count; i++) {
-                BufferedImage image = reader.read(i);
-                if (scaled) {
-                    image = scaleImage(image, width, height);
-                    images.add(image);
-                }
-            }
-
-            return images;
+        int numFrames = reader.getNumImages(true);
+        for (int i = 0; i < numFrames; i++) {
+            frames.add(reader.read(i));
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        gifFramesMap.put(filePaths, frames);
 
-        return null;
+        return gifFramesMap;
     }
 
-    public static BufferedImage rotate90Clockwise(BufferedImage image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-        BufferedImage rotated = new BufferedImage(height, width, image.getType());
+    private static void updateGif(Map<String, List<Image>> gifFramesMap, Map<String, Integer> indexFramesMap, String gifPaths) {
+        int currentFrame = indexFramesMap.get(gifPaths);
+        currentFrame = (currentFrame + 1) % gifFramesMap.get(gifPaths).size();
+        indexFramesMap.put(gifPaths, currentFrame);
+    }
+
+    public static void readGifFrame(Map<String, List<Image>> gifFramesMap, String gifPaths) throws IOException {
+        List<Image> frames = new ArrayList<>();
+        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
+        ImageInputStream stream = ImageIO.createImageInputStream(new File(gifPaths));
+        reader.setInput(stream);
+
+        int numFrames = reader.getNumImages(true);
+        for (int i = 0; i < numFrames; i++) {
+            frames.add(reader.read(i));
+        }
+        gifFramesMap.put(gifPaths, frames);
+    }
     
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                rotated.setRGB(height - 1 - y, x, image.getRGB(x, y));
-            }
+    public static void readGif(Map<String, List<Image>> gifFramesMap, Map<String, Integer> indexFramesMap, String gifPaths) throws IOException {
+        List<Image> frames = new ArrayList<>();
+        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
+        ImageInputStream stream = ImageIO.createImageInputStream(new File(gifPaths));
+        reader.setInput(stream);
+
+        int numFrames = reader.getNumImages(true);
+        for (int i = 0; i < numFrames; i++) {
+            frames.add(reader.read(i));
         }
-        return rotated;
+        gifFramesMap.put(gifPaths, frames);
+
+        Timer gifTimer;
+        try {
+            indexFramesMap.put(gifPaths, 0);
+            int frameDelay = 100; // Delay in milliseconds for frame update
+            gifTimer = new Timer(frameDelay, e -> updateGif(gifFramesMap, indexFramesMap, gifPaths));
+            gifTimer.start();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static BufferedImage flipHorizontally(BufferedImage image) {
-        AffineTransform transform = AffineTransform.getScaleInstance(-1, 1);
-        transform.translate(-image.getWidth(null), 0);
-        AffineTransformOp operation = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-        return operation.filter(image, null);
-    }
-
-    public static BufferedImage[] loadMainMenu() {
-        BufferedImage[] images = new BufferedImage[15];
+    public static ImageIcon[] loadImageMainMenu() {
+        ImageIcon[] images = new ImageIcon[14];
 
         images[0] = readImage("panels/main_menu_panel", "background", 1, 1, false);
         images[1] = readImage("panels/main_menu_panel", "game_title", 1, 1, false);
@@ -111,8 +120,25 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadListPlantsMenu() {
-        BufferedImage[] images = new BufferedImage[15];
+    public static void loadGifMainMenu(Map<String, List<Image>> gifFramesMap, Map<String, Integer> indexFramesMap, List<Image>[] gifFrames, int[] indexFrames) throws IOException {
+        gifFrames = new List[3];
+        indexFrames = new int[3];
+
+        readGif(gifFramesMap, indexFramesMap, "././src/assets/panels/main_menu_panel/Sun.gif");
+        gifFrames[0] = gifFramesMap.get("././src/assets/panels/main_menu_panel/Sun.gif");
+        indexFrames[0] = indexFramesMap.get("././src/assets/panels/main_menu_panel/Sun.gif");
+
+        readGif(gifFramesMap, indexFramesMap, "././src/assets/panels/main_menu_panel/Swim.gif");
+        gifFrames[1] = gifFramesMap.get("././src/assets/panels/main_menu_panel/Swim.gif");
+        indexFrames[1] = indexFramesMap.get("././src/assets/panels/main_menu_panel/Swim.gif");
+
+        readGif(gifFramesMap, indexFramesMap, "././src/assets/panels/main_menu_panel/Walk.gif");
+        gifFrames[2] = gifFramesMap.get("././src/assets/panels/main_menu_panel/Walk.gif");
+        indexFrames[2] = indexFramesMap.get("././src/assets/panels/main_menu_panel/Walk.gif");
+    }
+
+    public static ImageIcon[] loadListPlantsMenu() {
+        ImageIcon[] images = new ImageIcon[15];
 
         images[0] = readImage("panels/about_panel", "page_1", 1, 1, false);
         images[1] = readImage("panels/about_panel", "page_2", 1, 1, false);
@@ -120,8 +146,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadListZombiesMenu() {
-        BufferedImage[] images = new BufferedImage[15];
+    public static ImageIcon[] loadListZombiesMenu() {
+        ImageIcon[] images = new ImageIcon[15];
 
         images[0] = readImage("panels/about_panel", "page_1", 1, 1, false);
         images[1] = readImage("panels/about_panel", "page_2", 1, 1, false);
@@ -129,8 +155,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadHelpMenu() {
-        BufferedImage[] images = new BufferedImage[2];
+    public static ImageIcon[] loadHelpMenu() {
+        ImageIcon[] images = new ImageIcon[2];
 
         images[0] = readImage("panels/about_panel", "page_1", 1, 1, false);
         images[1] = readImage("panels/about_panel", "page_2", 1, 1, false);
@@ -138,8 +164,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadInventory() {
-        BufferedImage[] images = new BufferedImage[15];
+    public static ImageIcon[] loadInventory() {
+        ImageIcon[] images = new ImageIcon[15];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -149,8 +175,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadMap() {
-        BufferedImage[] images = new BufferedImage[4];
+    public static ImageIcon[] loadMap() {
+        ImageIcon[] images = new ImageIcon[4];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -160,8 +186,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadDeck() {
-        BufferedImage[] images = new BufferedImage[6];
+    public static ImageIcon[] loadDeck() {
+        ImageIcon[] images = new ImageIcon[6];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -171,8 +197,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadPlants() {
-        BufferedImage[] images = new BufferedImage[6];
+    public static ImageIcon[] loadPlants() {
+        ImageIcon[] images = new ImageIcon[6];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -182,8 +208,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadZombies() {
-        BufferedImage[] images = new BufferedImage[10];
+    public static ImageIcon[] loadZombies() {
+        ImageIcon[] images = new ImageIcon[10];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -193,8 +219,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadPauseMenu() {
-        BufferedImage[] images = new BufferedImage[4];
+    public static ImageIcon[] loadPauseMenu() {
+        ImageIcon[] images = new ImageIcon[4];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -204,8 +230,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadSunTab() {
-        BufferedImage[] images = new BufferedImage[4];
+    public static ImageIcon[] loadSunTab() {
+        ImageIcon[] images = new ImageIcon[4];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -215,8 +241,8 @@ public class AssetsLoader {
         return images;
     }
 
-    public static BufferedImage[] loadWaveTab() {
-        BufferedImage[] images = new BufferedImage[4];
+    public static ImageIcon[] loadWaveTab() {
+        ImageIcon[] images = new ImageIcon[4];
 
         images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
         images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
@@ -238,88 +264,5 @@ public class AssetsLoader {
         if (selectedColor == 7) color = Color.GREEN; // green color
 
         return color;
-    }
-
-    public static BufferedImage simColorSelector(int selectedColor) {
-        BufferedImage newImage = readImage("entities/sim", "sim_down", 1, 1, false);
-        Color oldShirtColor = new Color(215, 0, 20); // red color
-        Color newShirtColor = setColor(selectedColor);
-
-        float[] oldShirtColorHsb = new float[3];
-        float[] newShirtColorHsb = new float[3];
-        float hueDiff;
-
-        Color.RGBtoHSB(oldShirtColor.getRed(), oldShirtColor.getGreen(), oldShirtColor.getBlue(), oldShirtColorHsb);
-        Color.RGBtoHSB(newShirtColor.getRed(), newShirtColor.getGreen(), newShirtColor.getBlue(), newShirtColorHsb);
-    
-        // to change the shirt color
-        for (int x = 0; x < newImage.getWidth(); x++) {
-            for (int y = 0; y < newImage.getHeight(); y++) {
-                int rgb = newImage.getRGB(x, y);
-                if ((rgb >> 24) == 0x00) continue; // if pixel is transparent, skip color transformation
-
-                Color pixelColor = new Color(rgb);
-    
-                // Check if the pixel color is within the range of hues
-                float[] pixelHsb = new float[3];
-                Color.RGBtoHSB(pixelColor.getRed(), pixelColor.getGreen(), pixelColor.getBlue(), pixelHsb);
-                hueDiff = Math.abs(pixelHsb[0] - oldShirtColorHsb[0]);
-
-                if (hueDiff <= 0.1 || hueDiff >= 0.9) {
-                    // Keep the saturation and brightness values of the pixel, but change its hue to the new hue
-                    newShirtColorHsb[1] = pixelHsb[1]; // keep saturation value
-                    newShirtColorHsb[2] = pixelHsb[2]; // keep brightness value
-                    Color newPixelColor = new Color(Color.HSBtoRGB(newShirtColorHsb[0], newShirtColorHsb[1], newShirtColorHsb[2]));
-    
-                    newImage.setRGB(x, y, newPixelColor.getRGB());
-                }
-            }
-        }
-        return newImage;
-    }
-
-    public static BufferedImage changeSimColor(BufferedImage simImage, Sim sim) {
-        Color oldShirtColor = new Color(215, 0, 20); // red color
-        Color newShirtColor = sim.getShirtColor();
-
-        float[] oldShirtColorHsb = new float[3];
-        float[] newShirtColorHsb = new float[3];
-        float hueDiff;
-
-        Color.RGBtoHSB(oldShirtColor.getRed(), oldShirtColor.getGreen(), oldShirtColor.getBlue(), oldShirtColorHsb);
-        Color.RGBtoHSB(newShirtColor.getRed(), newShirtColor.getGreen(), newShirtColor.getBlue(), newShirtColorHsb);
-    
-        // to change the shirt color
-        for (int x = 0; x < simImage.getWidth(); x++) {
-            for (int y = 0; y < simImage.getHeight(); y++) {
-                int rgb = simImage.getRGB(x, y);
-                if ((rgb >> 24) == 0x00) continue; // if pixel is transparent, skip color transformation
-
-                Color pixelColor = new Color(rgb);
-    
-                // Check if the pixel color is within the range of hues
-                float[] pixelHsb = new float[3];
-                Color.RGBtoHSB(pixelColor.getRed(), pixelColor.getGreen(), pixelColor.getBlue(), pixelHsb);
-                hueDiff = Math.abs(pixelHsb[0] - oldShirtColorHsb[0]);
-
-                if (hueDiff <= 0.05 || hueDiff >= 0.95) {
-                    // Keep the saturation and brightness values of the pixel, but change its hue to the new hue
-                    newShirtColorHsb[1] = pixelHsb[1]; // keep saturation value
-                    newShirtColorHsb[2] = pixelHsb[2]; // keep brightness value
-                    Color newPixelColor = new Color(Color.HSBtoRGB(newShirtColorHsb[0], newShirtColorHsb[1], newShirtColorHsb[2]));
-    
-                    simImage.setRGB(x, y, newPixelColor.getRGB());
-                }
-            }
-        }
-        return simImage;
-    }
-
-    public static BufferedImage showSimPreview(Sim sim) {
-        BufferedImage newImage = readImage("entities/sim", "sim_down", 1, 1, false);
-
-        newImage = changeSimColor(newImage, sim);
-
-        return newImage;
     }
 }

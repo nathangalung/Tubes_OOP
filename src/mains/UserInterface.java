@@ -211,10 +211,6 @@ public class UserInterface {
     }
     
     public static void draw(Graphics2D g) {
-        GameMenu.draw(g);
-
-        TabMenu.draw(g);
-
         currentSimInventory.draw(g);
 
         if (viewingInventoryDeck) {

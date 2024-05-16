@@ -21,9 +21,10 @@ public abstract class Plant extends Entity implements Item {
     private int cooldown;
     protected boolean occupied;
     private Rectangle bounds;
+    private int direction = 1;
 
-    public Plant(int x, int y, int width, int height, String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
-        super(x, y, width, height, 0, 1);
+    public Plant(int x, int y, int width, int height, int index, String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
+        super(x, y, width, height, 1);
         this.name = name;
         this.cost = cost;
         this.health = health;
@@ -70,6 +71,10 @@ public abstract class Plant extends Entity implements Item {
 
     public Rectangle getBounds() {
         return this.bounds;
+    }
+
+    public int getDirection() {
+        return this.direction;
     }
 
     // SETTERS

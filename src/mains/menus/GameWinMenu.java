@@ -20,7 +20,7 @@ import mains.panels.InventoryPanel;
 public class GameWinMenu {
     private static int selectedBox = 0;
 
-    private static BufferedImage[] images = ImageLoader.loadPause();
+    private static BufferedImage[] images = ImageLoader.loadGameWin();
     private static BufferedImage background = images[0];
     private static BufferedImage nextLevel = images[1];
     private static BufferedImage save = images[2];
@@ -33,7 +33,7 @@ public class GameWinMenu {
     private static void boxPressed() {
         if (selectedBox == 0) {
             PanelHandler.switchPanel(GamePanel.getInstance(), GamePanel.getInstance());
-            GamePanel.gameState = "Next Level";
+            GamePanel.gameState = "Restart Level";
         }
         if (selectedBox == 1) {
             // SAVE HERE
@@ -109,7 +109,7 @@ public class GameWinMenu {
         g.fillRect(0, 0, 800, 600);
 
         g.drawImage(background, 233, 60, null); // Background
-        g.drawImage(nextLevel, 269, 167, null); // nextLevel Game button
+        g.drawImage(restart, 269, 167, null); // Restart Game button
         g.drawImage(save, 269, 262, null); // Save Game button
         g.drawImage(inventory, 269, 262, null); // Back to Inventory button
         g.drawImage(help, 269, 167, null); // Back to Main Menu button

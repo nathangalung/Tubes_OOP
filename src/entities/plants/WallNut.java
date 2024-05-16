@@ -20,8 +20,7 @@ public class WallNut extends Plant {
     private List<BufferedImage>[] animations;
 
     public WallNut() {
-        super("Wall nut", 50, 1000, 0, 0, 0 , 20, false);
-
+        super(0, 0, 1, 1, 2, "Wall-nut", 50, 1000, 0, 0, 0 , 20);
 
         this.images = AssetsLoader.loadPlantImage();
         this.animations = AssetsLoader.loadPlantAnimations();
