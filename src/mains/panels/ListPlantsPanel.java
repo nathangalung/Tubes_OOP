@@ -10,8 +10,12 @@ import javax.swing.JPanel;
 
 // import assets.AssetsLoader;
 import src.assets.AssetsLoader;
+import src.entities.plants.Plant;
+
 import src.mains.KeyHandler;
-import src.mains.panels.*;
+import src.mains.panels.PanelHandler;
+import src.mains.panels.MainMenuPanel;
+import src.mains.panels.HelpPanel;
 
 public class ListPlantsPanel extends JPanel {
     public static ListPlantsPanel lzp = new ListPlantsPanel();
@@ -34,13 +38,14 @@ public class ListPlantsPanel extends JPanel {
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
                     if (selectedBox == 10) {
-                        GamePanel.gameState = "List Plants: Help";
-                        PanelHandler.switchPanel(ListPlantsPanel.getInstance(), HelpPanel.getInstance());
+                        GamePanel.gameState = "List Plants: Main Menu";
+                        PanelHandler.switchPanel(ListPlantsPanel.getInstance(), MainMenuPanel.getInstance());
                     }
 
                     if (selectedBox == 11) {
-                        GamePanel.gameState = "List Plants: Main Menu";
+                        GamePanel.gameState = "List Plants: Help";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
+                        PanelHandler.switchPanel(ListPlantsPanel.getInstance(), HelpPanel.getInstance());
                         
                     }
                     if (selectedBox == 12) {

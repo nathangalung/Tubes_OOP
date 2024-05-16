@@ -3,23 +3,28 @@ package src.mains.panels;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
 
 // import assets.AssetsLoader;
 import src.assets.AssetsLoader;
-import src.mains.KeyHandler;
-import src.mains.panels.*;
 import src.entities.plants.Plant;
+
+import src.mains.KeyHandler;
+import src.mains.MouseHandler;
+import src.mains.panels.PanelHandler;
+import src.mains.panels.GamePanel;
+import src.mains.panels.MainMenuPanel;
+import src.mains.panels.HelpPanel;
 
 public class InventoryPanel extends JPanel {
     public static InventoryPanel lzp = new InventoryPanel();
     public static Plant[] plants = new Plant[10];
     private int selectedBox = 0; // 0 to 5
 
-    private BufferedImage[] images = AssetsLoader.loadInventory();
+    private BufferedImage[] images = AssetsLoader.loadInventoryMenu();
 
     public InventoryPanel() {
         setPreferredSize(new Dimension(1920, 1080));
@@ -35,19 +40,20 @@ public class InventoryPanel extends JPanel {
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
                     if (selectedBox == 10) {
-                        GamePanel.gameState = "Inventory: Help";
-                        PanelHandler.switchPanel(InventoryPanel.getInstance(), HelpPanel.getInstance());
+                        GamePanel.gameState = "Inventory: Start Game";
+                        PanelHandler.switchPanel(InventoryPanel.getInstance(), GamePanel.getInstance());
                     }
 
                     if (selectedBox == 11) {
-                        GamePanel.gameState = "Inventory: Save Game";
+                        GamePanel.gameState = "Inventory: Main Menu";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
+                        PanelHandler.switchPanel(InventoryPanel.getInstance(), MainMenuPanel.getInstance());
                     }
 
                     if (selectedBox == 12) {
-                        GamePanel.gameState = "Inventory: Main Menu";
+                        GamePanel.gameState = "Inventory: Help";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
-                        
+                        PanelHandler.switchPanel(InventoryPanel.getInstance(), HelpPanel.getInstance());
                     }
                     if (selectedBox == 13) {
                         GamePanel.gameState = "Inventory: Exit Game";

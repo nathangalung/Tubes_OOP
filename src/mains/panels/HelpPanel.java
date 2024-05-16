@@ -9,7 +9,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import src.assets.AssetsLoader;
-import src.mains.panels.*;
+import src.mains.KeyHandler;
+import src.mains.MouseHandler;
+
+import src.mains.panels.PanelHandler;
+import src.mains.panels.MainMenuPanel;
+import src.mains.panels.InventoryPanel;
+import src.mains.panels.GamePanel;
 
 public class HelpPanel extends JPanel {
     public static HelpPanel hp = new HelpPanel();
@@ -44,7 +50,7 @@ public class HelpPanel extends JPanel {
                 if (keyCode == KeyEvent.VK_ESCAPE) {
                     if (GamePanel.isCurrentState("Main Menu: Help")) {
                         PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
-                        GamePanel.gameState = "Main menu";
+                        GamePanel.gameState = "Main Menu";
                     }
                     if (GamePanel.isCurrentState("Inventory: Help")) {
                         PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());

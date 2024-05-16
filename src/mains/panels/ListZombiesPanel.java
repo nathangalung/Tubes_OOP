@@ -13,8 +13,12 @@ import javax.swing.JLabel;
 
 // import assets.AssetsLoader;
 import src.assets.AssetsLoader;
+import src.entities.zombies.Zombie;
+
 import src.mains.KeyHandler;
-import src.mains.panels.*;
+import src.mains.panels.PanelHandler;
+import src.mains.panels.MainMenuPanel;
+import src.mains.panels.HelpPanel;
 
 public class ListZombiesPanel extends JPanel {
     public static ListZombiesPanel lzp = new ListZombiesPanel();
@@ -39,13 +43,14 @@ public class ListZombiesPanel extends JPanel {
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
                     if (selectedBox == 10) {
-                        GamePanel.gameState = "List Zombies: Help";
-                        PanelHandler.switchPanel(ListZombiesPanel.getInstance(), HelpPanel.getInstance());
+                        GamePanel.gameState = "List Zombies: Main Menu";
+                        PanelHandler.switchPanel(ListZombiesPanel.getInstance(), MainMenuPanel.getInstance());
                     }
 
                     if (selectedBox == 11) {
-                        GamePanel.gameState = "List Zombies: Main Menu";
+                        GamePanel.gameState = "List Zombies: Help";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
+                        PanelHandler.switchPanel(ListZombiesPanel.getInstance(), HelpPanel.getInstance());
                         
                     }
                     if (selectedBox == 12) {

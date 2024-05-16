@@ -1,20 +1,18 @@
-package mains.menus;
+package src.mains.menus;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import assets.AssetsLoader;
-import mains.MouseHandler;
+import src.assets.AssetsLoader;
+import src.mains.MouseHandler;
+import src.mains.KeyHandler;
 
-import src.main.panels.PanelHandler;
-import mains.panels.GamePanel;
-import src.assets.ImageLoader;
-import src.main.KeyHandler;
-import src.main.panels.AboutPanel;
+import src.mains.panels.PanelHandler;
+import src.mains.panels.GamePanel;
+import src.mains.panels.InventoryPanel;
 import src.main.panels.MainMenuPanel;
-import mains.panels.HelpPanel;
-import mains.panels.InventoryPanel;
+import src.mains.panels.HelpPanel;
 
 
 public class GamePauseMenu {

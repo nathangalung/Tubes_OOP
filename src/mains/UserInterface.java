@@ -1,4 +1,4 @@
-package mains;
+package src.mains;
 
 import java.awt.FontMetrics;
 import java.awt.Font;
@@ -7,10 +7,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 
-import maps.Map;
-import plants.Plant;
-import zombies.Zombie;
-import mains.menus.*;
+import src.maps.Map;
+import src.entities.plants.Plant;
+import src.entities.zombies.Zombie;
+import src.mains.menus.*;
+import src.mains.panels.*;
 
 public class UserInterface {
     public static UserInterface ui = new UserInterface();

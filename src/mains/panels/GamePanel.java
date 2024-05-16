@@ -1,15 +1,12 @@
-package mains.panels;
+package src.mains.panels;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import mains.Consts;
-import entities.sim.Sim;
-import mains.KeyHandler;
-import mains.UserInterface;
-import mains.menus.UpgradeHouseMenu;
-import mains.menus.WorldMenu;
+import src.mains.Consts;
+import src.mains.KeyHandler;
+import src.mains.UserInterface;
 import mains.times.GameTime;
 import world.Room;
 import world.World;

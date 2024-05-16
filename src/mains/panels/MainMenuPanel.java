@@ -11,7 +11,13 @@ import javax.swing.JPanel;
 // import assets.AssetsLoader;
 import src.assets.AssetsLoader;
 import src.mains.KeyHandler;
-import src.mains.panels.*;
+import src.mains.MouseHandler;
+
+import src.mains.panels.PanelHandler;
+import src.mains.panels.InventoryPanel;
+import src.mains.panels.ListPlantsPanel;
+import src.mains.panels.ListZombiesPanel;
+import src.mains.panels.HelpPanel;
 
 public class MainMenuPanel extends JPanel {
     public static MainMenuPanel mmp = new MainMenuPanel();
