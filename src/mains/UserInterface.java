@@ -7,34 +7,30 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 
-import mains.menus.GameMenu;
-import mains.menus.PauseMenu;
-import mains.menus.GameOverMenu;
-import entities.sim.Inventory;
 import maps.Map;
+import plants.Plant;
+import zombies.Zombie;
+import mains.menus.*;
 
 public class UserInterface {
     public static UserInterface ui = new UserInterface();
     
     // Attributes
     private static Map map;
-    private static Sim currentSim;
-    private static Inventory currentSimInventory;
+    private static Plant currentPlant;
+    private static Zombie currentZombie;
     
     // User Interface States
-    private static boolean help = false;
-    private static boolean tabbed = false;
-    private static boolean pause = false;
-    private static boolean viewingWorld = false;
-    private static boolean viewingTime = false;
-    private static boolean viewingActiveActions = false;
-    private static boolean viewingProfessions = false;
-    private static boolean viewingListOfSims = false;
-    private static boolean viewingInteractions = false;
-    private static boolean viewingStore = false;
-    private static boolean viewingRecipes = false;
-    private static boolean upgradingHouse = false;
-    private static boolean showingGameOver = false;
+    private static boolean viewingMap = true;
+    private static boolean viewingInventoryDeck = false;
+    private static boolean viewingGameDeck = false;
+    private static boolean viewingWave = false;
+    private static boolean viewingSun = false;
+    private static boolean viewingDig = false;
+    private static boolean viewingFlag = false;
+    private static boolean viewingGamePause = false;
+    private static boolean viewingGameWin = false;
+    private static boolean viewingGameLose = false;
 
     //ONLY FOR DEBUGGING
     private static boolean debug = false;
@@ -44,15 +40,18 @@ public class UserInterface {
     }
 
     public static void init(Map map) {
-        viewingWorld = true;
-        tabbed = false;
-        pause = false;
-        viewingActiveActions = false;
-        viewingProfessions = false;
+        viewingMap = true;
+        viewingInventoryDeck = false;
+        viewingGameDeck = false;
+        viewingWave = false;
+        viewingSun = false;
+        viewingDig = false;
+        viewingFlag = false;
+        viewingGamePause = false;
+        viewingGameWin = false;
+        viewingGameLose = false;
 
         UserInterface.map = map;
-        UserInterface.currentSim = map.getListOfSim().get(0);
-        UserInterface.currentSimInventory = UserInterface.currentSim.getInventory();
         UserInterface.map.changeIsAddingState();
     }
 
@@ -65,60 +64,52 @@ public class UserInterface {
         return map;
     }
 
-    public static Sim getCurrentSim() {
-        return currentSim;
+    public static Plant getPlant() {
+        return currentPlant;
     }
 
-    public static boolean isHelped() {
-        return help;
+    public static Zombie getZombie() {
+        return currentZombie;
     }
 
-    public static boolean isTabbed() {
-        return tabbed;
+    public static boolean isViewingMap() {
+        return viewingMap;
     }
 
-    public static boolean isPaused(){
-        return pause;
+    public static boolean isViewingInventoryDeck() {
+        return viewingInventoryDeck;
     }
 
-    public static boolean isViewingWorld() {
-        return viewingWorld;
+    public static boolean isViewingGameDeck() {
+        return viewingGameDeck;
     }
 
-    public static boolean isViewingTime() {
-        return viewingTime;
+    public static boolean isViewingWave() {
+        return viewingWave;
     }
 
-    public static boolean isViewingActiveActions() {
-        return viewingActiveActions;
+    public static boolean isViewingSun() {
+        return viewingSun;
     }
 
-    public static boolean isViewingProfessions() {
-        return viewingProfessions;
+    public static boolean isViewingDig() {
+        return viewingDig;
     }
 
-    public static boolean isViewingListOfSims() {
-        return viewingListOfSims;
+    public static boolean isViewingFlag() {
+        return viewingFlag;
     }
 
-    public static boolean isViewingInteractions() {
-        return viewingInteractions;
+    public static boolean isviewingGamePause() {
+        return viewingGamePause;
     }
 
-    public static boolean isViewingStore() {
-        return viewingStore;
+    public static boolean isviewingGameWin() {
+        return viewingGameWin;
     }
 
-    public static boolean isViewingRecipes() {
-        return viewingRecipes;
-    }
-
-    public static boolean isUpgradingHouse() {
-        return upgradingHouse;
-    }
-
-    public static boolean isShowingGameOver() {
-        return showingGameOver;
+    public static boolean isviewingGameLose() {
+        return viewingGameLose;
     }
 
     // SETTERS
@@ -127,99 +118,45 @@ public class UserInterface {
         currentSimInventory = currentSim.getInventory();
     }
 
-    public static void help() {
-        help = !help;
+    public static void setViewingMap() {
+        viewingMap = !viewingMap;
+        map.reset();
     }
 
-    public static void tab() {
-        if (pause) return;
-        if (upgradingHouse) return;
-        if (viewingTime) return;
-        if (viewingActiveActions) return;
-        if (viewingProfessions) return;
-
-        tabbed = !tabbed;
-        if (currentSim.isStatusCurrently("Idle")) {
-            currentSim.changeIsBusyState();
-        }
+    public static void setViewingInventoryDeck() {
+        viewingInventoryDeck = !viewingInventoryDeck;
     }
 
-    public static void pause() {
-        if (tabbed) tab();
-        pause = !pause;
-
-        if (currentSimInventory.isOpen()) return;
-        if (currentSim.isStatusCurrently("Idle")) {
-            currentSim.changeIsBusyState();
-        }
+    public static void setViewingGameDeck() {
+        viewingGameDeck = !viewingGameDeck;
     }
 
-    public static void inventory() {
-        if (tabbed) tab();
-        if (viewingInteractions) return;
-
-        currentSimInventory.changeIsOpen();
-        currentSim.changeIsBusyState();
+    public static void setViewingWave() {
+        viewingWave = !viewingWave;
     }
 
-    public static void viewWorld() {
-        viewingWorld = !viewingWorld;
-
-        world.reset();
+    public static void setViewingSun() {
+        viewingSun = !viewingSun;
     }
 
-    public static void viewTime() {
-        viewingTime = !viewingTime;
-    }    
-
-    public static void viewActiveActions() {
-        viewingActiveActions = !viewingActiveActions;
-
-        currentSim.changeIsBusyState();
+    public static void setViewingDig() {
+        viewingDig = !viewingDig;
     }
 
-    public static void viewProfessions() {
-        viewingProfessions = !viewingProfessions;
-
-        currentSim.changeIsBusyState();
+    public static void setViewingFlag() {
+        viewingFlag = !viewingFlag;
     }
 
-    public static void viewListOfSims() {
-        ListOfSimsMenu.reset();
-        viewingListOfSims = !viewingListOfSims;
-
-        currentSim.changeIsBusyState();
+    public static void setviewingGamePause() {
+        viewingGamePause = !viewingGamePause;
     }
 
-    public static void viewInteractions() {
-        viewingInteractions = !viewingInteractions;
-
-        currentSim.changeIsBusyState();
+    public static void setviewingGameWin() {
+        viewingGameWin = !viewingGameWin;
     }
 
-    public static void viewStore() {
-        viewingStore = !viewingStore;
-
-        currentSim.changeIsBusyState();
-    }
-
-    public static void viewRecipes() {
-        viewingRecipes = !viewingRecipes;
-
-        currentSim.changeIsBusyState();
-    }
-
-    public static void upgradeHouse() {
-        UpgradeHouseMenu.reset();
-        upgradingHouse = !upgradingHouse;
-
-        currentSim.changeIsBusyState();
-    }
-
-    public static void showGameOver() {
-        showingGameOver = !showingGameOver;
-
-        currentSim.changeIsBusyState();
+    public static void setviewingGameLose() {
+        viewingGameLose = !viewingGameLose;
     }
 
     // ONLY FOR DEBUGGING
@@ -233,50 +170,43 @@ public class UserInterface {
 
     // OTHERS
     public static void update() {
-        updateListOfSims();
+        updateListOfPlantsGame();
+        updateListOfZombiesGame();
 
-        if (showingGameOver) {
-            GameOverMenu.update();
+        if (viewingInventoryDeck) {
+            InventoryDeckMenu.update();
         }
 
-        if (currentSimInventory.isOpen() && !pause) {
-            currentSimInventory.update();
+        if (viewingGameDeck) {
+            GameDeckMenu.update();
         }
 
-        if (tabbed && !currentSimInventory.isOpen()) {
-            TabMenu.update();
+        if (viewingWave) {
+            WaveMenu.update();
         }
 
-        if (pause) {
-            PauseMenu.update();
+        if (viewingSun) {
+            SunMenu.update();
         }
 
-        if (viewingTime) {
-            GameMenu.updateTimeRemainingTab();
+        if (viewingDig) {
+            DigMenu.update();
         }
 
-        if (viewingActiveActions) {
-            ActiveActionsMenu.update();
+        if (viewingFlag) {
+            FlagMenu.update();
         }
 
-        if (viewingProfessions) {
-            ChangeProfessionMenu.update();
+        if (viewingGamePause) {
+            GamePauseMenu.update();
         }
 
-        if (viewingListOfSims) {
-            ListOfSimsMenu.update();
+        if (viewingGameWin) {
+            GameWinMenu.update();
         }
 
-        if (viewingInteractions) {
-            InteractMenu.update();
-        }
-
-        if (viewingRecipes) {
-            RecipeBookMenu.update();
-        }
-
-        if (viewingStore) {
-            Store.update();
+        if (viewingGameLose) {
+            GameLoseMenu.update();
         }
     }
     
@@ -287,63 +217,77 @@ public class UserInterface {
 
         currentSimInventory.draw(g);
 
-        if (pause) {
-            PauseMenu.draw(g);
+        if (viewingInventoryDeck) {
+            InventoryDeckMenu.draw(g);
         }
 
-        if (viewingActiveActions) {
-            ActiveActionsMenu.draw(g);
+        if (viewingGameDeck) {
+            GameDeckMenu.draw(g);
         }
 
-        if (viewingProfessions) {
-            ChangeProfessionMenu.draw(g);
+        if (viewingWave) {
+            WaveMenu.draw(g);
         }
 
-        if (viewingListOfSims) {
-            ListOfSimsMenu.draw(g);
+        if (viewingSun) {
+            SunMenu.draw(g);
         }
 
-        if (upgradingHouse) {
-            UpgradeHouseMenu.draw(g);
+        if (viewingDig) {
+            DigMenu.draw(g);
         }
 
-        if (viewingInteractions) {
-            InteractMenu.draw(g);
+        if (viewingFlag) {
+            FlagMenu.draw(g);
         }
 
-        if (showingGameOver) {
-            GameOverMenu.draw(g);
+        if (viewingGamePause) {
+            GamePauseMenu.draw(g);
         }
 
-        if (viewingRecipes) {
-            RecipeBookMenu.draw(g);
+        if (viewingGameWin) {
+            GameWinMenu.draw(g);
         }
 
-        if (viewingStore) {
-            Store.draw(g);
+        if (viewingGameLose) {
+            GameLoseMenu.draw(g);
         }
     }
 
-    private static void updateListOfSims() {
-        World world = UserInterface.getWorld();
-        ArrayList<Sim> listOfSims = world.getListOfSim();
+    private static void updateListOfPlantsGame() {
+        Map map = UserInterface.getMap();
+        ArrayList<Plant> listOfPlantsGame = map.getListOfPlantsGame();
         try {
-            for (Sim sim : listOfSims) {
-                if (sim.getHealth() > 0 && sim.getHunger() > 0 && sim.getMood() > 0) continue;
-    
-                if (sim.getHealth() <= 0) GameOverMenu.setDeathMessage(sim.getName() + " passed away due to being very ill");
-                if (sim.getHunger() <= 0) GameOverMenu.setDeathMessage(sim.getName() + " starved to death");
-                if (sim.getMood() <= 0) GameOverMenu.setDeathMessage(sim.getName() + " died of depression");
-
-                sim.setHealth(0);
-                sim.setHunger(0);
-                sim.setMood(0);
-
-                listOfSims.remove(sim);
-                if (!UserInterface.isShowingGameOver()) UserInterface.showGameOver();
+            for (Plant plant : listOfPlantsGame) {
+                if (plant.getHealth() > 0) {
+                    continue;
+                }
+                if (plant.getHealth() <= 0) {
+                    plant.setHealth(0);
+                    listOfPlantsGame.remove(plant);
+                }
             }
         }
-        catch (ConcurrentModificationException cme) {}
+        catch (ConcurrentModificationException cme) {
+        }
+    }
+
+    private static void updateListOfZombiesGame() {
+        Map map = UserInterface.getMap();
+        ArrayList<Zombie> listOfZombiesGame = map.getListOfZombiesGame();
+        try {
+            for (Zombie zombie : listOfZombiesGame) {
+                if (zombie.getHealth() > 0) {
+                    continue;
+                }
+                if (zombie.getHealth() <= 0) {
+                    zombie.setHealth(0);
+                    listOfZombiesGame.remove(zombie);
+                }
+            }
+        }
+        catch (ConcurrentModificationException cme) {
+        }
     }
 
     public static void drawCenteredText(Graphics2D g, BufferedImage image, int x, int y, String str, Font f) {

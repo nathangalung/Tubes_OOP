@@ -9,6 +9,9 @@ import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
 
 import assets.AssetsLoader;
+import src.assets.ImageLoader;
+import src.main.KeyHandler;
+import src.main.panels.CreateSimPanel;
 
 public class MainMenuPanel extends JPanel {
     public static MainMenuPanel mmp = new MainMenuPanel();
@@ -60,27 +63,47 @@ public class MainMenuPanel extends JPanel {
                     }
                 }
                 
-                int newBox = selectedBox;
+                int newSelectedBox = selectedBox;
 
-                if (keyCode == KeyEvent.VK_DOWN) {
-                    if (newBox == 5) {
-                        newBox = 0;
-                    }
-                    else {
-                        newBox++;
-                    }
-                }
-                if (keyCode == KeyEvent.VK_UP) {
-                    if (newBox == 0) {
-                        newBox = 5;
-                    }
-                    else {
-                        newBox--;
-                    }
-                }
-                if (newBox >= 0 && newBox <= 5) {
-                    selectedBox = newBox;
-                }
+                if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
+            if (selectedBox == 0 || selectedBox == 1) {
+                newSelectedBox += 4;
+            }
+            else {
+                newSelectedBox -= 2;
+            }
+        }
+
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT)) {
+            if (selectedBox == 1 || selectedBox == 3 || selectedBox == 5) {
+                newSelectedBox--;
+            }
+            else {
+                newSelectedBox++;
+            }
+        }
+
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
+            if (selectedBox == 4 || selectedBox == 5) {
+                newSelectedBox -= 4;
+            }
+            else {
+                newSelectedBox += 2;
+            }
+        }
+
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
+            if (selectedBox == 0 || selectedBox == 2 || selectedBox == 4) {
+                newSelectedBox++;
+            }
+            else {
+                newSelectedBox--;
+            }
+        }
+        
+        if (newSelectedBox >= 0 && newSelectedBox <= 5) {
+            selectedBox = newSelectedBox;
+        }
                 repaint();
             }
         };

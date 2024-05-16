@@ -6,20 +6,20 @@ import java.awt.*;
 
 import mains.Consts;
 import assets.AssetsLoader;
-import entities.plants.Plant;
-import entities.zombies.Zombie;
+import zombies.Zombie;
 import mains.KeyHandler;
 import mains.UserInterface;
 import mains.panels.CreateSimPanel;
 import mains.panels.GamePanel;
 import mains.panels.PanelHandler;
 import mains.times.GameTime;
+import plants.Plant;
 
 public class Map {
     // Attributes
     private int[][] map = new int[11][6];
-    private ArrayList<Plant> listOfPlants;
-    private ArrayList<Zombie> listOfZombies;
+    private ArrayList<Plant> listOfPlantsGame;
+    private ArrayList<Zombie> listOfZombiesGame;
     
     // State of the world (is adding a house or selecting a house to visit)
     private boolean isAdding = false;
@@ -76,16 +76,16 @@ public class Map {
         return map[x][y];
     }
     
-    public ArrayList<Plant> getListOfPlants() {
-        return listOfPlants;
+    public ArrayList<Plant> getListOfPlantsGame() {
+        return listOfPlantsGame;
     }
 
     public Plant getPlant(int index) {
-        return listOfPlants.get(index);
+        return listOfPlantsGame.get(index);
     }
 
-    public ArrayList<Zombie> getListOfZombies() {
-        return listOfZombies;
+    public ArrayList<Zombie> getListOfZombiesGame() {
+        return listOfZombiesGame;
     }
 
     public Zombie getZombie(int index) {
@@ -144,7 +144,7 @@ public class Map {
 
     // Others
     public void update() {
-        if (UserInterface.isViewingWorld()) {
+        if (UserInterface.isViewingMap()) {
             cursor.update();
         }
         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)) {

@@ -4,11 +4,7 @@ import mains.Consts;
 import mains.UserInterface;
 import mains.times.GameTime;;
 import maps.Map;
-import src.entities.interactables.Interactables;
-import src.entities.sim.Sim;
-import src.world.Room;
-import entities.plants.Plant;
-import entities.zombies.Zombie;
+import zombies.Zombie;
 
 public class ActiveActions {
     public static void spawn(Zombie zombie, Map map) {
