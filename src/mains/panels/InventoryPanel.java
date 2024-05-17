@@ -32,6 +32,10 @@ public class InventoryPanel extends JPanel {
 
     private int selectedBox = 0; // 0 to 5
     private BufferedImage[] images = AssetsLoader.loadInventoryMenu();
+    private BufferedImage[] cardInventory = AssetsLoader.loadInventory();
+    private BufferedImage[] cardDeck = AssetsLoader.loadDeck();
+    private int[] cardX = {60, 120, 180, 240, 300};
+    private int[] cardY = {50, 100, 150, 200};
 
     public InventoryPanel() {
         setPreferredSize(new Dimension(1920, 1080));
@@ -287,12 +291,121 @@ public class InventoryPanel extends JPanel {
         g2.drawImage(images[1], 201, 102, null); // title
         
         // Draw boxes
-        g2.drawImage(images[2], 132, 304, null); // start
-        g2.drawImage(images[3], 417, 304, null); // load
-        g2.drawImage(images[4], 417, 304, null); // Inventory
-        g2.drawImage(images[5], 417, 304, null); // Inventory
-        g2.drawImage(images[6], 132, 392, null); // help
+        g2.drawImage(images[2], 122, 305, null); // start
+        g2.drawImage(images[3], 417, 305, null); // load
+        g2.drawImage(images[4], 417, 305, null); // Inventory
+        g2.drawImage(images[5], 417, 305, null); // Inventory
+        g2.drawImage(images[6], 122, 392, null); // help
         g2.drawImage(images[7], 417, 392, null); // exit
+
+        if (plantsInventory[0] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[0]], cardX[0], cardY[0], null); // inventory plant 1
+        }
+        else {
+            g2.drawImage(images[20], cardX[0], cardY[0], null);
+        }
+        if (plantsInventory[1] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[1]], cardX[1], cardY[0], null); // inventory plant 2
+        }
+        else {
+            g2.drawImage(images[20], cardX[1], cardY[0], null);
+        }
+        if (plantsInventory[2] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[2]], cardX[2], cardY[0], null); // inventory plant 3
+        }
+        else {
+            g2.drawImage(images[20], cardX[2], cardY[0], null);
+        }
+        if (plantsInventory[3] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[3]], cardX[3], cardY[0], null); // inventory plant 4
+        }
+        else {
+            g2.drawImage(images[20], cardX[3], cardY[0], null);
+        }
+        if (plantsInventory[4] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[4]], cardX[4], cardY[0], null); // inventory plant 5
+        }
+        else {
+            g2.drawImage(images[20], cardX[4], cardY[0], null);
+        }
+
+        if (plantsInventory[5] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[5]], cardX[0], cardY[1], null); // inventory plant 6
+        }
+        else {
+            g2.drawImage(images[20], cardX[0], cardY[1], null);
+        }
+
+        if (plantsInventory[6] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[6]], cardX[1], cardY[1], null); // inventory plant 7
+        }
+        else {
+            g2.drawImage(images[20], cardX[1], cardY[1], null);
+        }
+
+        if (plantsInventory[7] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[7]], cardX[2], cardY[1], null); // inventory plant 8
+        }
+        else {
+            g2.drawImage(images[20], cardX[2], cardY[0], null);
+        }
+
+        if (plantsInventory[8] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[8]], cardX[3], cardY[1], null); // inventory plant 9
+        }
+        else {
+            g2.drawImage(images[20], cardX[3], cardY[1], null);
+        }
+
+        if (plantsInventory[9] != 100) {
+            g2.drawImage(cardInventory[plantsInventory[9]], cardX[4], cardY[1], null); // inventory plant 10
+        }
+        else {
+            g2.drawImage(images[20], cardX[4], cardY[1], null);
+        }
+
+        if (plantsDeck[0] != 100) {
+            g2.drawImage(cardDeck[plantsDeck[0]], cardX[0], cardY[2], null); // deck plant 1
+        }
+        else {
+            g2.drawImage(images[20], cardX[0], cardY[2], null);
+        }
+
+        if (plantsDeck[1] != 100) {
+            g2.drawImage(cardDeck[plantsDeck[1]], cardX[1], cardY[2], null); // deck plant 2
+        }
+        else {
+            g2.drawImage(images[20], cardX[1], cardY[1], null);
+        }
+
+        if (plantsDeck[2] != 100) {
+            g2.drawImage(cardDeck[plantsDeck[2]], cardX[2], cardY[2], null); // deck plant 3
+        }
+        else {
+            g2.drawImage(images[20], cardX[2], cardY[2], null);
+        }
+
+        if (plantsDeck[3] != 100) {
+            g2.drawImage(cardDeck[plantsDeck[3]], cardX[0], cardY[3], null); // deck plant 4
+        }
+        else {
+            g2.drawImage(images[20], cardX[0], cardY[3], null);
+        }
+
+        if (plantsDeck[4] != 100) {
+            g2.drawImage(cardDeck[plantsDeck[4]], cardX[1], cardY[3], null); // deck plant 5
+        }
+        else {
+            g2.drawImage(images[20], cardX[1], cardY[3], null);
+        }
+
+        if (plantsDeck[5] != 100) {
+            g2.drawImage(cardDeck[plantsDeck[5]], cardX[2], cardY[3], null); // deck plant 6
+        }
+        else {
+            g2.drawImage(images[20], cardX[2], cardY[3], null);
+        }
+        
         
         // Draw highlighted boxes
         if (selectedBox == 0 || checkInventory[0] == 1) g2.drawImage(images[8], 123, 296, null); // plant 1 highlighted
