@@ -6,9 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-// import assets.AssetsLoader;
 import src.assets.AssetsLoader;
 import src.mains.KeyHandler;
 import src.mains.MouseHandler;
@@ -24,10 +26,10 @@ public class MainMenuPanel extends JPanel {
 
     private int selectedBox = 0; // 0 to 5
 
-    private BufferedImage[] images = AssetsLoader.loadMainMenu();
+    private BufferedImage[] images = AssetsLoader.loadImageMainMenu();
 
     public MainMenuPanel() {
-        setPreferredSize(new Dimension(1600, 900));
+        setPreferredSize(new Dimension(1280, 720));
         setFocusTraversalKeysEnabled(false);
         setLayout(null);
 
@@ -41,13 +43,14 @@ public class MainMenuPanel extends JPanel {
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
                     if (selectedBox == 0) {
-                        GamePanel.gameState = "Main Menu: New Game";
+                        GamePanel.gameState = "Main Menu: Inventory";
                         PanelHandler.switchPanel(MainMenuPanel.getInstance(), InventoryPanel.getInstance());
                     }
 
                     if (selectedBox == 1) {
                         GamePanel.gameState = "Main Menu: Load Game";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
+                        PanelHandler.switchPanel(MainMenuPanel.getInstance(), LoadPanel.getInstance());
                         
                     }
 
@@ -134,9 +137,9 @@ public class MainMenuPanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        images[0].paintIcon(this, g2, 0, 0); // background
-        images[1].paintIcon(this, g2, 201, 102); // title
-        g2.drawImage(gifFrames.get(currentFrame), 417, 392, this);
+        // images[0].paintIcon(this, g2, 0, 0); // background
+        // images[1].paintIcon(this, g2, 201, 102); // title
+        // g2.drawImage(gifFrames.get(currentFrame), 417, 392, this);
         // Draw boxes
         g2.drawImage(images[2], 132, 304, null); // start
         g2.drawImage(images[3], 417, 304, null); // load

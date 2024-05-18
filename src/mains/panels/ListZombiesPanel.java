@@ -26,7 +26,7 @@ public class ListZombiesPanel extends JPanel {
     private int selectedBox = 0; // 0 to 5
 
     private BufferedImage[] images = AssetsLoader.loadImageListZombies();
-    private List<BufferedImage>[] gifs = AssetLoader.loadGifListZombies();
+    private List<BufferedImage>[] gifs = AssetsLoader.loadGifListZombies();
 
 
     public ListZombiesPanel() {
