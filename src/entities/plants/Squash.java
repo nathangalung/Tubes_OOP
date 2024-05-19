@@ -3,7 +3,7 @@ package src.entities.plants;
 import java.awt.image.BufferedImage;
 
 import src.assets.ImageLoader;
-import src.entities.sim.Sim;
+import src.entities.zombie.zombie;
 import src.entities.zombies.Zombie;
 import src.main.Consts;
 import src.main.time.GameTime;
@@ -67,8 +67,8 @@ public class Squash extends Plant {
         animateOccupiedThread = new Thread() {
             @Override
             public void run() {
-                images[2] = ImageLoader.changeSimColor(images[2], sim);
-                images[3] = ImageLoader.changeSimColor(images[3], sim);
+                images[2] = ImageLoader.changezombieColor(images[2], zombie);
+                images[3] = ImageLoader.changezombieColor(images[3], zombie);
                 while (isOccupied()) {
                     try {
                         setImageIndex(2);
@@ -99,29 +99,28 @@ public class Squash extends Plant {
     }
 
     @Override
-    public void interact (Sim sim){
-        Thread feedingfish = new Thread() {
+    public void interact (Zombie zombie) {
+        Thread squash = new Thread() {
             @Override
             public void run() {
                 changeOccupiedState();
-                sim.setStatus(activityStatus);
+                zombie.setStatus(activityStatus);
 
                 animateNotOccupiedThread.interrupt();
-                animateOccupied(sim);
+                animateOccupied(zombie);
                 
-                GameTime.addActivityTimer(sim, activityStatus, duration, duration);
+                GameTime.addActivityTimer(zombie, activityStatus, duration, duration);
 
-                while (GameTime.isAlive(sim, activityStatus)) continue;
+                while (GameTime.isAlive(zombie, activityStatus)) continue;
 
                 changeOccupiedState();
                 animateNotOccupied();
-                sim.resetStatus();
-                sim.setMood(sim.getMood() + 5); // increase sim's mood
+                zombie.resetStatus();
 
                 // reset the images
-                images = ImageLoader.loadAquarium();
+                images = ImageLoader.loadSquash();
             }
         };
-        feedingfish.start();
+        squash.start();
     }
 }
