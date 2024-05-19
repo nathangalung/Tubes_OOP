@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import java.io.IOException;
@@ -26,87 +27,51 @@ import src.mains.Consts;
 
 public class AssetsLoader {
     private static BufferedImage scaleImage(BufferedImage image, int width, int height) {
-        BufferedImage scaledImage = new BufferedImage(width, height, image.getType());
+        BufferedImage scaledImage = new BufferedImage(Consts.SCALED_TILE * width, Consts.SCALED_TILE * height, image.getType());
         Graphics2D g = scaledImage.createGraphics();
 
-        g.drawImage(image, 0, 0, width, height, null);
+        g.drawImage(image, 0, 0, Consts.SCALED_TILE * width, Consts.SCALED_TILE * height, null);
         g.dispose();
         return scaledImage;
     }
 
     public static BufferedImage readImage(String folder, String fileName, int width, int height, boolean scaled) {
-        BufferedImage image;
+        BufferedImage image = null;
+        File file = new File("./src/assets/" + folder + "/" + fileName);
 
         try {
-            image = ImageIO.read(new File("./src/assets/" + folder + "/" + fileName + ".png"));
-            if (scaled) {
+            String extension = getFileExtension(file);
+            if ("gif".equalsIgnoreCase(extension)) {
+                image = readGif(file);
+            } else {
+                image = ImageIO.read(file);
+            }
+
+            if (scaled && image != null) {
                 image = scaleImage(image, width, height);
             }
-            return image;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return image;
     }
 
-    public static Map<String, List<Image>> extractMultipleGifFrames(String filePaths) throws IOException {
-        Map<String, List<Image>> gifFramesMap = new HashMap<>();
-
-        List<Image> frames = new ArrayList<>();
-        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
-        ImageInputStream stream = ImageIO.createImageInputStream(new File(filePaths));
-        reader.setInput(stream);
-
-        int numFrames = reader.getNumImages(true);
-        for (int i = 0; i < numFrames; i++) {
-            frames.add(reader.read(i));
-        }
-        gifFramesMap.put(filePaths, frames);
-
-        return gifFramesMap;
+    public static BufferedImage readGif(File file) {
+        ImageIcon imageIcon = new ImageIcon(file.getPath());
+        BufferedImage image = new BufferedImage(imageIcon.getIconWidth(), imageIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        imageIcon.paintIcon(null, g, 0, 0);
+        g.dispose();
+        return image;
     }
 
-    private static void updateGif(Map<String, List<Image>> gifFramesMap, Map<String, Integer> indexFramesMap, String gifPaths) {
-        int currentFrame = indexFramesMap.get(gifPaths);
-        currentFrame = (currentFrame + 1) % gifFramesMap.get(gifPaths).size();
-        indexFramesMap.put(gifPaths, currentFrame);
-    }
-
-    public static void readGifFrame(Map<String, List<Image>> gifFramesMap, String gifPaths) throws IOException {
-        List<Image> frames = new ArrayList<>();
-        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
-        ImageInputStream stream = ImageIO.createImageInputStream(new File(gifPaths));
-        reader.setInput(stream);
-
-        int numFrames = reader.getNumImages(true);
-        for (int i = 0; i < numFrames; i++) {
-            frames.add(reader.read(i));
-        }
-        gifFramesMap.put(gifPaths, frames);
-    }
-    
-    public static void readGif(Map<String, List<Image>> gifFramesMap, Map<String, Integer> indexFramesMap, String gifPaths) throws IOException {
-        List<Image> frames = new ArrayList<>();
-        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
-        ImageInputStream stream = ImageIO.createImageInputStream(new File(gifPaths));
-        reader.setInput(stream);
-
-        int numFrames = reader.getNumImages(true);
-        for (int i = 0; i < numFrames; i++) {
-            frames.add(reader.read(i));
-        }
-        gifFramesMap.put(gifPaths, frames);
-
-        Timer gifTimer;
-        try {
-            indexFramesMap.put(gifPaths, 0);
-            int frameDelay = 100; // Delay in milliseconds for frame update
-            gifTimer = new Timer(frameDelay, e -> updateGif(gifFramesMap, indexFramesMap, gifPaths));
-            gifTimer.start();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+    private static String getFileExtension(File file) {
+        String fileName = file.getName();
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
         }
     }
 

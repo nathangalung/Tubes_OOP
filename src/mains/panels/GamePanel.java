@@ -8,8 +8,6 @@ import src.mains.Consts;
 import src.mains.KeyHandler;
 import src.mains.UserInterface;
 import mains.times.GameTime;
-import world.Room;
-import world.World;
 
 public class GamePanel extends JPanel implements Runnable {
     private static GamePanel gp = new GamePanel();

@@ -1,21 +1,22 @@
-package mains;
+package src.mains;
 
 public abstract class Consts {
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 720;
     public static final int TILE_SIZE = 16;
     public static final int CENTER_X = (WIDTH - TILE_SIZE) / 2;
     public static final int CENTER_Y = (HEIGHT - TILE_SIZE) / 2;
     public static final int SCALE = 4;
     public static final int SCALED_TILE = TILE_SIZE * SCALE;
-    public static final int ONE_SECOND = 1;
+    public static final int SECOND = 1;
     public static final int MORNING = 100;
     public static final int NIGHT = 100;
     public static final int DAY = 200;
+    public static final int GAME = 300;
 
     // FOR THREADS
     public static final int THREAD_ONE_SECOND = 1000;
-    public static final int THREAD_ONE_DAY = 200 * THREAD_ONE_SECOND;
+    public static final int THREAD_ONE_DAY = 160 * THREAD_ONE_SECOND;
     public static final int THREAD_MORNING = 100 * THREAD_ONE_SECOND;
     public static final int THREAD_NIGHT = 100 * THREAD_ONE_SECOND;
     
@@ -25,5 +26,4 @@ public abstract class Consts {
     public static final int PLAY_ARENA_X_RIGHT = PLAY_ARENA_X_LEFT + (SCALED_TILE * 5);
     public static final int PLAY_ARENA_Y_DOWN = PLAY_ARENA_Y_UP + (SCALED_TILE * 5);
     public static final int OFFSET_Y = 57;
-    public static final int ONE_MINUTE = 0;
 }

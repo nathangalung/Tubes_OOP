@@ -60,17 +60,13 @@ public abstract class Entity {
     }
 
     public boolean isMoving(int newX, int newY) {
-        if (this instanceof Plant || this instanceof Zombie) {
+        if (this instanceof Zombie || this instanceof Sun) {
             if (!isCollision(newX, newY)) {
                 return true;
             }
-            else {
-                return false;
-            }
+            return false;
         }
-        else {
-            return true;
-        }
+        return false;
     }
 
     // public void checkCollision(CollisionHandler collisionHandler, int newX, int newY) {

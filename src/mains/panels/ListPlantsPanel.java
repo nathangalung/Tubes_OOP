@@ -8,24 +8,22 @@ import java.awt.image.BufferedImage;
 import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
 
-// import assets.AssetsLoader;
-import src.assets.AssetsLoader;
-import src.entities.plants.Plant;
+// import assets.ImageLoader;
+import src.assets.ImageLoader;
 
-import src.mains.KeyHandler;
 import src.mains.panels.PanelHandler;
 import src.mains.panels.MainMenuPanel;
 import src.mains.panels.HelpPanel;
 
 public class ListPlantsPanel extends JPanel {
-    public static ListPlantsPanel lzp = new ListPlantsPanel();
+    public static ListPlantsPanel lpp = new ListPlantsPanel();
 
     private int selectedBox = 0; // 0 to 5
 
-    private BufferedImage[] images = AssetsLoader.loadListPlantsMenu();
+    private BufferedImage[] images = ImageLoader.loadMainMenu();
 
     public ListPlantsPanel() {
-        setPreferredSize(new Dimension(1920, 1080));
+        setPreferredSize(new Dimension(1280, 720));
         setFocusTraversalKeysEnabled(false);
 
         GamePanel.gameState = "List Plants";
@@ -56,39 +54,48 @@ public class ListPlantsPanel extends JPanel {
                 
                 int newSelectedBox = selectedBox;
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
-            if (selectedBox >= 0 && selectedBox <= 4) {
-                newSelectedBox += 5;
+        if (keyCode == KeyEvent.VK_UP) {
+            if (selectedBox >= 0 && selectedBox < 2) {
+                newSelectedBox = 8;
             }
-            else if (selectedBox >= 5 && selectedBox <= 9) {
-                newSelectedBox -= 5;
+            else if (selectedBox >= 2 && selectedBox < 4) {
+                newSelectedBox = 9;
+            }
+            else if (selectedBox >= 4 && selectedBox < 10) {
+                newSelectedBox -= 4;
             }
             else if (selectedBox == 10) {
-                newSelectedBox = 12;
+                newSelectedBox += 2;
             }
             else {
                 newSelectedBox--;
             }
         }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT)) {
-            if (selectedBox == 4) {
-                newSelectedBox = 10;
+        if (keyCode == KeyEvent.VK_RIGHT) {
+            if (selectedBox == 3 || selectedBox == 7) {
+                newSelectedBox -= 3;
             }
-            else if (selectedBox == 10 || selectedBox == 11 || selectedBox == 12) {
-                newSelectedBox = 5;
+            else if (selectedBox == 9) {
+                newSelectedBox = 8;
+            }
+            else if (selectedBox >= 10 && selectedBox < 13) {
+                newSelectedBox = 8;
             }
             else {
                 newSelectedBox++;
             }
         }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
-            if (selectedBox >= 0 && selectedBox <= 4) {
-                newSelectedBox += 5;
+        if (keyCode == KeyEvent.VK_DOWN) {
+            if (selectedBox >= 0 && selectedBox < 4) {
+                newSelectedBox += 4;
             }
-            else if (selectedBox >= 5 && selectedBox <= 9) {
-                newSelectedBox -= 5;
+            else if (selectedBox >= 4 && selectedBox < 6) {
+                newSelectedBox = 8;
+            }
+            else if (selectedBox >= 6 && selectedBox < 8) {
+                newSelectedBox = 9;
             }
             else if (selectedBox == 12) {
                 newSelectedBox = 10;
@@ -98,14 +105,14 @@ public class ListPlantsPanel extends JPanel {
             }
         }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
-            if (selectedBox == 0) {
-                newSelectedBox = 4;
+        if (keyCode == KeyEvent.VK_UP) {
+            if (selectedBox == 0 || selectedBox == 4) {
+                newSelectedBox += 3;
             }
-            else if (selectedBox == 5) {
-                newSelectedBox = 11;
+            else if (selectedBox == 8) {
+                newSelectedBox = 9;
             }
-            else if (selectedBox == 10 || selectedBox == 11 || selectedBox == 12) {
+            else if (selectedBox >= 10 && selectedBox < 13) {
                 newSelectedBox = 9;
             }
             else {
@@ -124,11 +131,11 @@ public class ListPlantsPanel extends JPanel {
     }
 
     public static ListPlantsPanel getInstance() {
-        return lzp;
+        return lpp;
     }
 
     public static void init() {
-        lzp = new ListPlantsPanel();
+        lpp = new ListPlantsPanel();
     }
 
     @Override
@@ -143,7 +150,7 @@ public class ListPlantsPanel extends JPanel {
         // Draw boxes
         g2.drawImage(images[2], 132, 304, null); // start
         g2.drawImage(images[3], 417, 304, null); // load
-        g2.drawImage(images[4], 417, 304, null); // list plants
+        g2.drawImage(images[4], 417, 304, null); // list Plants
         g2.drawImage(images[5], 417, 304, null); // list Plants
         g2.drawImage(images[6], 132, 392, null); // help
         g2.drawImage(images[7], 417, 392, null); // exit

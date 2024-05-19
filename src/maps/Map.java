@@ -1,36 +1,48 @@
-package maps;
+package src.maps;
 
-import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
-import mains.Consts;
-import assets.AssetsLoader;
-import zombies.Zombie;
-import mains.KeyHandler;
-import mains.UserInterface;
-import mains.panels.CreateSimPanel;
-import mains.panels.GamePanel;
-import mains.panels.PanelHandler;
-import mains.times.GameTime;
-import plants.Plant;
+import src.mains.Consts;
+import src.assets.AssetsLoader;
+import src.assets.ImageLoader;
+import src.entities.zombies.Zombie;
+import src.mains.KeyHandler;
+import src.mains.UserInterface;
+import src.mains.panels.GamePanel;
+import src.mains.panels.PanelHandler;
+import src.mains.times.GameTime;
+import src.world.House;
+import src.world.Room;
+import src.entities.handlers.CollisionHandler;
+import src.entities.interactables.Door;
+import src.entities.interactables.Toilet;
+import src.entities.plants.Plant;
 
 public class Map {
     // Attributes
-    private int[][] map = new int[11][6];
-    private ArrayList<Plant> listOfPlantsGame;
-    private ArrayList<Zombie> listOfZombiesGame;
+    private int[][] map = new int[64][64];
+    private ArrayList<Plant> plantsList;
+    private ArrayList<Zombie> zombiesList;
     
     // State of the world (is adding a house or selecting a house to visit)
-    private boolean isAdding = false;
+    private boolean isEditingTile;
+    private CollisionHandler collisionHandler;
+    private Plant removablePlant = null;
+    private Plant selectedPlant = null;
+
+    private int centerX = Consts.WIDTH / 2 - 3 * Consts.SCALED_TILE;
+    private int centerY = Consts.HEIGHT / 2 - 3 * Consts.SCALED_TILE;
 
     // Images of the world
     private BufferedImage[] images;
     
     // Cursor position
     private Cursor cursor;
-    
-    // Viewable world inside of the window (32 x 32 grid)
+
     private int viewableGrid = (Consts.TILE_SIZE * 32) - 1;
     private int topLeftX = 26;
     private int topLeftY = 26;
@@ -42,272 +54,292 @@ public class Map {
     // Constructor 
     public Map() {
         // Attributes
-        listOfPlants = new ArrayList<>();
-        listOfZombies = new ArrayList<>();
-        listofDeck = new ArrayList<>()
+        this.plantsList = new ArrayList<>();
+        this.zombiesList = new ArrayList<>();
+        this.isEditingTile = false;
 
         // Load the images of the world
         this.images = ImageLoader.loadMap();
 
-        // Load the initial state of the map
-        for (int x = 0 ; x < 11 ; x++) {
-            for (int y = 0 ; y < 6 ; x++) {
-                if (x == 0) {
-                    map[x][y] = 0; // Pink area
-                }
-                else if ((x != 0 && x != 10) && (y != 2 && y != 3)) {
-                    map[x][y] = 1; // Green area
-                }
-                else if ((x != 0 && x != 10) && (y == 2 && y == 3)) {
-                    map[x][y] = 2; // Blue area
-                }
-                else {
-                    map[x][y] = 3; // Brown area
-                }
+        for (int y = 0 ; y < 64 ; y++) {
+            for (int x = 0 ; x < 64 ; x++) {
+                map[y][x] = 0;
             }
         }
-
-        // Initialize the cursor in the center of the grid
-        this.cursor = new Cursor(Consts.TILE_SIZE * 16, Consts.TILE_SIZE * 16, this);
     }
 
-    // Getter and setter
     public int getMap(int x, int y) {
-        return map[x][y];
+        return map[y][x];
     }
+
+    public ArrayList<Plant> getPlantsList() {
+        return plantsList;
+    }
+
+    public boolean isEditingTile() {
+        return isEditingTile;
+    }
+
+    public ArrayList<Zombie> getZombiesList() {
+        return zombiesList;
+    }
+
+    // Load the initial state of the map
     
-    public ArrayList<Plant> getListOfPlantsGame() {
-        return listOfPlantsGame;
+
+    // public ArrayList<Plant> getplantsListGame() {
+    //     return plantsListGame;
+    // }
+
+    // public Plant getPlant(int index) {
+    //     return plantsListGame.get(index);
+    // }
+
+    // public ArrayList<Zombie> getListOfZombiesGame() {
+    //     return listOfZombiesGame;
+    // }
+
+// public Zombie getZombie(int index) {
+//     return zombiesList.get(index);
+// }
+
+    public void addPlant(Plant plant) {
+        changeIsEditingTile();
+        removablePlant = plant;
+        collisionHandler = new CollisionHandler(removablePlant, this);
     }
 
-    public Plant getPlant(int index) {
-        return listOfPlantsGame.get(index);
+    public void editPlant(Plant plant) {
+        removablePlant = plant;
+        plantsList.remove(plant);
+        collisionHandler = new CollisionHandler(removablePlant, this);
     }
 
-    public ArrayList<Zombie> getListOfZombiesGame() {
-        return listOfZombiesGame;
+    public void addZombie(Zombie zombie) {
+        zombiesList.add(zombie);
     }
 
-    public Zombie getZombie(int index) {
-        return listOfZombies.get(index);
+    public void removePlant(Plant plant) {
+        plantsList.remove(plant);
     }
 
-    public House getHouse(int x, int y){
-        for (House house : getListOfHouse()){
-            if (house.getX() == x && house.getY() == y){
-                return house;
+    public void changeIsEditingTile() {
+        this.isEditingTile = !this.isEditingTile;
+    }
+
+    public void selectPlant() {
+        changeIsEditingTile();
+        try {
+            for (Plant plant : plantsList) {
+                selectedPlant = plant;
+
+                return;
             }
+            changeIsEditingTile();
         }
-        return null;
-    }
-
-    public boolean isAdding() {
-        return isAdding;
-    }
-
-    public Cursor getCursor() {
-        return cursor;
-    }
-
-    public void setMap(int x, int y, int value) {
-        map[x][y] = value;
-    }
-
-    public void addSim(Sim sim) {
-        listOfSim.add(sim);
-    }
-
-    public void addHouse(String roomName) {
-        int x = cursor.getGridX();
-        int y = cursor.getGridY();
-
-        Sim newSim = getSim(listOfSim.size() - 1);
-        newSim.setDayLastAddedSim(GameTime.day);
-
-        Room newRoom = new Room(roomName);
-        newRoom.getListOfObjects().add(new Door(null));
-        newRoom.getListOfObjects().get(0).setInteraction("view active actions");
-
-        House newHouse = new House(x, y, this, newSim, newRoom);
-
-        listOfHouse.add(newHouse);
-    }
-
-    public void changeIsAddingState() {
-        this.isAdding = !this.isAdding;
-    }
-
-    public void reset() {
-        cursor.setX(Consts.TILE_SIZE * 16);
-        cursor.setY(Consts.TILE_SIZE * 16);
+        catch (ConcurrentModificationException e) {}
     }
 
     // Others
     public void update() {
-        if (UserInterface.isViewingMap()) {
-            cursor.update();
-        }
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)) {
-            cursor.enterPressed();
-        }
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
-            if (GamePanel.isCurrentState("Starting a new game: Placing a new house")) {
-                GamePanel.gameState = "Starting a new game: Creating a new sim";
-            }
-            if (GamePanel.isCurrentState("Placing a new house")) {
-                GamePanel.gameState = "Creating a new sim";
+        updateSelectedPlant();
 
-                int newSimIndex = listOfSim.size() - 1;
-                listOfSim.remove(newSimIndex);
-                UserInterface.setCurrentSim(CreateSimPanel.currentSim);
-
-                Sim currentSim = UserInterface.getCurrentSim();
-                if (currentSim.isBusy()) currentSim.changeIsBusyState();
-            }
-
-            if (!GamePanel.isCurrentState("Playing")) {
-                CreateSimPanel.init();
-                PanelHandler.switchPanel(GamePanel.getInstance(), CreateSimPanel.getInstance());
-                changeIsAddingState();
-            }
-            UserInterface.viewWorld();
-        }
+        updateUnaddedPlant();
     }
 
     public void draw(Graphics2D g) {
         // Draw the world in quarters with the size of each quarter of 32 x 32
-        drawMap(g);
+        drawTiles(g);
 
-        drawCursor(g);
+        drawPlants(g);
 
-        drawArrows(g);
-    }
+        drawZombies(g);
 
-    private int getCursorInQuarter() {
-        int lowerCoords = 0 * Consts.TILE_SIZE;
-        int middleCoords = 32 * Consts.TILE_SIZE;
-        int upperCoords = 64 * Consts.TILE_SIZE;
+        drawPlantSelector(g);
 
-        if ((cursor.getX() >= lowerCoords && cursor.getX() < middleCoords) &&
-            (cursor.getY() >= lowerCoords && cursor.getY() < middleCoords)) {
-            return 1;
-        }
-        if ((cursor.getX() >= middleCoords && cursor.getX() < upperCoords) &&
-            (cursor.getY() >= lowerCoords && cursor.getY() < middleCoords)) {
-            return 2;
-        }
-        if ((cursor.getX() >= middleCoords && cursor.getX() < upperCoords) &&
-            (cursor.getY() >= middleCoords && cursor.getY() < upperCoords)) {
-            return 3;
-        }
-        if ((cursor.getX() >= lowerCoords && cursor.getX() < middleCoords) &&
-            (cursor.getY() >= middleCoords && cursor.getY() < upperCoords)) {
-            return 4;
-        }
-        return 0;
-    }
+        drawSelectedPlant(g);
 
-    private void setUpperAndLowerBounds() {
-        if (getCursorInQuarter() == 1) {
-            lowerBoundsX = 0; upperBoundsX = 32;
-            lowerBoundsY = 0; upperBoundsY = 32;
-            topLeftX = 26; topLeftY = 26;
-        }
-        else if (getCursorInQuarter() == 2) {
-            lowerBoundsX = 32; upperBoundsX = 64;
-            lowerBoundsY = 0; upperBoundsY = 32;
-            topLeftX = 25; topLeftY = 26;
-        }
-        else if (getCursorInQuarter() == 3) {
-            lowerBoundsX = 32; upperBoundsX = 64;
-            lowerBoundsY = 32; upperBoundsY = 64;
-            topLeftX = 25; topLeftY = 25;
-        }
-        else if (getCursorInQuarter() == 4) {
-            lowerBoundsX = 0; upperBoundsX = 32;
-            lowerBoundsY = 32; upperBoundsY = 64;
-            topLeftX = 26; topLeftY = 25;
+        if (UserInterface.isDebug()) {
+            drawCollisionBox(g);
         }
     }
 
-    private void drawMap(Graphics2D g) {
-        setUpperAndLowerBounds();
+    private Plant findNearestplant(String direction) {
+        Plant minPlant = null;
+        int minDistance = Integer.MAX_VALUE;
+        int distance = Integer.MAX_VALUE;
+        int dx = 0;
+        int dy = 0;
 
-        for (int y = lowerBoundsY; y < upperBoundsY; y++) {
-            for (int x = lowerBoundsX; x < upperBoundsX; x++) {
-                int tileX = topLeftX + (x * Consts.TILE_SIZE) % viewableGrid;
-                int tileY = topLeftY + (y * Consts.TILE_SIZE) % viewableGrid;
-                int tileType = getMap(x, y);
-                g.drawImage(images[tileType], tileX, tileY, null);
+        for (Plant plant : plantsList) {
+            if (plant == selectedPlant) {
+                continue;
+            }
+            
+            dx = plant.getX() - selectedPlant.getX();
+            dy = plant.getY() - selectedPlant.getY();
+            distance = (int) Math.sqrt((dx * dx) + (dy * dy));
+            
+            switch (direction) {
+                case "up":
+                    if (dy < 0 && distance < minDistance)  {
+                        minDistance = distance;
+                        minPlant = plant;
+                    }
+                    break;
+                case "left":
+                    if (dx < 0 && distance < minDistance) {
+                        minDistance = distance;
+                        minPlant = plant;
+                    }
+                    break;
+                case "down":
+                    if (dy > 0 && distance < minDistance) {
+                        minDistance = distance;
+                        minPlant = plant;
+                    }
+                    break;
+                case "right":
+                    if (dx > 0 && distance < minDistance) {
+                        minDistance = distance;
+                        minPlant = plant;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
-    }
 
-    private void drawHouses(Graphics2D g) {
-        for (int y = lowerBoundsY; y < upperBoundsY; y++) {
-            for (int x = lowerBoundsX; x < upperBoundsX; x++) {
-                int tileX = topLeftX + (x * Consts.TILE_SIZE) % viewableGrid;
-                int tileY = topLeftY + (y * Consts.TILE_SIZE) % viewableGrid;
-
-                if (getMap(x, y) == 1) {
-                    g.drawImage(images[1], tileX, tileY, null);
-                }
-                
-                if (cursor.isAboveHouse() && x == cursor.getGridX() && y == cursor.getGridY()) {
-                    if (isAdding) {
-                        g.drawImage(images[5], tileX, tileY, null);
-                    }
-                    else {
-                        Sim currentSim = UserInterface.getCurrentSim();
-                        House currentHouse = currentSim.getCurrentHouse();
-                        boolean isAboveCurrentHouse = (cursor.getGridX() == currentHouse.getX())
-                            && (cursor.getGridY() == currentHouse.getY());
-
-                        if (isAboveCurrentHouse) {
-                            g.drawImage(images[5], tileX, tileY, null);
-                        }
-                        else {
-                            g.drawImage(images[4], tileX, tileY, null);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void drawCursor(Graphics2D g) {
-        if (cursor.isAboveMap()) {
-            return;
-        }
-
-        int tileX = topLeftX + (cursor.getX() % (viewableGrid));
-        int tileY = topLeftY + (cursor.getY() % (viewableGrid));
-
-        if (isAdding) {
-            g.drawImage(images[3], tileX, tileY, null);
+        if (minPlant == null) {
+            return selectedPlant;
         }
         else {
-            g.drawImage(images[2], tileX, tileY, null);
+            return minPlant;
         }
     }
 
-    private void drawArrows(Graphics2D g) {
-        // Arrows
-        if (getCursorInQuarter() == 1){
-            g.drawImage(images[8], topLeftX + (15 * Consts.TILE_SIZE + 8), topLeftY + (30 * Consts.TILE_SIZE), null);
-            g.drawImage(images[9], topLeftX + (30 * Consts.TILE_SIZE), topLeftY + (15 * Consts.TILE_SIZE + 8), null);
+    private void updateSelectedPlant() {
+        if (isEditingTile && removablePlant == null) {
+            // Find the nearest plant based on the WASD keys
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_W)) {
+                selectedPlant = findNearestplant("up");
+            }
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_A)) {
+                selectedPlant = findNearestplant("left");
+            }
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_S)) {
+                selectedPlant = findNearestplant("down");
+            }
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_D)) {
+                selectedPlant = findNearestplant("right");
+            }
+
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)) {
+                editPlant(selectedPlant);
+            }
         }
-        if (getCursorInQuarter() == 2){
-            g.drawImage(images[7], topLeftX + Consts.TILE_SIZE, topLeftY + (15 * Consts.TILE_SIZE + 8), null);
-            g.drawImage(images[8], topLeftX + (15 * Consts.TILE_SIZE + 8), topLeftY + (30 * Consts.TILE_SIZE), null);
+    }
+
+    // TO - DO !!! : Integrate with inventory
+    private void updateUnaddedplant() {
+        if (isEditingTile && removablePlant != null) {
+            boolean inCollision = false;
+            boolean isCollidingWithZombie = false;
+            boolean isWallOccupied = false;
+
+            inCollision = collisionHandler.isCollision(removablePlant.getX(), removablePlant.getY());
+            isCollidingWithZombie = collisionHandler.isCollidingWithZombie(removablePlant.getX(), removablePlant.getY(), listOfZombies);
+            
+            removablePlant.move(collisionHandler);
+            removablePlant.updateBounds();
+
+            // To check if a wall is already connected to a room
+
+            // To rotate the door
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_R)) {
+                if (removablePlant instanceof Door) {
+                    Door door = (Door) removablePlant;
+                }
+                
+                if (removablePlant instanceof Toilet) {
+                    Toilet toilet = (Toilet) removablePlant;
+                }
+            }
+                
+            // Add the plant if enter is pressed and plant is not in collision with another plant
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER) && (!inCollision && !isWallOccupied && !isCollidingWithZombie)) {
+                plantsList.add(removablePlant);
+                removablePlant = null;
+                changeIsEditingTile();
+            }
+
+            // Cancel adding or moving an plant if escape is pressed and add plant into Zombie inventory
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
+                if (!(removablePlant instanceof Door)) {
+                    Zombie currentZombie = UserInterface.getCurrentZombie();
+                }
+                removablePlant = null;
+                changeIsEditingTile();
+            }
         }
-        if (getCursorInQuarter() == 3){
-            g.drawImage(images[6], topLeftX + (15 * Consts.TILE_SIZE + 8), topLeftY + Consts.TILE_SIZE, null);
-            g.drawImage(images[7], topLeftX + Consts.TILE_SIZE, topLeftY + (15 * Consts.TILE_SIZE + 8), null);
+    }
+
+    private void drawTiles(Graphics2D g) {
+        for (int y = 0; y < 6; y++) {
+            int tileX = centerX + (x * Consts.SCALED_TILE);
+            int tileY = centerY + (y * Consts.SCALED_TILE) - Consts.OFFSET_Y;
+            g.drawImage(images[0], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+            for (int x = 0; x < 6; x++) {
+                g.drawImage(images[1], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+            }
+            g.drawImage(images[3], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
         }
-        if (getCursorInQuarter() == 4){
-            g.drawImage(images[6], topLeftX + (15 * Consts.TILE_SIZE + 8), topLeftY + Consts.TILE_SIZE, null);
-            g.drawImage(images[9], topLeftX + (30 * Consts.TILE_SIZE), topLeftY + (15 * Consts.TILE_SIZE + 8), null);
+    }
+
+    private void drawPlants(Graphics2D g) {
+        try {
+            for (Plant plant : plantsList) {
+                plant.draw(g, plant);
+            }
+        }
+        catch (ConcurrentModificationException e) {}
+    }
+
+    private void drawZombies(Graphics2D g) {
+        try {
+            for (Zombie zombie: zombiesList) {
+                zombie.draw(g, zombie);
+            }
+        }
+        catch (ConcurrentModificationException e) {}
+    }
+
+    private void drawplantSelector(Graphics2D g) {
+        try {
+            if (isEditingTile && removablePlant == null) {
+                int plantWidth = (int) selectedPlant.getBounds().getWidth();
+                int plantHeight = (int) selectedPlant.getBounds().getHeight();
+                
+                g.setColor(new Color(255, 0, 0, 64)); // Transparent red color
+                g.fillRect(selectedPlant.getX(), selectedPlant.getY(), plantWidth, plantHeight);
+            }
+        }
+        catch (NullPointerException e) {}
+    }
+
+    private void drawselectedPlant(Graphics2D g) {
+        try {
+            if (isEditingTile && removablePlant != null) {
+                removablePlant.draw(g, removablePlant);
+            }
+        }
+        catch (NullPointerException e) {}
+    }
+
+    // ONLY FOR DEBUGGING
+    public void drawCollisionBox(Graphics2D g) {
+        for (Plant plant : plantsList) {
+            plant.drawCollisionBox(g);
         }
     }
 }

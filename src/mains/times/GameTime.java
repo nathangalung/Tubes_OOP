@@ -1,32 +1,39 @@
-package mains.times;
+package src.mains.times;
 
-import entities.sim.Sim;
-import mains.UserInterface;
-import src.world.World;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import mains.Consts;
+import src.entities.plants.Plant;
+import src.mains.Consts;
+import src.mains.UserInterface;
+import src.maps.Map;
 
 public class GameTime implements Runnable {
     private static GameTime gt = new GameTime();
     private static Thread gtThread = new Thread(gt);
 
-    public static final int DAY_DURATION = 200;
-    public static final int MORNING_DURATION = 100;
-    public static final int NIGHT_DURATION = 100;
-    public static final int ZOMBIE_SPAWN_START = 20;
-    public static final int ZOMBIE_SPAWN_END = 160;
+    // public static int DAY_DURATION = Consts.SECOND * Consts.DAY;
+    // public static int MORNING_DURATION = Consts.SECOND * Consts.MORNING;
+    // public static int NIGHT_DURATION = Consts.SECOND * Consts.NIGHT;
+    // public static int ZOMBIE_SPAWN_START = Consts.SECOND * 20;
+    // public static int ZOMBIE_SPAWN_END = Consts.SECOND * 160;
 
-    public static int timeRemaining;
     public static int day;
-    private static ArrayList<ActivityTimer> listOfActiveActivities = new ArrayList<>();
+    public static int dayRemaining = Consts.SECOND * Consts.DAY;
+    public static int timeRemaining = Consts.SECOND * Consts.GAME;
+    public static int morningRemaining = Consts.SECOND * Consts.MORNING;
+    public static int nightRemaining = Consts.SECOND * Consts.NIGHT;
+
+    private static ArrayList<CooldownTimer> cooldownPlantsList = new ArrayList<>();
 
     private GameTime() {}
 
-    public static void init(int day, int timeRemaining) {
+    public static void init(int day, int dayRemaining, int timeRemaining, int morningRemaining, int nightRemaining) {
         GameTime.day = day;
+        GameTime.dayRemaining = dayRemaining;
         GameTime.timeRemaining = timeRemaining;
+        GameTime.morningRemaining = morningRemaining;
+        GameTime.nightRemaining = nightRemaining;
 
         if (!gtThread.isAlive()) {
             gtThread.start();
@@ -42,24 +49,25 @@ public class GameTime implements Runnable {
         return gtThread;
     }
 
-    public static ArrayList<ActivityTimer> getListOfActiveActivities() {
-        return listOfActiveActivities;
+    public static ArrayList<CooldownTimer> getCooldownPlantsList() {
+        return cooldownPlantsList;
     }
 
-    public static ActivityTimer getActivityTimer(Sim sim, String activity) {
+    public static CooldownTimer getcooldownTimer(Plant plant, String activity) {
         try {
-            for (ActivityTimer activityTimer : listOfActiveActivities) {
-                Sim activeSim = activityTimer.getSim();
+            for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+                Plant cooldownPlant = cooldownTimer.getPlant();
 
-                boolean simIsActive = sim.getName().equals(activeSim.getName());
-                boolean activityIsActive = activity.equals(activityTimer.getActivity());
+                boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
 
-                if (simIsActive && activityIsActive) {
-                    return activityTimer;
+                if (isPlantCooldown) {
+                    return cooldownTimer;
                 }
             }
         }
-        catch (ConcurrentModificationException cme) {}
+        catch (ConcurrentModificationException cme) {
+
+        }
 
         return null;
     }
@@ -69,29 +77,29 @@ public class GameTime implements Runnable {
     public void run() {
         while (gtThread.isAlive()) {
             if (UserInterface.isPaused()) continue;
-            if (listOfActiveActivities.isEmpty()) continue;
+            if (cooldownPlantsList.isEmpty()) continue;
 
             try {
                 Thread.sleep(Consts.THREAD_ONE_SECOND);
 
-                for (ActivityTimer activityTimer : listOfActiveActivities) {
-                    int timeRemaining = activityTimer.getTimeRemaining();
+                for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+                    int dayRemaining = cooldownTimer.getDayRemaining();
 
-                    if (timeRemaining <= 0) listOfActiveActivities.remove(activityTimer);
+                    if (dayRemaining <= 0) cooldownPlantsList.remove(cooldownTimer);
 
-                    activityTimer.setTimeRemaining(timeRemaining - 1);
+                    cooldownTimer.setDayRemaining(dayRemaining - 1);
                 }
-                decrementTimeRemaining();
+                decrementDayRemaining();
 
-                World world = UserInterface.getWorld();
-                ArrayList<Sim> listOfSim = world.getListOfSim();
+                Map map = UserInterface.getMap();
+                ArrayList<Plant> plantsList = map.getPlantsList();
 
-                for (Sim sim : listOfSim) {
-                    int timeNotSlept = sim.getTimeNotSlept();
-                    int timeNotTakenLeak = sim.getTimeNotTakenLeak();
+                for (Plant plant : plantsList) {
+                    int timeNotSlept = plant.getTimeNotSlept();
+                    int timeNotTakenLeak = plant.getTimeNotTakenLeak();
 
-                    sim.setTimeNotSlept(timeNotSlept + 1);
-                    sim.setTimeNotTakenLeak(timeNotTakenLeak + 1);
+                    plant.setTimeNotSlept(timeNotSlept + 1);
+                    plant.setTimeNotTakenLeak(timeNotTakenLeak + 1);
                 }
             }
             catch (InterruptedException ie) {}
@@ -99,18 +107,18 @@ public class GameTime implements Runnable {
         }
     }
 
-    public static boolean isAlive(Sim sim, String activity) {
-        if (listOfActiveActivities.isEmpty()) return false;
+    public static boolean isAlive(Plant plant, String activity) {
+        if (cooldownPlantsList.isEmpty()) return false;
 
         boolean isAlive = false;
         try {
-            for (ActivityTimer activityTimer : listOfActiveActivities) {
-                Sim activeSim = activityTimer.getSim();
+            for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+                Plant cooldownPlant = cooldownTimer.getPlant();
 
-                boolean simIsActive = sim.getName().equals(activeSim.getName());
-                boolean activityIsActive = activity.equals(activityTimer.getActivity());
+                boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
+                boolean activityIsActive = activity.equals(cooldownTimer.getActivity());
 
-                if (simIsActive && activityIsActive) {
+                if (isPlantCooldown && activityIsActive) {
                     isAlive = true;
                 }
             }
@@ -122,15 +130,15 @@ public class GameTime implements Runnable {
     }
 
     // SETTERS
-    public static void addActivityTimer(Sim sim, String activity, int timeRemaining, int duration) {
-        ActivityTimer activityTimer = new ActivityTimer(sim, activity, timeRemaining, duration);
-        listOfActiveActivities.add(activityTimer);
+    public static void addcooldownTimer(Plant plant, String activity, int dayRemaining, int duration) {
+        CooldownTimer cooldownTimer = new CooldownTimer(plant, dayRemaining, timeRemaining, duration);
+        cooldownPlantsList.add(cooldownTimer);
     }
 
-    public static void decrementTimeRemaining() {
-        timeRemaining--;
-        if (timeRemaining == 0) {
-            timeRemaining = DAY_DURATION;
+    public static void decrementDayRemaining() {
+        dayRemaining--;
+        if (dayRemaining == 0) {
+            dayRemaining = timeRemaining;
             incrementDay();
         }
     }
@@ -139,29 +147,29 @@ public class GameTime implements Runnable {
         day++;
     }
 
-    public static void decreaseTimeRemaining(int time) {
-        timeRemaining -= time;
+    public static void decreaseDayRemaining(int time) {
+        dayRemaining -= time;
 
-        for (ActivityTimer activityTimer : listOfActiveActivities) {
-            int timeRemaining = activityTimer.getTimeRemaining();
+        for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+            int dayRemaining = cooldownTimer.getDayRemaining();
 
-            activityTimer.setTimeRemaining(timeRemaining - time);
+            cooldownTimer.setDayRemaining(dayRemaining - time);
         }
 
-        World world = UserInterface.getWorld();
-        ArrayList<Sim> listOfSim = world.getListOfSim();
+        Map map = UserInterface.getPlant();
+        ArrayList<Plant> plantsList = map.getPlantsList();
 
-        for (Sim sim : listOfSim) {
-            int timeNotSlept = sim.getTimeNotSlept();
-            int timeNotTakenLeak = sim.getTimeNotTakenLeak();
+        for (Plant plant : plantsList) {
+            int timeNotSlept = plant.getTimeNotSlept();
+            int timeNotTakenLeak = plant.getTimeNotTakenLeak();
 
-            sim.setTimeNotSlept(timeNotSlept + time);
-            sim.setTimeNotTakenLeak(timeNotTakenLeak + time);
+            Plant.setTimeNotSlept(timeNotSlept + time);
+            Plant.setTimeNotTakenLeak(timeNotTakenLeak + time);
         }
 
-        if (timeRemaining <= 0) {
-            int timeLeft = 0 - timeRemaining;
-            timeRemaining = DAY_DURATION - timeLeft;
+        if (dayRemaining <= 0) {
+            int timeLeft = 0 - dayRemaining;
+            dayRemaining = timeRemaining - timeLeft;
             incrementDay();
         }
     }

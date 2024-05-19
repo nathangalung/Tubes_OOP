@@ -1,21 +1,16 @@
 package src.mains.panels;
 
-import java.util.List;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 
-// import assets.AssetsLoader;
-import src.assets.AssetsLoader;
-import src.entities.zombies.Zombie;
+// import assets.ImageLoader;
+import src.assets.ImageLoader;
 
-import src.mains.KeyHandler;
 import src.mains.panels.PanelHandler;
 import src.mains.panels.MainMenuPanel;
 import src.mains.panels.HelpPanel;
@@ -25,12 +20,10 @@ public class ListZombiesPanel extends JPanel {
 
     private int selectedBox = 0; // 0 to 5
 
-    private BufferedImage[] images = AssetsLoader.loadImageListZombies();
-    private List<BufferedImage>[] gifs = AssetsLoader.loadGifListZombies();
-
+    private BufferedImage[] images = ImageLoader.loadMainMenu();
 
     public ListZombiesPanel() {
-        setPreferredSize(new Dimension(1600, 900));
+        setPreferredSize(new Dimension(1280, 720));
         setFocusTraversalKeysEnabled(false);
 
         GamePanel.gameState = "List Zombies";
@@ -61,39 +54,48 @@ public class ListZombiesPanel extends JPanel {
                 
                 int newSelectedBox = selectedBox;
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
-            if (selectedBox >= 0 && selectedBox <= 4) {
-                newSelectedBox += 5;
+        if (keyCode == KeyEvent.VK_UP) {
+            if (selectedBox >= 0 && selectedBox < 2) {
+                newSelectedBox = 8;
             }
-            else if (selectedBox >= 5 && selectedBox <= 9) {
-                newSelectedBox -= 5;
+            else if (selectedBox >= 2 && selectedBox < 4) {
+                newSelectedBox = 9;
+            }
+            else if (selectedBox >= 4 && selectedBox < 10) {
+                newSelectedBox -= 4;
             }
             else if (selectedBox == 10) {
-                newSelectedBox = 12;
+                newSelectedBox += 2;
             }
             else {
                 newSelectedBox--;
             }
         }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT)) {
-            if (selectedBox == 4) {
-                newSelectedBox = 10;
+        if (keyCode == KeyEvent.VK_RIGHT) {
+            if (selectedBox == 3 || selectedBox == 7) {
+                newSelectedBox -= 3;
             }
-            else if (selectedBox == 10 || selectedBox == 11 || selectedBox == 12) {
-                newSelectedBox = 5;
+            else if (selectedBox == 9) {
+                newSelectedBox = 8;
+            }
+            else if (selectedBox >= 10 && selectedBox < 13) {
+                newSelectedBox = 8;
             }
             else {
                 newSelectedBox++;
             }
         }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
-            if (selectedBox >= 0 && selectedBox <= 4) {
-                newSelectedBox += 5;
+        if (keyCode == KeyEvent.VK_DOWN) {
+            if (selectedBox >= 0 && selectedBox < 4) {
+                newSelectedBox += 4;
             }
-            else if (selectedBox >= 5 && selectedBox <= 9) {
-                newSelectedBox -= 5;
+            else if (selectedBox >= 4 && selectedBox < 6) {
+                newSelectedBox = 8;
+            }
+            else if (selectedBox >= 6 && selectedBox < 8) {
+                newSelectedBox = 9;
             }
             else if (selectedBox == 12) {
                 newSelectedBox = 10;
@@ -103,14 +105,14 @@ public class ListZombiesPanel extends JPanel {
             }
         }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
-            if (selectedBox == 0) {
-                newSelectedBox = 4;
+        if (keyCode == KeyEvent.VK_UP) {
+            if (selectedBox == 0 || selectedBox == 4) {
+                newSelectedBox += 3;
             }
-            else if (selectedBox == 5) {
-                newSelectedBox = 11;
+            else if (selectedBox == 8) {
+                newSelectedBox = 9;
             }
-            else if (selectedBox == 10 || selectedBox == 11 || selectedBox == 12) {
+            else if (selectedBox >= 10 && selectedBox < 13) {
                 newSelectedBox = 9;
             }
             else {
@@ -148,22 +150,22 @@ public class ListZombiesPanel extends JPanel {
         // Draw boxes
         g2.drawImage(images[2], 132, 304, null); // start
         g2.drawImage(images[3], 417, 304, null); // load
-        g2.drawImage(images[4], 417, 304, null); // list zombies
-        g2.drawImage(images[5], 417, 304, null); // list zombies
+        g2.drawImage(images[4], 417, 304, null); // list Zombies
+        g2.drawImage(images[5], 417, 304, null); // list Zombies
         g2.drawImage(images[6], 132, 392, null); // help
         g2.drawImage(images[7], 417, 392, null); // exit
         
         // Draw highlighted boxes
-        if (selectedBox == 0) g2.drawImage(images[8], 123, 296, null); // zombie 1 highlighted
-        if (selectedBox == 1) g2.drawImage(images[9], 408, 297, null); // zombie 2 highlighted
-        if (selectedBox == 2) g2.drawImage(images[10], 408, 297, null); // zombie 3 highlighted
-        if (selectedBox == 3) g2.drawImage(images[11], 408, 297, null); // zombie 4 highlighted
-        if (selectedBox == 4) g2.drawImage(images[12], 123, 385, null); // zombie 5 highlighted
-        if (selectedBox == 5) g2.drawImage(images[13], 408, 384, null); // zombie 6 highlighted
-        if (selectedBox == 6) g2.drawImage(images[13], 408, 384, null); // zombie 7 highlighted
-        if (selectedBox == 7) g2.drawImage(images[13], 408, 384, null); // zombie 8 highlighted
-        if (selectedBox == 8) g2.drawImage(images[13], 408, 384, null); // zombie 9 highlighted
-        if (selectedBox == 9) g2.drawImage(images[13], 408, 384, null); // zombie 10 highlighted
+        if (selectedBox == 0) g2.drawImage(images[8], 123, 296, null); // plant 1 highlighted
+        if (selectedBox == 1) g2.drawImage(images[9], 408, 297, null); // plant 2 highlighted
+        if (selectedBox == 2) g2.drawImage(images[10], 408, 297, null); // plant 3 highlighted
+        if (selectedBox == 3) g2.drawImage(images[11], 408, 297, null); // plant 4 highlighted
+        if (selectedBox == 4) g2.drawImage(images[12], 123, 385, null); // plant 5 highlighted
+        if (selectedBox == 5) g2.drawImage(images[13], 408, 384, null); // plant 6 highlighted
+        if (selectedBox == 6) g2.drawImage(images[13], 408, 384, null); // plant 7 highlighted
+        if (selectedBox == 7) g2.drawImage(images[13], 408, 384, null); // plant 8 highlighted
+        if (selectedBox == 8) g2.drawImage(images[13], 408, 384, null); // plant 9 highlighted
+        if (selectedBox == 9) g2.drawImage(images[13], 408, 384, null); // plant 10 highlighted
         if (selectedBox == 10) g2.drawImage(images[13], 408, 384, null); // help highlighted
         if (selectedBox == 11) g2.drawImage(images[13], 408, 384, null); // main menu highlighted
         if (selectedBox == 12) g2.drawImage(images[13], 408, 384, null); // exit highlighted

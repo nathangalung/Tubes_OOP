@@ -3,62 +3,65 @@ package src.entities.handlers;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import entities.plants.Plant;
-import entities.zombies.Zombie;
-import src.entities.interactables.Interactables;
-import src.entities.sim.Sim;
-import src.main.Consts;
+import src.entities.Entity;
+import src.entities.plants.Plant;
+import src.entities.zombies.Zombie;
+import src.mains.Consts;
+import src.maps.Map;
 
 public class CollisionHandler {
     private Entity entity;
+    private Map currentTile;
     
-    public CollisionHandler(Entity entity) {
+    public CollisionHandler(Entity entity, Map tile) {
         this.entity = entity;
+        this.currentTile = tile;
     }
     
     public boolean isCollision(int x, int y) {
-        Rectangle newEntity;
+        Rectangle newEntityRectangle;
+
         int tileWidth = 16; // Assuming the width of a tile is 16 pixels
 
-        if (entity instanceof Plant) {
+        if (entity instanceof Zombie) {
         // Extend the width of the plant's collision box by one tile to the right
-            newEntity = new Rectangle(x + 8, y + 15, entity.getWidth() - 16 + tileWidth, entity.getHeight() - 16);
+            newEntityRectangle = new Rectangle(x + 8, y + 15, entity.getWidth() - 16 + tileWidth, entity.getHeight() - 16);
         }
         else {
-            newEntity = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
+            newEntityRectangle = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
         }
 
-        ArrayList<Interactables> listOfObjects = currentRoom.getListOfObjects();
-        for (Interactables object : listOfObjects) {
-            if (newEntity.intersects(object.getBounds())) {
+        ArrayList<Plant> plantsList = currentTile.getPlantsList();
+        for (Plant plant : plantsList) {
+            if (newEntityRectangle.intersects(plant.getBounds())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isCollidingWithPlant(int x, int y, ArrayList<Zombie> listOfZombies) {
-        Rectangle newEntity;
-        Rectangle zombie;
+    public boolean isCollidingWithPlant(int x, int y, ArrayList<Zombie> zombiesList) {
+        Rectangle newEntityRectangle;
+        Rectangle zombieRectangle;
 
-        newEntity = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
-        for (Sim sim : listOfSims) {
-            Sim = new Rectangle(sim.getX() + 8, sim.getY() + 15, sim.getWidth() - 16, sim.getHeight() - 16);  
-            if (newEntity.intersects(Sim)) {
+        newEntityRectangle = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
+        for (Zombie zombie : zombiesList) {
+            zombieRectangle = new Rectangle(zombie.getX() + 8, zombie.getY() + 15, zombie.getWidth() - 16, zombie.getHeight() - 16);  
+            if (newEntityRectangle.intersects(zombieRectangle)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isCollidingWithZombie(int x, int y, ArrayList<Sim> listOfSims) {
-        Rectangle newEntity;
-        Rectangle Sim;
+    public boolean isCollidingWithZombie(int x, int y, ArrayList<Zombie> zombiesList) {
+        Rectangle newEntityRectangle;
+        Rectangle zombiRectangle;
 
-        newEntity = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
-        for (Sim sim : listOfSims) {
-            Sim = new Rectangle(sim.getX() + 8, sim.getY() + 15, sim.getWidth() - 16, sim.getHeight() - 16);  
-            if (newEntity.intersects(Sim)) {
+        newEntityRectangle = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
+        for (Zombie zombie : zombiesList) {
+            zombiRectangle = new Rectangle(zombie.getX() + 8, zombie.getY() + 15, zombie.getWidth() - 16, zombie.getHeight() - 16);  
+            if (newEntityRectangle.intersects(zombiRectangle)) {
                 return true;
             }
         }

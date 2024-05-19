@@ -2,16 +2,24 @@ package src.entities.plants;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+
+import src.entities.handlers.InteractionHandler;
+import src.entities.sim.Sim;
+import src.entities.handlers.CollisionHandler;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import src.assets.ImageLoader;
 import src.entities.Entity;
-import src.entities.Item;
+import src.items.Item;
 import src.entities.zombies.Zombie;
 
 
 // Parent class plant
 public abstract class Plant extends Entity implements Item {
+    // Attributes
     private String name;
     private int cost;
     private int health;
@@ -19,9 +27,21 @@ public abstract class Plant extends Entity implements Item {
     private int attackSpeed;
     private int range;
     private int cooldown;
+
+    // Supporting Attributes
+    private boolean isCooldown;
+    private boolean isAttack;
+    private boolean isAlive;
     protected boolean occupied;
     private Rectangle bounds;
-    private int direction = 1;
+    private int imageIndex;
+
+    // Attributes to indentify tiles map easier
+    private Map currentTiles;
+
+    // Collision and interactions
+    private CollisionHandler collisionHandler;
+    private InteractionHandler interactionHandler;
 
     public Plant(int x, int y, int width, int height, int index, String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
         super(x, y, width, height, 1);
@@ -34,6 +54,11 @@ public abstract class Plant extends Entity implements Item {
         this.cooldown = cooldown;
         this.occupied = false;
         this.bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        this.imageIndex = imageIndex;
+
+        images = ImageLoader.loadPlants();
+        interactionHandler = new InteractionHandler(this, currentTiles);
+        collisionHandler = new CollisionHandler(this, currentTiles);
     }
 
     // GETTERS
@@ -65,6 +90,18 @@ public abstract class Plant extends Entity implements Item {
         return this.cooldown;
     }
 
+    public boolean isCooldown() {
+        return this.isCooldown;
+    }
+
+    public boolean isAttack() {
+        return this.isAttack;
+    }
+
+    public boolean isAlive() {
+        return this.isAlive;
+    }
+
     public boolean isOccupied() {
         return this.occupied;
     }
@@ -73,13 +110,22 @@ public abstract class Plant extends Entity implements Item {
         return this.bounds;
     }
 
-    public int getDirection() {
-        return this.direction;
+    public Map getCurrentTiles() {
+        return this.currentTiles;
+    }
+
+    public InteractionHandler getInteractionHandler() {
+        return this.interactionHandler;
+    }
+
+    public CollisionHandler getCollisionHandler() {
+        return this.collisionHandler;
     }
 
     // SETTERS
     public void setHealth(int health) {
         this.health = health;
+        if (this.health < 100) this.health = 0;
     }
 
     public void setOccupied(boolean occupied) {
@@ -90,18 +136,63 @@ public abstract class Plant extends Entity implements Item {
         this.bounds.setLocation(getX(), getY());
     }
 
-    public <T extends Plant> void draw(Graphics2D g, T plant) {
-        g.drawImage(plant.getImage(), plant.getX(), plant.getY(), null);
+    public void setIsAlive() {
+        this.isAlive = !this.isAlive;
+    }
+
+    public void setCooldownDuration(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public void setCurrentTiles(Map currentTiles) {
+        if (currentTiles != null) {
+            this.currentTiles.removePlant(this);
+        }
+
+        this.currentTiles = currentTiles;
+        this.currentTiles.addPlant(this);
+        collisionHandler = new CollisionHandler(this, currentTiles);
+        interactionHandler.new InteractionHandler(this, currentTiles);
+    }
+
+    public void setImageIndex(int imageIndex) {
+        this.imageIndex = imageIndex;
+    }
+
+    public void updateBounds() {
+        this.bounds.setLocation(getX(), getY());
+    }
+
+    public void update() {
+        if (isAlive()) {
+            if (health <= 0) {
+                setIsAlive();
+            }
+        }
+        if (isAttack()) {
+            attack(collisionHandler, interactionHandler, zombie);
+        }
     }
 
     public abstract BufferedImage getIcon();
     public abstract BufferedImage getImage();
     public abstract void interact(Zombie zombie);
 
+    public <T extends Plant> void draw(Graphics2D g, T plant) {
+        if (isAttack()) g.drawImage(plant.getImage(), plant.getX(), plant.getY(), null);
+        else g.drawImage(plant.getIcon(), plant.getX(), plant.getY(), null);
+    }
+
 
     // Only For Debugging
     public void drawCollisionBox(Graphics2D g) {
         g.setColor(new Color(255, 0, 0, 64)); // Transparent red color
         g.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+    }
+
+
+    public void drawInteractionRange(Graphics2D g) {
+        g.setColor(new Color(255, 255, 0, 64)); // Transparent yellow color
+        g.fillRect(interactionHandler.getX(), interactionHandler.getY(), interactionHandler.getWidth(), interactionHandler.getHeight());
     }
 }

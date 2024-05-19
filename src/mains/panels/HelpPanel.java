@@ -25,7 +25,7 @@ public class HelpPanel extends JPanel {
     private static int page = 0;
 
     private HelpPanel() {
-        setPreferredSize(new Dimension(1600, 900));
+        setPreferredSize(new Dimension(1280, 720));
         setFocusTraversalKeysEnabled(false);
 
         KeyAdapter keyAdapter = new KeyAdapter() {
@@ -35,7 +35,7 @@ public class HelpPanel extends JPanel {
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
                     page++;
-                    if (page > 3) {
+                    if (page > 4) {
                         page = 0;
                     }
                 }
@@ -43,22 +43,22 @@ public class HelpPanel extends JPanel {
                 if (keyCode == KeyEvent.VK_LEFT) {
                     page--;
                     if (page < 0) {
-                        page = 3;
+                        page = 4;
                     }
                 }
 
                 if (keyCode == KeyEvent.VK_ESCAPE) {
                     if (GamePanel.isCurrentState("Main Menu: Help")) {
-                        PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
                         GamePanel.gameState = "Main Menu";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
                     }
                     if (GamePanel.isCurrentState("Inventory: Help")) {
-                        PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
                         GamePanel.gameState = "Inventory";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
                     }
                     if (GamePanel.isCurrentState("Game: Help")) {
+                        GamePanel.gameState = "Game";
                         PanelHandler.switchPanel(HelpPanel.getInstance(), GamePanel.getInstance());
-                        GamePanel.gameState = "In Game";
                     }
                 }
                 repaint();

@@ -1,31 +1,32 @@
-package handlers;
+package src.entities.handlers;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import src.entities.*;
+import src.entities.Entity;
 import src.entities.interactables.Interactables;
-import src.world.Room;
+import src.entities.plants.Plant;
+import src.maps.Map;
 
 public class InteractionHandler {
     // Attributes
     private Entity entity;
-    private Rectangle interactionRange;
-    private Room currentRoom;
+    private Rectangle rectangle;
+    private Map currentTile;
     private int x;
     private int y;
     private int width;
     private int height;
 
     // CONSTRUCTOR
-    public InteractionHandler(Entity entity, Room currentRoom) {
+    public InteractionHandler(Entity entity, Map currentTile) {
         this.entity = entity;
-        this.currentRoom = currentRoom;
+        this.currentTile = currentTile;
         this.x = entity.getX();
         this.y = entity.getY() + entity.getHeight();
         this.width = entity.getWidth();
         this.height = entity.getHeight() / 3;
-        interactionRange = new Rectangle(x, y, width, height);
+        rectangle = new Rectangle(x, y, width, height);
     }
 
     // GETTER
@@ -33,8 +34,8 @@ public class InteractionHandler {
         return entity;
     }
 
-    public Rectangle getInteractionRange() {
-        return interactionRange;
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 
     public int getX() {
@@ -54,22 +55,33 @@ public class InteractionHandler {
     }
 
     public boolean isObjectInRange() {
-        ArrayList<Interactables> listOfObjects = currentRoom.getListOfObjects(); 
+        ArrayList<Plant> plantsList = currentTile.getPlantsList(); 
 
-        for (Interactables object : listOfObjects) {
-            if (getInteractionRange().intersects(object.getBounds())) {
+        for (Plant object : plantsList) {
+            if (getRectangle().intersects(object.getBounds())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPlantInRange() {
+        ArrayList<Plant> plantsList = currentTile.getPlantsList(); 
+
+        for (Plant plant : plantsList) {
+            if (getRectangle().intersects(plant.getBounds())) {
                 return true;
             }
         }
         return false;
     }
     
-    public Interactables getInteractableObject() {
-        ArrayList<Interactables> listOfObjects = currentRoom.getListOfObjects(); 
+    public Plant getPlant() {
+        ArrayList<Plant> plantsList = currentTile.getPlantsList(); 
         
-        for (Interactables object : listOfObjects) {
-            if (getInteractionRange().intersects(object.getBounds())) {
-                return object;
+        for (Plant plant : plantsList) {
+            if (getRectangle().intersects(plant.getBounds())) {
+                return plant;
             }
         }
         return null;
@@ -101,8 +113,8 @@ public class InteractionHandler {
         width = entity.getWidth() / 3;
         height = entity.getHeight();
 
-        interactionRange.setSize(width, height);
-        interactionRange.setLocation(x, y);
+        rectangle.setSize(width, height);
+        rectangle.setLocation(x, y);
     }
 
     public void moveRight(int newX, int newY) {
@@ -111,8 +123,8 @@ public class InteractionHandler {
         width = entity.getWidth() / 3;
         height = entity.getHeight();
 
-        interactionRange.setSize(width, height);
-        interactionRange.setLocation(x, y);
+        rectangle.setSize(width, height);
+        rectangle.setLocation(x, y);
     }
 
     public void moveUp(int newX, int newY) {
@@ -121,8 +133,8 @@ public class InteractionHandler {
         width = entity.getWidth();
         height = entity.getHeight() / 3;
 
-        interactionRange.setSize(width, height);
-        interactionRange.setLocation(x, y);
+        rectangle.setSize(width, height);
+        rectangle.setLocation(x, y);
     }
 
     public void moveDown(int newX, int newY) {
@@ -131,7 +143,7 @@ public class InteractionHandler {
         width = entity.getWidth();
         height = entity.getHeight() / 3;
 
-        interactionRange.setSize(width, height);
-        interactionRange.setLocation(x, y);
+        rectangle.setSize(width, height);
+        rectangle.setLocation(x, y);
     }
 }
