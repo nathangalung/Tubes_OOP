@@ -19,7 +19,6 @@ public class GameTime implements Runnable {
     // public static int ZOMBIE_SPAWN_END = Consts.SECOND * 160;
 
     public static int day;
-    public static int dayRemaining = Consts.SECOND * Consts.DAY;
     public static int timeRemaining = Consts.SECOND * Consts.GAME;
     public static int morningRemaining = Consts.SECOND * Consts.MORNING;
     public static int nightRemaining = Consts.SECOND * Consts.NIGHT;
@@ -28,9 +27,8 @@ public class GameTime implements Runnable {
 
     private GameTime() {}
 
-    public static void init(int day, int dayRemaining, int timeRemaining, int morningRemaining, int nightRemaining) {
+    public static void init(int day, int timeRemaining, int morningRemaining, int nightRemaining) {
         GameTime.day = day;
-        GameTime.dayRemaining = dayRemaining;
         GameTime.timeRemaining = timeRemaining;
         GameTime.morningRemaining = morningRemaining;
         GameTime.nightRemaining = nightRemaining;
@@ -76,31 +74,31 @@ public class GameTime implements Runnable {
     @Override
     public void run() {
         while (gtThread.isAlive()) {
-            if (UserInterface.isPaused()) continue;
+            if (UserInterface.isviewingGamePause()) continue;
             if (cooldownPlantsList.isEmpty()) continue;
 
             try {
                 Thread.sleep(Consts.THREAD_ONE_SECOND);
 
                 for (CooldownTimer cooldownTimer : cooldownPlantsList) {
-                    int dayRemaining = cooldownTimer.getDayRemaining();
+                    int cooldownRemaining = cooldownTimer.getTimeRemaining();
 
-                    if (dayRemaining <= 0) cooldownPlantsList.remove(cooldownTimer);
+                    if (cooldownRemaining <= 0) cooldownPlantsList.remove(cooldownTimer);
 
-                    cooldownTimer.setDayRemaining(dayRemaining - 1);
+                    cooldownTimer.setTimeRemaining(cooldownRemaining - 1);
                 }
-                decrementDayRemaining();
+                decrementTimeRemaining();
 
                 Map map = UserInterface.getMap();
-                ArrayList<Plant> plantsList = map.getPlantsList();
+                // ArrayList<Plant> plantsList = map.getPlantsList();
 
-                for (Plant plant : plantsList) {
-                    int timeNotSlept = plant.getTimeNotSlept();
-                    int timeNotTakenLeak = plant.getTimeNotTakenLeak();
+                // for (Plant plant : plantsList) {
+                //     int timeNotSlept = plant.getTimeNotSlept();
+                //     int timeNotTakenLeak = plant.getTimeNotTakenLeak();
 
-                    plant.setTimeNotSlept(timeNotSlept + 1);
-                    plant.setTimeNotTakenLeak(timeNotTakenLeak + 1);
-                }
+                //     plant.setTimeNotSlept(timeNotSlept + 1);
+                //     plant.setTimeNotTakenLeak(timeNotTakenLeak + 1);
+                // }
             }
             catch (InterruptedException ie) {}
             catch (ConcurrentModificationException cme) {}
@@ -116,9 +114,8 @@ public class GameTime implements Runnable {
                 Plant cooldownPlant = cooldownTimer.getPlant();
 
                 boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
-                boolean activityIsActive = activity.equals(cooldownTimer.getActivity());
 
-                if (isPlantCooldown && activityIsActive) {
+                if (isPlantCooldown) {
                     isAlive = true;
                 }
             }
@@ -130,16 +127,28 @@ public class GameTime implements Runnable {
     }
 
     // SETTERS
-    public static void addcooldownTimer(Plant plant, String activity, int dayRemaining, int duration) {
-        CooldownTimer cooldownTimer = new CooldownTimer(plant, dayRemaining, timeRemaining, duration);
+    public static void addcooldownTimer(Plant plant, String activity, int duration) {
+        CooldownTimer cooldownTimer = new CooldownTimer(plant, timeRemaining, duration);
         cooldownPlantsList.add(cooldownTimer);
     }
 
-    public static void decrementDayRemaining() {
-        dayRemaining--;
-        if (dayRemaining == 0) {
-            dayRemaining = timeRemaining;
+    public static void decrementTimeRemaining() {
+        timeRemaining--;
+        if (timeRemaining == 125) {
+            UserInterface.isViewingFlag();
+        }
+        if (timeRemaining == 50) {
             incrementDay();
+        }
+        if (timeRemaining == 0) {
+            gtThread.isInterrupted();
+            if () {
+                UserInterface.isviewingGameWin();
+            }
+            else {
+                UserInterface.isviewingGameLose();
+            
+            }
         }
     }
 
@@ -147,29 +156,27 @@ public class GameTime implements Runnable {
         day++;
     }
 
-    public static void decreaseDayRemaining(int time) {
-        dayRemaining -= time;
+    public static void decreaseTimeRemaining(int time) {
+        timeRemaining -= time;
 
         for (CooldownTimer cooldownTimer : cooldownPlantsList) {
-            int dayRemaining = cooldownTimer.getDayRemaining();
+            int timeRemaining = cooldownTimer.getTimeRemaining();
 
-            cooldownTimer.setDayRemaining(dayRemaining - time);
+            cooldownTimer.setTimeRemaining(timeRemaining - time);
         }
 
-        Map map = UserInterface.getPlant();
-        ArrayList<Plant> plantsList = map.getPlantsList();
+        // Map map = UserInterface.getMap();
+        // ArrayList<Plant> plantsList = map.getPlantsList();
 
-        for (Plant plant : plantsList) {
-            int timeNotSlept = plant.getTimeNotSlept();
-            int timeNotTakenLeak = plant.getTimeNotTakenLeak();
+        // for (Plant plant : plantsList) {
+        //     int timeNotSlept = plant.getTimeNotSlept();
+        //     int timeNotTakenLeak = plant.getTimeNotTakenLeak();
 
-            Plant.setTimeNotSlept(timeNotSlept + time);
-            Plant.setTimeNotTakenLeak(timeNotTakenLeak + time);
-        }
+        //     Plant.setTimeNotSlept(timeNotSlept + time);
+        //     Plant.setTimeNotTakenLeak(timeNotTakenLeak + time);
+        // }
 
-        if (dayRemaining <= 0) {
-            int timeLeft = 0 - dayRemaining;
-            dayRemaining = timeRemaining - timeLeft;
+        if (timeRemaining <= 50) {
             incrementDay();
         }
     }

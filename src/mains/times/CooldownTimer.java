@@ -4,23 +4,17 @@ import src.entities.plants.Plant;
 
 public class CooldownTimer {
     private Plant plant;
-    private int dayRemaining;
     private int timeRemaining;
     private int duration;
 
-    public CooldownTimer(Plant plant, int dayRemaining, int timeRemaining, int duration) {
+    public CooldownTimer(Plant plant, int timeRemaining, int duration) {
         this.plant = plant;
-        this.dayRemaining = dayRemaining;
         this.timeRemaining = timeRemaining;
         this.duration = duration;
     }
 
     public Plant getPlant() {
         return plant;
-    }
-
-    public int getDayRemaining() {
-        return dayRemaining;
     }
 
     public int getTimeRemaining() {
@@ -33,10 +27,6 @@ public class CooldownTimer {
 
     public void setPlant(Plant plant) {
         this.plant = plant;
-    }
-
-    public void setDayRemaining(int dayRemaining) {
-        this.dayRemaining = dayRemaining;
     }
 
     public void setTimeRemaining(int timeRemaining) {
