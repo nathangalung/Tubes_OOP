@@ -21,6 +21,7 @@ import src.entities.handlers.CollisionHandler;
 import src.entities.interactables.Door;
 import src.entities.interactables.Toilet;
 import src.entities.plants.Plant;
+import src.entities.sim.Sim;
 
 public class Map {
     // Attributes
@@ -29,7 +30,8 @@ public class Map {
     private ArrayList<Zombie> zombiesList;
     
     // State of the world (is adding a house or selecting a house to visit)
-    private boolean isEditingTile;
+    private boolean isEditingMap;
+    private boolean isAddingPlant;
     private CollisionHandler collisionHandler;
     private Plant removablePlant = null;
     private Plant selectedPlant = null;
@@ -56,7 +58,7 @@ public class Map {
         // Attributes
         this.plantsList = new ArrayList<>();
         this.zombiesList = new ArrayList<>();
-        this.isEditingTile = false;
+        this.isEditingMap = false;
 
         // Load the images of the world
         this.images = ImageLoader.loadMap();
@@ -76,12 +78,24 @@ public class Map {
         return plantsList;
     }
 
-    public boolean isEditingTile() {
-        return isEditingTile;
+    public boolean isEditingMap() {
+        return isEditingMap;
+    }
+
+    public boolean isAddingPlant() {
+        return isAddingPlant;
     }
 
     public ArrayList<Zombie> getZombiesList() {
         return zombiesList;
+    }
+
+    public void setIsEditingMap() {
+        this.isEditingMap = !this.isEditingMap;
+    }
+
+    public void setIsAddingPlant() {
+        this.isAddingPlant = !this.isAddingPlant;
     }
 
     // Load the initial state of the map
@@ -104,7 +118,7 @@ public class Map {
 // }
 
     public void addPlant(Plant plant) {
-        changeIsEditingTile();
+        setIsEditingMap();
         removablePlant = plant;
         collisionHandler = new CollisionHandler(removablePlant, this);
     }
@@ -115,41 +129,51 @@ public class Map {
         collisionHandler = new CollisionHandler(removablePlant, this);
     }
 
-    public void addZombie(Zombie zombie) {
-        zombiesList.add(zombie);
-    }
-
     public void removePlant(Plant plant) {
         plantsList.remove(plant);
     }
 
-    public void changeIsEditingTile() {
-        this.isEditingTile = !this.isEditingTile;
+    public void addZombie(Zombie zombie) {
+        zombiesList.add(zombie);
+    }
+
+    public void removeZombie(Zombie zombie) {
+        zombiesList.remove(zombie);
     }
 
     public void selectPlant() {
-        changeIsEditingTile();
+        setIsEditingMap();
         try {
             for (Plant plant : plantsList) {
                 selectedPlant = plant;
 
                 return;
             }
-            changeIsEditingTile();
+            setIsEditingMap();
         }
         catch (ConcurrentModificationException e) {}
     }
 
     // Others
     public void update() {
+        if (UserInterface.isviewingGamePause()) return;
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
+            if (GamePanel.isCurrentState("Game: Play")) {
+                GamePanel.gameState = "Game: Pause";
+            }
+            else if (GamePanel.isCurrentState("Game: Pause")) {
+                GamePanel.gameState = "Game: Play";
+            }
+            UserInterface.isViewingMap();
+        }
         updateSelectedPlant();
 
-        updateUnaddedPlant();
+        // updateUnaddedPlant();
     }
 
     public void draw(Graphics2D g) {
         // Draw the world in quarters with the size of each quarter of 32 x 32
-        drawTiles(g);
+        drawMap(g);
 
         drawPlants(g);
 
@@ -219,7 +243,7 @@ public class Map {
     }
 
     private void updateSelectedPlant() {
-        if (isEditingTile && removablePlant == null) {
+        if (isEditingMap && removablePlant == null) {
             // Find the nearest plant based on the WASD keys
             if (KeyHandler.isKeyPressed(KeyHandler.KEY_W)) {
                 selectedPlant = findNearestplant("up");
@@ -241,58 +265,67 @@ public class Map {
     }
 
     // TO - DO !!! : Integrate with inventory
-    private void updateUnaddedplant() {
-        if (isEditingTile && removablePlant != null) {
-            boolean inCollision = false;
-            boolean isCollidingWithZombie = false;
-            boolean isWallOccupied = false;
+    // private void updateUnaddedPlant() {
+    //     if (isEditingMap && removablePlant != null) {
+    //         boolean inCollision = false;
+    //         boolean isCollidingWithZombie = false;
 
-            inCollision = collisionHandler.isCollision(removablePlant.getX(), removablePlant.getY());
-            isCollidingWithZombie = collisionHandler.isCollidingWithZombie(removablePlant.getX(), removablePlant.getY(), listOfZombies);
+    //         inCollision = collisionHandler.isCollision(removablePlant.getX(), removablePlant.getY());
+    //         isCollidingWithZombie = collisionHandler.isCollidingWithZombie(removablePlant.getX(), removablePlant.getY(), listOfZombies);
             
-            removablePlant.move(collisionHandler);
-            removablePlant.updateBounds();
+    //         removablePlant.move(collisionHandler);
+    //         removablePlant.updateBounds();
 
-            // To check if a wall is already connected to a room
+    //         // To check if a wall is already connected to a room
 
-            // To rotate the door
-            if (KeyHandler.isKeyPressed(KeyHandler.KEY_R)) {
-                if (removablePlant instanceof Door) {
-                    Door door = (Door) removablePlant;
-                }
+    //         // To rotate the door
+    //         if (KeyHandler.isKeyPressed(KeyHandler.KEY_R)) {
+    //             if (removablePlant instanceof Door) {
+    //                 Door door = (Door) removablePlant;
+    //             }
                 
-                if (removablePlant instanceof Toilet) {
-                    Toilet toilet = (Toilet) removablePlant;
-                }
-            }
+    //             if (removablePlant instanceof Toilet) {
+    //                 Toilet toilet = (Toilet) removablePlant;
+    //             }
+    //         }
                 
-            // Add the plant if enter is pressed and plant is not in collision with another plant
-            if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER) && (!inCollision && !isWallOccupied && !isCollidingWithZombie)) {
-                plantsList.add(removablePlant);
-                removablePlant = null;
-                changeIsEditingTile();
-            }
+    //         // Add the plant if enter is pressed and plant is not in collision with another plant
+    //         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER) && (!inCollision && !isWallOccupied && !isCollidingWithZombie)) {
+    //             plantsList.add(removablePlant);
+    //             removablePlant = null;
+    //             setIsEditingMap();
+    //         }
 
-            // Cancel adding or moving an plant if escape is pressed and add plant into Zombie inventory
-            if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
-                if (!(removablePlant instanceof Door)) {
-                    Zombie currentZombie = UserInterface.getCurrentZombie();
-                }
-                removablePlant = null;
-                changeIsEditingTile();
-            }
-        }
-    }
+    //         // Cancel adding or moving an plant if escape is pressed and add plant into Zombie inventory
+    //         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
+    //             if (!(removablePlant instanceof Door)) {
+    //                 Zombie currentZombie = UserInterface.getCurrentZombie();
+    //             }
+    //             removablePlant = null;
+    //             setIsEditingMap();
+    //         }
+    //     }
+    // }
 
-    private void drawTiles(Graphics2D g) {
+    private void drawMap(Graphics2D g) {
         for (int y = 0; y < 6; y++) {
-            int tileX = centerX + (x * Consts.SCALED_TILE);
-            int tileY = centerY + (y * Consts.SCALED_TILE) - Consts.OFFSET_Y;
-            g.drawImage(images[0], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
-            for (int x = 0; x < 6; x++) {
-                g.drawImage(images[1], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+            for (int x = 0; x < 11; x++) {
+                int tileX = centerX + (x * Consts.SCALED_TILE);
+                int tileY = centerY + (y * Consts.SCALED_TILE) - Consts.OFFSET_Y;
+                if (x == 0) {
+                    g.drawImage(images[0], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+                }
+                else if (x == 10) {
+                    g.drawImage(images[3], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+                }
+                else if (y >= 2 && y <= 4) {
+                    g.drawImage(images[2], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+                }
+                else {
+                    g.drawImage(images[1], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
+                
+                }
             }
-            g.drawImage(images[3], tileX, tileY, Consts.SCALED_TILE, Consts.SCALED_TILE, null);
         }
     }
 
@@ -314,9 +347,9 @@ public class Map {
         catch (ConcurrentModificationException e) {}
     }
 
-    private void drawplantSelector(Graphics2D g) {
+    private void drawPlantSelector(Graphics2D g) {
         try {
-            if (isEditingTile && removablePlant == null) {
+            if (isEditingMap && removablePlant == null) {
                 int plantWidth = (int) selectedPlant.getBounds().getWidth();
                 int plantHeight = (int) selectedPlant.getBounds().getHeight();
                 
@@ -327,9 +360,9 @@ public class Map {
         catch (NullPointerException e) {}
     }
 
-    private void drawselectedPlant(Graphics2D g) {
+    private void drawSelectedPlant(Graphics2D g) {
         try {
-            if (isEditingTile && removablePlant != null) {
+            if (isEditingMap && removablePlant != null) {
                 removablePlant.draw(g, removablePlant);
             }
         }

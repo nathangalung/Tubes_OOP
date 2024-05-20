@@ -15,18 +15,18 @@ import src.mains.panels.PanelHandler;
 import src.mains.panels.MainMenuPanel;
 import src.mains.panels.HelpPanel;
 
-public class ListPlantsPanel extends JPanel {
-    public static ListPlantsPanel lpp = new ListPlantsPanel();
+public class ZombiesListPanel extends JPanel {
+    public static ZombiesListPanel lzp = new ZombiesListPanel();
 
     private int selectedBox = 0; // 0 to 5
 
     private BufferedImage[] images = ImageLoader.loadMainMenu();
 
-    public ListPlantsPanel() {
+    public ZombiesListPanel() {
         setPreferredSize(new Dimension(1280, 720));
         setFocusTraversalKeysEnabled(false);
 
-        GamePanel.gameState = "List Plants";
+        GamePanel.gameState = "List Zombies";
 
         KeyAdapter keyAdapter = new KeyAdapter() {
             @Override
@@ -36,18 +36,18 @@ public class ListPlantsPanel extends JPanel {
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
                     if (selectedBox == 10) {
-                        GamePanel.gameState = "List Plants: Main Menu";
-                        PanelHandler.switchPanel(ListPlantsPanel.getInstance(), MainMenuPanel.getInstance());
+                        GamePanel.gameState = "List Zombies: Main Menu";
+                        PanelHandler.switchPanel(ZombiesListPanel.getInstance(), MainMenuPanel.getInstance());
                     }
 
                     if (selectedBox == 11) {
-                        GamePanel.gameState = "List Plants: Help";
+                        GamePanel.gameState = "List Zombies: Help";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
-                        PanelHandler.switchPanel(ListPlantsPanel.getInstance(), HelpPanel.getInstance());
+                        PanelHandler.switchPanel(ZombiesListPanel.getInstance(), HelpPanel.getInstance());
                         
                     }
                     if (selectedBox == 12) {
-                        GamePanel.gameState = "List Plants: Exit Game";
+                        GamePanel.gameState = "List Zombies: Exit Game";
                         System.exit(0);
                     }
                 }
@@ -130,12 +130,12 @@ public class ListPlantsPanel extends JPanel {
         setFocusable(true);
     }
 
-    public static ListPlantsPanel getInstance() {
-        return lpp;
+    public static ZombiesListPanel getInstance() {
+        return lzp;
     }
 
     public static void init() {
-        lpp = new ListPlantsPanel();
+        lzp = new ZombiesListPanel();
     }
 
     @Override
@@ -150,8 +150,8 @@ public class ListPlantsPanel extends JPanel {
         // Draw boxes
         g2.drawImage(images[2], 132, 304, null); // start
         g2.drawImage(images[3], 417, 304, null); // load
-        g2.drawImage(images[4], 417, 304, null); // list Plants
-        g2.drawImage(images[5], 417, 304, null); // list Plants
+        g2.drawImage(images[4], 417, 304, null); // list Zombies
+        g2.drawImage(images[5], 417, 304, null); // list Zombies
         g2.drawImage(images[6], 132, 392, null); // help
         g2.drawImage(images[7], 417, 392, null); // exit
         

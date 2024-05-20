@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import javax.swing.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -76,22 +75,22 @@ public class AssetsLoader {
     }
 
     public static BufferedImage[] loadImageMainMenu() {
-        BufferedImage[] images = new BufferedImage[14];
+        BufferedImage[] images = new BufferedImage[5];
 
-        images[0] = readImage("panels/main_menu_panel", "background", 320, 180, true);
-        images[1] = readImage("panels/main_menu_panel", "game_title", 320, 180, true);
-        images[2] = readImage("panels/main_menu_panel", "start_button", 320, 180, true);
-        images[3] = readImage("panels/main_menu_panel", "load_button", 320, 180, true);
-        images[4] = readImage("panels/main_menu_panel", "about_button", 320, 180, true);
-        images[5] = readImage("panels/main_menu_panel", "exit_button", 320, 180, true);
-        images[6] = readImage("panels/main_menu_panel", "exit_button", 320, 180, true);
-        images[7] = readImage("panels/main_menu_panel", "exit_button", 320, 180, true);
-        images[8] = readImage("panels/main_menu_panel", "start_highlight", 320, 180, true);
-        images[9] = readImage("panels/main_menu_panel", "load_highlight_red", 320, 180, true);
-        images[10] = readImage("panels/main_menu_panel", "about_highlight", 320, 180, true);
-        images[11] = readImage("panels/main_menu_panel", "exit_highlight", 320, 180, true);
-        images[12] = readImage("panels/main_menu_panel", "exit_highlight", 320, 180, true);
-        images[13] = readImage("panels/main_menu_panel", "exit_highlight", 320, 180, true);
+        images[0] = readImage("panels/mainMenuPanel", "Background", 1, 1, false);
+        images[1] = readImage("panels/mainMenuPanel", "Title", 1, 1, false);
+        images[2] = readImage("panels/mainMenuPanel", "StartGame", 1, 1, false);
+        images[3] = readImage("panels/mainMenuPanel", "LoadGame", 1, 1, false);
+        images[4] = readImage("panels/mainMenuPanel", "PlantsList", 1, 1, false);
+        images[5] = readImage("panels/mainMenuPanel", "ZombiesList", 1, 1, false);
+        // images[6] = readImage("panels/main_menu_panel", "Help", 1, 1, false);
+        // images[7] = readImage("panels/main_menu_panel", "Exit", 1, 1, false);
+        // images[8] = readImage("panels/main_menu_panel", "StartGameHighlight", 1, 1, false);
+        // images[9] = readImage("panels/main_menu_panel", "LoadGameHighlight", 1, 1, false);
+        // images[10] = readImage("panels/main_menu_panel", "PlantsListHighlight", 1, 1, false);
+        // images[11] = readImage("panels/main_menu_panel", "ZombiesListHighlight", 1, 1, false);
+        // images[12] = readImage("panels/main_menu_panel", "HelpHighlight", 1, 1, false);
+        // images[13] = readImage("panels/main_menu_panel", "ExitHighlight", 1, 1, false);
 
         return images;
     }
@@ -116,8 +115,8 @@ public class AssetsLoader {
     public static BufferedImage[] loadListPlantsMenu() {
         BufferedImage[] images = new BufferedImage[15];
 
-        images[0] = readImage("panels/about_panel", "page_1", 320, 180, true);
-        images[1] = readImage("panels/about_panel", "page_2", 320, 180, true);
+        images[0] = readImage("panels/about_panel", "page_1", 1, 1, false);
+        images[1] = readImage("panels/about_panel", "page_2", 1, 1, false);
 
         return images;
     }
@@ -125,8 +124,8 @@ public class AssetsLoader {
     public static BufferedImage[] loadListZombiesMenu() {
         BufferedImage[] images = new BufferedImage[15];
 
-        images[0] = readImage("panels/about_panel", "page_1", 320, 180, true);
-        images[1] = readImage("panels/about_panel", "page_2", 320, 180, true);
+        images[0] = readImage("panels/about_panel", "page_1", 1, 1, false);
+        images[1] = readImage("panels/about_panel", "page_2", 1, 1, false);
 
         return images;
     }
@@ -134,8 +133,8 @@ public class AssetsLoader {
     public static BufferedImage[] loadHelpMenu() {
         BufferedImage[] images = new BufferedImage[2];
 
-        images[0] = readImage("panels/about_panel", "page_1", 320, 180, true);
-        images[1] = readImage("panels/about_panel", "page_2", 320, 180, true);
+        images[0] = readImage("panels/about_panel", "page_1", 1, 1, false);
+        images[1] = readImage("panels/about_panel", "page_2", 1, 1, false);
 
         return images;
     }
@@ -144,8 +143,8 @@ public class AssetsLoader {
         BufferedImage[] images = new BufferedImage[15];
 
         images[0] = readImage("panels/main_menu_panel", "background", 1280, 720, true);
-        images[1] = readImage("panels/main_menu_panel", "exit_button", 320, 180, true);
-        images[2] = readImage("panels/main_menu_panel", "start_highlight", 320, 180, true);
+        images[1] = readImage("panels/main_menu_panel", "exit_button", 1, 1, false);
+        images[2] = readImage("panels/main_menu_panel", "start_highlight", 1, 1, false);
 
         return images;
     }
@@ -153,17 +152,17 @@ public class AssetsLoader {
     public static BufferedImage[] loadInventoryCard() {
         BufferedImage[] images = new BufferedImage[10];
 
-        images[0] = readImage("entities/items/inventory", "Sunflower", 320, 180, true);
-        images[1] = readImage("entities/items/inventory", "Peashooter", 320, 180, true);
-        images[2] = readImage("entities/items/inventory", "WallNut", 320, 180, true);
-        images[3] = readImage("entities/items/inventory", "SnowPea", 320, 180, true);
-        images[4] = readImage("entities/items/inventory", "Squash", 320, 180, true);
-        images[5] = readImage("entities/items/inventory", "LilyPad", 320, 180, true);
-        images[6] = readImage("entities/items/inventory", "TangleKelp", 320, 180, true);
-        images[7] = readImage("entities/items/inventory", "Cactus", 320, 180, true);
-        images[8] = readImage("entities/items/inventory", "CherryBomb", 320, 180, true);
-        images[9] = readImage("entities/items/inventory", "Jalapeno", 320, 180, true);
-        images[10] = readImage("entities/items/inventory", "PotatoMine", 320, 180, true);
+        images[0] = readImage("entities/items/inventory", "Sunflower", 1, 1, false);
+        images[1] = readImage("entities/items/inventory", "Peashooter", 1, 1, false);
+        images[2] = readImage("entities/items/inventory", "WallNut", 1, 1, false);
+        images[3] = readImage("entities/items/inventory", "SnowPea", 1, 1, false);
+        images[4] = readImage("entities/items/inventory", "Squash", 1, 1, false);
+        images[5] = readImage("entities/items/inventory", "LilyPad", 1, 1, false);
+        images[6] = readImage("entities/items/inventory", "TangleKelp", 1, 1, false);
+        images[7] = readImage("entities/items/inventory", "Cactus", 1, 1, false);
+        images[8] = readImage("entities/items/inventory", "CherryBomb", 1, 1, false);
+        images[9] = readImage("entities/items/inventory", "Jalapeno", 1, 1, false);
+        images[10] = readImage("entities/items/inventory", "PotatoMine", 1, 1, false);
 
         return images;
     }
@@ -171,10 +170,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadMap() {
         BufferedImage[] images = new BufferedImage[4];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }
@@ -182,10 +181,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadDeck() {
         BufferedImage[] images = new BufferedImage[6];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }
@@ -193,10 +192,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadPlants() {
         BufferedImage[] images = new BufferedImage[6];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }
@@ -204,10 +203,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadZombies() {
         BufferedImage[] images = new BufferedImage[10];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }
@@ -215,10 +214,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadPauseMenu() {
         BufferedImage[] images = new BufferedImage[4];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }
@@ -226,10 +225,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadSunTab() {
         BufferedImage[] images = new BufferedImage[4];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }
@@ -237,10 +236,10 @@ public class AssetsLoader {
     public static BufferedImage[] loadWaveTab() {
         BufferedImage[] images = new BufferedImage[4];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box", 320, 180, true);
-        images[1] = readImage("menus/world_menu", "house_info_box", 320, 180, true);
-        images[2] = readImage("menus/world_menu", "help_box", 320, 180, true);
-        images[3] = readImage("menus/world_menu", "world_help", 320, 180, true);
+        images[0] = readImage("menus/world_menu", "sim_preview_box", 1, 1, false);
+        images[1] = readImage("menus/world_menu", "house_info_box", 1, 1, false);
+        images[2] = readImage("menus/world_menu", "help_box", 1, 1, false);
+        images[3] = readImage("menus/world_menu", "world_help", 1, 1, false);
 
         return images;
     }

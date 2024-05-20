@@ -4,10 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import src.entities.plants.Plant;
+import src.entities.zombies.Zombie;
 import src.mains.Consts;
 import src.mains.KeyHandler;
 import src.mains.UserInterface;
-import mains.times.GameTime;
+import src.mains.times.GameTime;
+import src.maps.Map;
 
 public class GamePanel extends JPanel implements Runnable {
     private static GamePanel gp = new GamePanel();
@@ -15,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static String gameState;
     public static GameTime time;
 
-    public static World world;
+    public static Map map;
 
     private GamePanel() {
         setPreferredSize(new Dimension(Consts.WIDTH, Consts.HEIGHT));
@@ -93,19 +96,21 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             if (isCurrentState("Main Menu")) return;
 
-            if (isCurrentState("Main Menu: About") || isCurrentState("Playing: About")) return;
+            if (isCurrentState("Main Menu: Help") || isCurrentState("Game: Help") || isCurrentState("Game: Pause")) return;
     
-            if (isCurrentState("Starting a new game: Creating a new sim") || isCurrentState("Creating a new sim")) return;
+            if (isCurrentState("Main Menu: Inventory") || isCurrentState("Inventory")) return;
 
-            if (UserInterface.isViewingWorld()) {
-                world.update();
+            if (UserInterface.isViewingMap()) {
+                map.update();
             }
             else {
-                Sim currentSim = UserInterface.getCurrentSim();
-                Room currentRoom = currentSim.getCurrentRoom();
+                Plant currentPlant = UserInterface.getCurrentPlant();
+                Zombie currentZombie = UserInterface.getCurrentZombie();
+                Map currentMap = currentZombie.getCurrentMap();
                 
-                currentSim.update();
-                currentRoom.update();
+                currentPlant.update();
+                currentZombie.update();
+                currentMap.update();
                 UserInterface.update();
             }
         }
@@ -119,21 +124,21 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         try {
-            if (isCurrentState("Main menu")) return;
+            if (isCurrentState("Main Menu")) return;
 
-            if (isCurrentState("Main menu: About") || isCurrentState("Playing: About")) return;
+            if (isCurrentState("Main Menu: Help") || isCurrentState("Playing: About")) return;
     
-            if (isCurrentState("Starting a new game: Creating a new sim") || isCurrentState("Creating a new sim")) return;
+            if (isCurrentState("Main Menu: Inventory") || isCurrentState("Inventory")) return;
     
-            if (UserInterface.isViewingWorld()) {
+            if (UserInterface.isViewingMap()) {
                 WorldMenu.draw(g2);
             }
             else {
-                Sim currentSim = UserInterface.getCurrentSim();
-                Room currentRoom = currentSim.getCurrentRoom();
+                Plant currentPlant = UserInterface.getCurrentPlant();
+                Zombie currentZombie = UserInterface.getCurrentZombie();
+                Map currentMap = currentMap.getCurrentMap();
 
-                drawPlayAreaBorder(g2);
-                currentRoom.draw(g2);
+                currentMap.draw(g2);
                 UserInterface.draw(g2);
             }
         }
@@ -141,10 +146,5 @@ public class GamePanel extends JPanel implements Runnable {
         
         // To free resources
         g2.dispose();
-    }
-
-    private static void drawPlayAreaBorder(Graphics2D g) {
-        g.setColor(new Color(61, 30, 45));
-        g.fillRect(203, 47, 394, 394);
     }
 }

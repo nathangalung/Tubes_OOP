@@ -50,17 +50,17 @@ public class MainMenuPanel extends JPanel {
                     if (selectedBox == 1) {
                         GamePanel.gameState = "Main Menu: Load Game";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
-                        PanelHandler.switchPanel(MainMenuPanel.getInstance(), LoadPanel.getInstance());
+                        // PanelHandler.switchPanel(MainMenuPanel.getInstance(), LoadPanel.getInstance());
                         
                     }
 
                     if (selectedBox == 2) {
-                        GamePanel.gameState = "Main Menu: List Plants";
+                        GamePanel.gameState = "Main Menu: Zombies List";
                         PanelHandler.switchPanel(MainMenuPanel.getInstance(), ListPlantsPanel.getInstance());
                     }
 
                     if (selectedBox == 3) {
-                        GamePanel.gameState = "Main Menu: List Zombies";
+                        GamePanel.gameState = "Main Menu: Zombies List";
                         PanelHandler.switchPanel(MainMenuPanel.getInstance(), ListZombiesPanel.getInstance());
                     }
 
@@ -77,45 +77,48 @@ public class MainMenuPanel extends JPanel {
                 
                 int newSelectedBox = selectedBox;
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
-            if (selectedBox == 0 || selectedBox == 1) {
-                newSelectedBox += 4;
-            }
-            else {
-                newSelectedBox -= 2;
-            }
-        }
+                if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
+                    if (selectedBox == 0) {
+                        newSelectedBox = 3;
+                    }
+                    else if (selectedBox == 4) {
+                        newSelectedBox = 5;
+                    } 
+                    else {
+                        newSelectedBox--;
+                    }
+                }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT)) {
-            if (selectedBox == 1 || selectedBox == 3 || selectedBox == 5) {
-                newSelectedBox--;
-            }
-            else {
-                newSelectedBox++;
-            }
-        }
+                if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT) || KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
+                    if (selectedBox >= 0 && selectedBox < 2) {
+                        newSelectedBox = 5;
+                    }
+                    else if (selectedBox >= 2 && selectedBox < 4) {
+                        newSelectedBox = 4;
+                    }
+                    else if (selectedBox == 4) {
+                        newSelectedBox = 3;
+                    }
+                    else {
+                        newSelectedBox = 0;
+                    }
+                }
 
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
-            if (selectedBox == 4 || selectedBox == 5) {
-                newSelectedBox -= 4;
-            }
-            else {
-                newSelectedBox += 2;
-            }
-        }
-
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
-            if (selectedBox == 0 || selectedBox == 2 || selectedBox == 4) {
-                newSelectedBox++;
-            }
-            else {
-                newSelectedBox--;
-            }
-        }
-        
-        if (newSelectedBox >= 0 && newSelectedBox <= 5) {
-            selectedBox = newSelectedBox;
-        }
+                if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
+                    if (selectedBox == 3) {
+                        newSelectedBox = 0;
+                    }
+                    else if (selectedBox == 5) {
+                        newSelectedBox = 4;
+                    }
+                    else {
+                        newSelectedBox++;
+                    }
+                }
+                
+                if (newSelectedBox >= 0 && newSelectedBox <= 5) {
+                    selectedBox = newSelectedBox;
+                }
                 repaint();
             }
         };
@@ -137,16 +140,17 @@ public class MainMenuPanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        // images[0].paintIcon(this, g2, 0, 0); // background
-        // images[1].paintIcon(this, g2, 201, 102); // title
-        // g2.drawImage(gifFrames.get(currentFrame), 417, 392, this);
-        // Draw boxes
-        g2.drawImage(images[2], 132, 304, null); // start
-        g2.drawImage(images[3], 417, 304, null); // load
-        g2.drawImage(images[4], 417, 304, null); // list plants
-        g2.drawImage(images[5], 417, 304, null); // list zombies
-        g2.drawImage(images[6], 132, 392, null); // help
-        g2.drawImage(images[7], 417, 392, null); // exit
+        // Background & Title
+        g2.drawImage(images[0], 0, 0, null); // background
+        g2.drawImage(images[1], 72, 21, null); // title
+        
+        // Draw Buttons
+        g2.drawImage(images[2], 502, 241, null); // start
+        g2.drawImage(images[3], 502, 341, null); // load
+        g2.drawImage(images[4], 502, 441, null); // plants list
+        g2.drawImage(images[5], 502, 541, null); // zombies list
+        g2.drawImage(images[6], 1122, 575, null); // help
+        g2.drawImage(images[7], 1122, 38, null); // exit
         
         // Draw highlighted boxes
         if (selectedBox == 0) g2.drawImage(images[8], 123, 296, null); // start highlighted

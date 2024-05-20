@@ -3,7 +3,6 @@ package src.entities.plants;
 import java.awt.image.BufferedImage;
 
 import src.assets.ImageLoader;
-import src.entities.zombie.zombie;
 import src.entities.zombies.Zombie;
 import src.main.Consts;
 import src.main.time.GameTime;

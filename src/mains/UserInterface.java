@@ -65,11 +65,11 @@ public class UserInterface {
         return map;
     }
 
-    public static Plant getPlant() {
+    public static Plant getCurrentPlant() {
         return currentPlant;
     }
 
-    public static Zombie getZombie() {
+    public static Zombie getCurrentZombie() {
         return currentZombie;
     }
 

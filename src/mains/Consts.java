@@ -12,7 +12,7 @@ public abstract class Consts {
     public static final int MORNING = 100;
     public static final int NIGHT = 100;
     public static final int DAY = 200;
-    public static final int GAME = 300;
+    public static final int GAME = 250;
 
     // FOR THREADS
     public static final int THREAD_ONE_SECOND = 1000;

@@ -2,6 +2,8 @@ package src.entities.plants;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import src.entities.handlers.InteractionHandler;
@@ -31,10 +33,9 @@ public abstract class Plant extends Entity implements Item {
     // Supporting Attributes
     private boolean isCooldown;
     private boolean isAttack;
-    private boolean isAlive;
     protected boolean occupied;
     private Rectangle bounds;
-    private int imageIndex;
+    private List<Plant> plantsList = new ArrayList<Plant>();
 
     // Attributes to indentify tiles map easier
     private Map currentTiles;
@@ -94,12 +95,8 @@ public abstract class Plant extends Entity implements Item {
         return this.isCooldown;
     }
 
-    public boolean isAttack() {
+    public boolean isAttacking() {
         return this.isAttack;
-    }
-
-    public boolean isAlive() {
-        return this.isAlive;
     }
 
     public boolean isOccupied() {
@@ -125,7 +122,6 @@ public abstract class Plant extends Entity implements Item {
     // SETTERS
     public void setHealth(int health) {
         this.health = health;
-        if (this.health < 100) this.health = 0;
     }
 
     public void setOccupied(boolean occupied) {
@@ -134,10 +130,6 @@ public abstract class Plant extends Entity implements Item {
 
     public void setBounds(Rectangle bounds) {
         this.bounds.setLocation(getX(), getY());
-    }
-
-    public void setIsAlive() {
-        this.isAlive = !this.isAlive;
     }
 
     public void setCooldownDuration(int cooldown) {
@@ -155,21 +147,16 @@ public abstract class Plant extends Entity implements Item {
         interactionHandler.new InteractionHandler(this, currentTiles);
     }
 
-    public void setImageIndex(int imageIndex) {
-        this.imageIndex = imageIndex;
-    }
-
     public void updateBounds() {
         this.bounds.setLocation(getX(), getY());
     }
 
     public void update() {
-        if (isAlive()) {
-            if (health <= 0) {
-                setIsAlive();
-            }
+        if (health <= 0) {
+            currentTiles.removePlant(this);
+            plantsList.remove(this);
         }
-        if (isAttack()) {
+        if (isAttacking()) {
             attack(collisionHandler, interactionHandler, zombie);
         }
     }
@@ -179,7 +166,7 @@ public abstract class Plant extends Entity implements Item {
     public abstract void interact(Zombie zombie);
 
     public <T extends Plant> void draw(Graphics2D g, T plant) {
-        if (isAttack()) g.drawImage(plant.getImage(), plant.getX(), plant.getY(), null);
+        if (isAttacking()) g.drawImage(plant.getImage(), plant.getX(), plant.getY(), null);
         else g.drawImage(plant.getIcon(), plant.getX(), plant.getY(), null);
     }
 

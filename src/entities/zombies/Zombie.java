@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -14,7 +13,8 @@ import src.entities.handlers.CollisionHandler;
 import src.entities.handlers.InteractionHandler;
 import src.entities.plants.Plant;
 import src.items.Item;
-import src.main.Consts;
+import src.mains.Consts;
+import src.maps.Map;
 
 // Parent class Zombie
 public abstract class Zombie extends Entity implements Item {
@@ -34,7 +34,7 @@ public abstract class Zombie extends Entity implements Item {
     private List<Zombie> zombiesList = new ArrayList<Zombie>();
 
     // Attributes to indentify tiles map easier
-    private Map currentTiles;
+    private Map currentMap;
 
     private BufferedImage[] images = new BufferedImage[10];
 
@@ -55,8 +55,8 @@ public abstract class Zombie extends Entity implements Item {
 
 
         images = ImageLoader.loadZombies();
-        interactionHandler = new InteractionHandler(this, currentTiles);
-        collisionHandler = new CollisionHandler(this, currentTiles);
+        interactionHandler = new InteractionHandler(this, currentMap);
+        collisionHandler = new CollisionHandler(this, currentMap);
     }
 
     // GETTERS
@@ -104,8 +104,8 @@ public abstract class Zombie extends Entity implements Item {
         return this.zombiesList;
     }
 
-    public Map getCurrentTiles() {
-        return this.currentTiles;
+    public Map getCurrentMap() {
+        return this.currentMap;
     }
 
     public InteractionHandler getInteractionHandler() {
@@ -119,19 +119,17 @@ public abstract class Zombie extends Entity implements Item {
     // SETTERS
     public void setHealth(int health) {
         this.health = health;
-        if (this.health < 0) {
-        }
     }
 
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    public void setMoving() {
+    public void setIsMoving() {
         this.isMoving = !this.isMoving;
     }
 
-    public void setAttacking() {
+    public void setIsAttacking() {
         this.isAttacking = !this.isAttacking;
     }
     
@@ -143,18 +141,21 @@ public abstract class Zombie extends Entity implements Item {
         this.bounds.setLocation(getX(), getY());
     }
 
-    public void setCurrentTiles(Map tiles) {
-        this.currentTiles = tiles;
-        this.currentTiles.addZombie(this);
-        collisionHandler = new CollisionHandler(this, tiles);
-        interactionHandler = new InteractionHandler(this, tiles);
+    public void setCurrentMap(Map map) {
+        this.currentMap = map;
+        this.currentMap.addZombie(this);
+        collisionHandler = new CollisionHandler(this, map);
+        interactionHandler = new InteractionHandler(this, map);
+    }
+
+    public void setBounds() {
+        this.bounds.setLocation(getX(), getY());
     }
 
     public void update() {
-        if (isAlive()) {
-            if (health <= 0) {
-                setIsAlive();
-            }
+        if (health <= 0) {
+            currentMap.removeZombie(this);
+            zombiesList.remove(this);
         }
         
         if (isAttacking()) {
@@ -172,14 +173,13 @@ public abstract class Zombie extends Entity implements Item {
 
     public <T extends Zombie> void draw(Graphics2D g, T zombie) {
         // Draw the appropriate image based on the direction the sim is facing
-        int imageIndex = getDirection();
-        if (isMoving() && !isAttacking()) {
-            imageIndex += (int) ((getDirection() + (System.currentTimeMillis() / 250) % 2) + 4);
-        }
+        // if (isMoving() && !isAttacking()) {
+        //     imageIndex += (int) ((getDirection() + (System.currentTimeMillis() / 250) % 2) + 4);
+        // }
 
-        if (!isMoving() && isAttacking()) {
-            g.drawImage(images[imageIndex], getX(), getY(), null);
-        }
+        // if (!isMoving() && isAttacking()) {
+        //     g.drawImage(images[imageIndex], getX(), getY(), null);
+        // }
     }
 
     // Only For Debugging

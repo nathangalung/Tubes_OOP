@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Michael vs Lalapan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setPreferredSize(new Dimension(1280, 720));
         frame.setResizable(false);
 
         // Load your image file and create an ImageIcon object
