@@ -1,13 +1,13 @@
-package mains;
+package src.mains;
 
 import java.awt.event.KeyEvent;
 
-import src.entities.sim.Inventory;
-import src.entities.sim.Sim;
-import src.entities.sim.actions.ActiveActions;
-import src.entities.sim.actions.NonActiveActions;
-import src.main.panels.GamePanel;
-import src.world.Room;
+// import src.entities.sim.Inventory;
+// import src.entities.sim.Sim;
+// import src.entities.sim.actions.ActiveActions;
+// import src.entities.sim.actions.NonActiveActions;
+// import src.main.panels.GamePanel;
+// import src.world.Room;
 
 public class KeyHandler {
     public static final int KEY_A = KeyEvent.VK_A;
@@ -59,49 +59,49 @@ public class KeyHandler {
         return pressed;
     }
 
-    public static void keyBinds() {
-        if (KeyHandler.isKeyPressed(KeyHandler.KEY_SLASH)) {
-            UserInterface.help();
-        }
+    // public static void keyBinds() {
+    //     if (KeyHandler.isKeyPressed(KeyHandler.KEY_SLASH)) {
+    //         UserInterface.help();
+    //     }
         
-        if (!GamePanel.isCurrentState("Playing")) return;
+    //     if (!GamePanel.isCurrentState("Playing")) return;
         
-        try {
-            Sim currentSim = UserInterface.getCurrentSim();
-            Room currentRoom = currentSim.getCurrentRoom();
-            Inventory currentSimInventory = currentSim.getInventory();
+    //     try {
+    //         Sim currentSim = UserInterface.getCurrentSim();
+    //         Room currentRoom = currentSim.getCurrentRoom();
+    //         Inventory currentSimInventory = currentSim.getInventory();
 
-            if (!UserInterface.isViewingActiveActions() && !UserInterface.isViewingProfessions() &&
-                !UserInterface.isViewingWorld() && !UserInterface.isViewingListOfSims() &&
-                !UserInterface.isUpgradingHouse() && !UserInterface.isViewingInteractions() &&
-                !UserInterface.isShowingGameOver() && !UserInterface.isViewingStore() &&
-                !UserInterface.isViewingRecipes() && !UserInterface.isViewingTime() && 
-                !currentRoom.isEditingRoom() && !currentSimInventory.isChoosingFood() &&
-                KeyHandler.isKeyPressed(KEY_ESCAPE)) {
-                UserInterface.pause();
-            }
-            if (!UserInterface.isViewingWorld() && !currentSimInventory.isOpen() &&
-                !UserInterface.isViewingListOfSims() && !UserInterface.isViewingInteractions() && 
-                !UserInterface.isViewingRecipes() && !UserInterface.isViewingStore() && 
-                KeyHandler.isKeyPressed(KeyHandler.KEY_TAB)) {
-                UserInterface.tab();
-            }
-            if (!currentSim.isBusy() && KeyHandler.isKeyPressed(KeyHandler.KEY_F)) {
-                ActiveActions.interact();
-            }
-            if (!UserInterface.isViewingRecipes() && !UserInterface.isViewingTime() &&
-                !UserInterface.isUpgradingHouse() && !currentRoom.isEditingRoom() &&
-                !UserInterface.isPaused() && KeyHandler.isKeyPressed(KeyEvent.VK_I)) {
-                NonActiveActions.showInventory();
-            }
+    //         if (!UserInterface.isViewingActiveActions() && !UserInterface.isViewingProfessions() &&
+    //             !UserInterface.isViewingWorld() && !UserInterface.isViewingListOfSims() &&
+    //             !UserInterface.isUpgradingHouse() && !UserInterface.isViewingInteractions() &&
+    //             !UserInterface.isShowingGameOver() && !UserInterface.isViewingStore() &&
+    //             !UserInterface.isViewingRecipes() && !UserInterface.isViewingTime() && 
+    //             !currentRoom.isEditingRoom() && !currentSimInventory.isChoosingFood() &&
+    //             KeyHandler.isKeyPressed(KEY_ESCAPE)) {
+    //             UserInterface.pause();
+    //         }
+    //         if (!UserInterface.isViewingWorld() && !currentSimInventory.isOpen() &&
+    //             !UserInterface.isViewingListOfSims() && !UserInterface.isViewingInteractions() && 
+    //             !UserInterface.isViewingRecipes() && !UserInterface.isViewingStore() && 
+    //             KeyHandler.isKeyPressed(KeyHandler.KEY_TAB)) {
+    //             UserInterface.tab();
+    //         }
+    //         if (!currentSim.isBusy() && KeyHandler.isKeyPressed(KeyHandler.KEY_F)) {
+    //             ActiveActions.interact();
+    //         }
+    //         if (!UserInterface.isViewingRecipes() && !UserInterface.isViewingTime() &&
+    //             !UserInterface.isUpgradingHouse() && !currentRoom.isEditingRoom() &&
+    //             !UserInterface.isPaused() && KeyHandler.isKeyPressed(KeyEvent.VK_I)) {
+    //             NonActiveActions.showInventory();
+    //         }
             
-            // ONLY FOR DEBUGGING
-            if (KeyHandler.isKeyPressed(KeyHandler.KEY_BACK_SLASH)) {
-                UserInterface.debug();
-            }
-        }
-        catch (NullPointerException npe) {System.out.println("Loading . . .");}
-    }
+    //         // ONLY FOR DEBUGGING
+    //         if (KeyHandler.isKeyPressed(KeyHandler.KEY_BACK_SLASH)) {
+    //             UserInterface.debug();
+    //         }
+    //     }
+    //     catch (NullPointerException npe) {System.out.println("Loading . . .");}
+    // }
 
     public static String receiveStringInput(KeyEvent e, String input) {
         int keyCode = e.getKeyCode();

@@ -8,24 +8,18 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
-import src.assets.AssetsLoader;
-import src.mains.KeyHandler;
-import src.mains.MouseHandler;
-
-import src.mains.panels.PanelHandler;
-import src.mains.panels.MainMenuPanel;
-import src.mains.panels.InventoryPanel;
-import src.mains.panels.GamePanel;
+import src.assets.ImageLoader;
+import src.mains.Consts;
 
 public class HelpPanel extends JPanel {
     public static HelpPanel hp = new HelpPanel();
 
-    private static BufferedImage[] images = AssetsLoader.loadHelpMenu();
+    private static BufferedImage[] images = ImageLoader.loadHelp();
     
     private static int page = 0;
 
     private HelpPanel() {
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(Consts.WIDTH, Consts.HEIGHT));
         setFocusTraversalKeysEnabled(false);
 
         KeyAdapter keyAdapter = new KeyAdapter() {
@@ -48,18 +42,19 @@ public class HelpPanel extends JPanel {
                 }
 
                 if (keyCode == KeyEvent.VK_ESCAPE) {
-                    if (GamePanel.isCurrentState("Main Menu: Help")) {
-                        GamePanel.gameState = "Main Menu";
-                        PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
-                    }
-                    if (GamePanel.isCurrentState("Inventory: Help")) {
-                        GamePanel.gameState = "Inventory";
-                        PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
-                    }
-                    if (GamePanel.isCurrentState("Game: Help")) {
-                        GamePanel.gameState = "Game";
-                        PanelHandler.switchPanel(HelpPanel.getInstance(), GamePanel.getInstance());
-                    }
+                    // if (GamePanel.isCurrentState("Main Menu: Help")) {
+                    //     GamePanel.gameState = "Main Menu";
+                    //     PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
+                    // }
+                    // if (GamePanel.isCurrentState("Inventory: Help")) {
+                    //     GamePanel.gameState = "Inventory";
+                    //     PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
+                    // }
+                    // if (GamePanel.isCurrentState("Playing: Help")) {
+                    //     GamePanel.gameState = "Playing";
+                    //     PanelHandler.switchPanel(HelpPanel.getInstance(), GamePanel.getInstance());
+                    // }
+                    PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
                 }
                 repaint();
             }
@@ -77,7 +72,7 @@ public class HelpPanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-
-        g2.drawImage(images[page], 0, -15, null);
+        g2.drawImage(images[0], 0, 0, null);
+        g2.drawImage(images[page + 1], 184, 100, null);
     }
 }

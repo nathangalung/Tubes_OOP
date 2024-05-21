@@ -3,16 +3,15 @@ package src.entities.handlers;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import src.entities.Entity;
-import src.entities.interactables.Interactables;
+import src.entities.*;
 import src.entities.plants.Plant;
 import src.entities.zombies.Zombie;
 import src.mains.Consts;
 import src.maps.Map;
 
 public class CollisionHandler {
-    private Entity entity;
-    private Map currentMap;
+    private static Entity entity;
+    private static Map currentMap;
     
     public CollisionHandler(Entity entity, Map map) {
         this.entity = entity;
@@ -23,15 +22,18 @@ public class CollisionHandler {
     //     //TODO Auto-generated constructor stub
     // }
 
-    public boolean isCollision(int x, int y) {
+    public static boolean isCollision(int x, int y) {
         Rectangle newEntityRectangle;
 
         if (entity instanceof Zombie) {
         // Extend the width of the plant's collision box by one tile to the right
             newEntityRectangle = new Rectangle(x + 8, y + 15, entity.getWidth() - 16, entity.getHeight() - 16);
         }
-        else {
-            newEntityRectangle = new Rectangle(x + 8, y + 15, entity.getWidth() - 16, entity.getHeight() - 16);
+        else if (entity instanceof Bullet) {
+            newEntityRectangle = new Rectangle(x + 8, y + 15, entity.getWidth(), entity.getHeight());
+        }
+        else if (entity instanceof Plant) {
+            newEntityRectangle = new Rectangle(x, y, entity.getWidth(), entity.getHeight());
         }
 
         ArrayList<Plant> plantsList = currentMap.getPlantsList();
@@ -40,6 +42,14 @@ public class CollisionHandler {
                 return true;
             }
         }
+
+        ArrayList<Zombie> zombiesList = currentMap.getZombiesList();
+        for (Zombie zombie : zombiesList) {
+            if (newEntityRectangle.intersects(zombie.getBounds())) {
+                return true;
+            }
+        }
+        
         return false;
     }
 

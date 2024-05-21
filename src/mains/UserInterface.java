@@ -5,9 +5,11 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.Point;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ConcurrentModificationException;
 
-import src.maps.Map;
 import src.entities.plants.Plant;
 import src.entities.zombies.Zombie;
 import src.mains.menus.*;
@@ -17,17 +19,14 @@ public class UserInterface {
     public static UserInterface ui = new UserInterface();
     
     // Attributes
-    private static Map map;
-    private static Plant currentPlant;
-    private static Zombie currentZombie;
+    private static Map<Plant, Point> plantsListInventory = new HashMap<>();
+    private static Map<Plant, Point> plantsListInventoryDeck = new HashMap<>();
+    private static Map<Plant, Point> plantsListPlayDeck = new HashMap<>();
+    private static Map<Plant, Point> plantsListPlay = new HashMap<>();
+    private static Map<Zombie, Point> zombiesListPlay = new HashMap<>(); 
     
     // User Interface States
     private static boolean viewingMap = true;
-    private static boolean viewingInventoryDeck = false;
-    private static boolean viewingGameDeck = false;
-    private static boolean viewingWave = false;
-    private static boolean viewingSun = false;
-    private static boolean viewingDig = false;
     private static boolean viewingFlag = false;
     private static boolean viewingGamePause = false;
     private static boolean viewingGameWin = false;
@@ -42,18 +41,13 @@ public class UserInterface {
 
     public static void init(Map map) {
         viewingMap = true;
-        viewingInventoryDeck = false;
-        viewingGameDeck = false;
-        viewingWave = false;
-        viewingSun = false;
-        viewingDig = false;
         viewingFlag = false;
         viewingGamePause = false;
         viewingGameWin = false;
         viewingGameLose = false;
 
-        UserInterface.map = map;
-        UserInterface.map.changeIsAddingState();
+        UserInterface.currentMap = map;
+        UserInterface.currentMap.setIsAddingPlant();
     }
 
     // GETTERS
@@ -61,11 +55,11 @@ public class UserInterface {
         return ui;
     }
 
-    public static Map getMap() {
-        return map;
+    public static Tile getTile() {
+        return getTile;
     }
 
-    public static Plant getCurrentPlant() {
+    public static Plant get() {
         return currentPlant;
     }
 
@@ -75,26 +69,6 @@ public class UserInterface {
 
     public static boolean isViewingMap() {
         return viewingMap;
-    }
-
-    public static boolean isViewingInventoryDeck() {
-        return viewingInventoryDeck;
-    }
-
-    public static boolean isViewingGameDeck() {
-        return viewingGameDeck;
-    }
-
-    public static boolean isViewingWave() {
-        return viewingWave;
-    }
-
-    public static boolean isViewingSun() {
-        return viewingSun;
-    }
-
-    public static boolean isViewingDig() {
-        return viewingDig;
     }
 
     public static boolean isViewingFlag() {
@@ -113,35 +87,15 @@ public class UserInterface {
         return viewingGameLose;
     }
 
-    // SETTERS
-    public static void setCurrentSim(Sim sim) {
-        currentSim = sim;
-        currentSimInventory = currentSim.getInventory();
-    }
+    // // SETTERS
+    // public static void setCurrentSim(Plant plant) {
+    //     currentPlant = plant;
+    //     cur = currentPlant.;
+    // }
 
     public static void setViewingMap() {
         viewingMap = !viewingMap;
-        map.reset();
-    }
-
-    public static void setViewingInventoryDeck() {
-        viewingInventoryDeck = !viewingInventoryDeck;
-    }
-
-    public static void setViewingGameDeck() {
-        viewingGameDeck = !viewingGameDeck;
-    }
-
-    public static void setViewingWave() {
-        viewingWave = !viewingWave;
-    }
-
-    public static void setViewingSun() {
-        viewingSun = !viewingSun;
-    }
-
-    public static void setViewingDig() {
-        viewingDig = !viewingDig;
+        currentMap.reset();
     }
 
     public static void setViewingFlag() {
@@ -170,29 +124,13 @@ public class UserInterface {
     }
 
     // OTHERS
+    public void reset() {
+        currentMap.reset();
+    }
+
     public static void update() {
         updateListOfPlantsGame();
         updateListOfZombiesGame();
-
-        if (viewingInventoryDeck) {
-            InventoryDeckMenu.update();
-        }
-
-        if (viewingGameDeck) {
-            GameDeckMenu.update();
-        }
-
-        if (viewingWave) {
-            WaveMenu.update();
-        }
-
-        if (viewingSun) {
-            SunMenu.update();
-        }
-
-        if (viewingDig) {
-            DigMenu.update();
-        }
 
         if (viewingFlag) {
             FlagMenu.update();
@@ -213,26 +151,6 @@ public class UserInterface {
     
     public static void draw(Graphics2D g) {
         currentSimInventory.draw(g);
-
-        if (viewingInventoryDeck) {
-            InventoryDeckMenu.draw(g);
-        }
-
-        if (viewingGameDeck) {
-            GameDeckMenu.draw(g);
-        }
-
-        if (viewingWave) {
-            WaveMenu.draw(g);
-        }
-
-        if (viewingSun) {
-            SunMenu.draw(g);
-        }
-
-        if (viewingDig) {
-            DigMenu.draw(g);
-        }
 
         if (viewingFlag) {
             FlagMenu.draw(g);

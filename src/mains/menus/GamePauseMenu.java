@@ -11,47 +11,36 @@ import src.mains.KeyHandler;
 import src.mains.panels.PanelHandler;
 import src.mains.panels.GamePanel;
 import src.mains.panels.InventoryPanel;
-import src.main.panels.MainMenuPanel;
+import src.mains.panels.MainMenuPanel;
 import src.mains.panels.HelpPanel;
 
 
 public class GamePauseMenu {
     private static int selectedBox = 0;
 
-    private static BufferedImage[] images = ImageLoader.loadPause();
-    private static BufferedImage background = images[0];
-    private static BufferedImage restart = images[1];
-    private static BufferedImage save = images[2];
-    private static BufferedImage inventory = images[3];
-    private static BufferedImage main = images[4];
-    private static BufferedImage help = images[5];
-    private static BufferedImage exit = images[6];
-    private static BufferedImage highlightedBox = images[7];
+    private static BufferedImage[] images = AssetsLoader.loadGamePause();
 
     private static void boxPressed() {
-        if (selectedBox == 0) {
+        if (selectedBox == 0) { // Restart
             PanelHandler.switchPanel(GamePanel.getInstance(), GamePanel.getInstance());
-            GamePanel.gameState = "Restart Level";
+            GamePanel.gameState = "Playing";
         }
-        if (selectedBox == 1) {
+        if (selectedBox == 1) { // back to nventory
             // SAVE HERE
-            PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
-            GamePanel.gameState = "Save Game";
-        }
-        if (selectedBox == 2) {
             PanelHandler.switchPanel(GamePanel.getInstance(), InventoryPanel.getInstance());
-            GamePanel.gameState = "Back to Inventory";
+            GamePanel.gameState = "Playing: Inventory";
         }
-        if (selectedBox == 3) {
+        if (selectedBox == 2) { // save and exit
+            PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
+            GamePanel.gameState = "Playing: Save Game";
+        }
+        if (selectedBox == 3) { // help
             PanelHandler.switchPanel(GamePanel.getInstance(), MainMenuPanel.getInstance());
-            GamePanel.gameState = "Back to Main Menu";
+            GamePanel.gameState = "Playing: Help";
         }
-        if (selectedBox == 4) {
+        if (selectedBox == 4) { // main menu
             PanelHandler.switchPanel(GamePanel.getInstance(), HelpPanel.getInstance());
-            GamePanel.gameState = "Help Menu";
-        }
-        if (selectedBox == 5) {
-            System.exit(0);
+            GamePanel.gameState = "Playing: Main Menu";
         }
     }
 

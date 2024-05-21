@@ -142,7 +142,7 @@ public class GameTime implements Runnable {
         }
         if (timeRemaining == 0) {
             gtThread.isInterrupted();
-            if () {
+            if (zombiesList.isEmpty()) {
                 UserInterface.isviewingGameWin();
             }
             else {

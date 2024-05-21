@@ -18,15 +18,7 @@ import src.mains.panels.HelpPanel;
 public class GameWinMenu {
     private static int selectedBox = 0;
 
-    private static BufferedImage[] images = ImageLoader.loadGameWin();
-    private static BufferedImage background = images[0];
-    private static BufferedImage nextLevel = images[1];
-    private static BufferedImage save = images[2];
-    private static BufferedImage inventory = images[3];
-    private static BufferedImage main = images[4];
-    private static BufferedImage help = images[5];
-    private static BufferedImage exit = images[6];
-    private static BufferedImage highlightedBox = images[7];
+    private static BufferedImage[] images = AssetsLoader.loadGameWin();
 
     private static void boxPressed() {
         if (selectedBox == 0) {

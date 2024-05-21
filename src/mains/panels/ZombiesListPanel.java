@@ -6,27 +6,33 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyAdapter;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 // import assets.ImageLoader;
 import src.assets.ImageLoader;
-
-import src.mains.panels.PanelHandler;
-import src.mains.panels.MainMenuPanel;
-import src.mains.panels.HelpPanel;
+import src.assets.GifLoader;
+import src.mains.Consts;
 
 public class ZombiesListPanel extends JPanel {
     public static ZombiesListPanel lzp = new ZombiesListPanel();
 
     private int selectedBox = 0; // 0 to 5
 
-    private BufferedImage[] images = ImageLoader.loadMainMenu();
+    private BufferedImage[] images = ImageLoader.loadZombiesList();
+    private ImageIcon[] gifs = GifLoader.loadZombiesList();
+
+    private JLabel gifLabel;
 
     public ZombiesListPanel() {
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(Consts.WIDTH, Consts.HEIGHT));
         setFocusTraversalKeysEnabled(false);
 
-        GamePanel.gameState = "List Zombies";
+        // GamePanel.gameState = "Zombies List";
+
+        
 
         KeyAdapter keyAdapter = new KeyAdapter() {
             @Override
@@ -36,91 +42,91 @@ public class ZombiesListPanel extends JPanel {
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
                     if (selectedBox == 10) {
-                        GamePanel.gameState = "List Zombies: Main Menu";
-                        PanelHandler.switchPanel(ZombiesListPanel.getInstance(), MainMenuPanel.getInstance());
+                        // GamePanel.gameState = "Zombies List: Main Menu";
+                        PanelHandler.switchPanel(ZombiesListPanel.getInstance(), HelpPanel.getInstance());
                     }
 
                     if (selectedBox == 11) {
-                        GamePanel.gameState = "List Zombies: Help";
+                        // GamePanel.gameState = "Zombies List: Help";
                         // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
-                        PanelHandler.switchPanel(ZombiesListPanel.getInstance(), HelpPanel.getInstance());
+                        PanelHandler.switchPanel(ZombiesListPanel.getInstance(), MainMenuPanel.getInstance());
                         
-                    }
-                    if (selectedBox == 12) {
-                        GamePanel.gameState = "List Zombies: Exit Game";
-                        System.exit(0);
                     }
                 }
                 
                 int newSelectedBox = selectedBox;
 
-        if (keyCode == KeyEvent.VK_UP) {
-            if (selectedBox >= 0 && selectedBox < 2) {
-                newSelectedBox = 8;
-            }
-            else if (selectedBox >= 2 && selectedBox < 4) {
-                newSelectedBox = 9;
-            }
-            else if (selectedBox >= 4 && selectedBox < 10) {
-                newSelectedBox -= 4;
-            }
-            else if (selectedBox == 10) {
-                newSelectedBox += 2;
-            }
-            else {
-                newSelectedBox--;
-            }
-        }
+                if (keyCode == KeyEvent.VK_UP) {
+                    if (selectedBox >= 0 && selectedBox < 3) {
+                        newSelectedBox = 9;
+                    }
+                    else if (selectedBox == 10) {
+                        newSelectedBox = 11;
+                    }
+                    else if (selectedBox == 11) {
+                        newSelectedBox = 10;
+                    }
+                    else {
+                        newSelectedBox -= 3;
+                    }
+                }
 
-        if (keyCode == KeyEvent.VK_RIGHT) {
-            if (selectedBox == 3 || selectedBox == 7) {
-                newSelectedBox -= 3;
-            }
-            else if (selectedBox == 9) {
-                newSelectedBox = 8;
-            }
-            else if (selectedBox >= 10 && selectedBox < 13) {
-                newSelectedBox = 8;
-            }
-            else {
-                newSelectedBox++;
-            }
-        }
-
-        if (keyCode == KeyEvent.VK_DOWN) {
-            if (selectedBox >= 0 && selectedBox < 4) {
-                newSelectedBox += 4;
-            }
-            else if (selectedBox >= 4 && selectedBox < 6) {
-                newSelectedBox = 8;
-            }
-            else if (selectedBox >= 6 && selectedBox < 8) {
-                newSelectedBox = 9;
-            }
-            else if (selectedBox == 12) {
-                newSelectedBox = 10;
-            }
-            else {
-                newSelectedBox++;
-            }
-        }
-
-        if (keyCode == KeyEvent.VK_UP) {
-            if (selectedBox == 0 || selectedBox == 4) {
-                newSelectedBox += 3;
-            }
-            else if (selectedBox == 8) {
-                newSelectedBox = 9;
-            }
-            else if (selectedBox >= 10 && selectedBox < 13) {
-                newSelectedBox = 9;
-            }
-            else {
-                newSelectedBox--;
-            }
-        }
+                if (keyCode == KeyEvent.VK_RIGHT) {
+                    if (selectedBox == 2) {
+                        newSelectedBox = 11;
+                    }
+                    else if (selectedBox == 5 || selectedBox == 8) {
+                        newSelectedBox -= 2;
+                    }
+                    else if (selectedBox == 10) {
+                        newSelectedBox = 9;
+                    }
+                    else if (selectedBox == 11) {
+                        newSelectedBox = 0;
+                    }
+                    else {
+                        newSelectedBox++;
+                    }
+                }
         
-        if (newSelectedBox >= 0 && newSelectedBox <= 12) {
+                if (keyCode == KeyEvent.VK_DOWN) {
+                    if (selectedBox == 7 || selectedBox == 8) {
+                        newSelectedBox = 9;
+                    }
+                    
+                    else if(selectedBox == 9) {
+                        newSelectedBox = 0;
+                    }
+                    else if (selectedBox == 10) {
+                        newSelectedBox = 11;
+                    }
+                    else if (selectedBox == 11) {
+                        newSelectedBox = 10;
+                    }
+                    else {
+                        newSelectedBox += 3;
+                    }
+                }
+        
+                if (keyCode == KeyEvent.VK_LEFT) {
+                    if (selectedBox == 0) {
+                        newSelectedBox = 11;
+                    }
+                    else if (selectedBox == 3 || selectedBox == 6) {
+                        newSelectedBox += 2;
+                    }
+                    else if (selectedBox == 10) {
+                        newSelectedBox = 9;
+                    }
+                    else if (selectedBox == 11) {
+                        newSelectedBox = 2;
+                    }
+                    else {
+                        newSelectedBox--;
+                    }
+                }
+        
+        if (newSelectedBox >= 0 && newSelectedBox < 12) {
             selectedBox = newSelectedBox;
         }
                 repaint();
@@ -144,31 +150,46 @@ public class ZombiesListPanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
 
+        gifLabel = new JLabel();
+        this.add(gifLabel);
+
         g2.drawImage(images[0], 0, 0, null); // background
-        g2.drawImage(images[1], 201, 102, null); // title
+        g2.drawImage(images[1], 221, 49, null); // almanac
+        g2.drawImage(images[2], 1122, 575, null); // help
+        g2.drawImage(images[3], 1075, 35, null); // menu
         
-        // Draw boxes
-        g2.drawImage(images[2], 132, 304, null); // start
-        g2.drawImage(images[3], 417, 304, null); // load
-        g2.drawImage(images[4], 417, 304, null); // list Zombies
-        g2.drawImage(images[5], 417, 304, null); // list Zombies
-        g2.drawImage(images[6], 132, 392, null); // help
-        g2.drawImage(images[7], 417, 392, null); // exit
+        // Draw Zombies
+        g2.drawImage(images[6], 295, 170, null); // zombie 1
+        g2.drawImage(images[7], 439, 181, null); // zombie 2
+        g2.drawImage(images[8], 575, 181, null); // zombie 3
+        g2.drawImage(images[9], 303, 281, null); // zombie 4
+        g2.drawImage(images[10], 439, 281, null); // zombie 5
+        g2.drawImage(images[11], 575, 281, null); // zombie 6
+        g2.drawImage(images[12], 303, 383, null); // zombie 7
+        g2.drawImage(images[13], 439, 383, null); // zombie 8
+        g2.drawImage(images[14], 575, 383, null); // zombie 9
+        g2.drawImage(images[15], 303, 487, null); // zombie 10
         
-        // Draw highlighted boxes
-        if (selectedBox == 0) g2.drawImage(images[8], 123, 296, null); // plant 1 highlighted
-        if (selectedBox == 1) g2.drawImage(images[9], 408, 297, null); // plant 2 highlighted
-        if (selectedBox == 2) g2.drawImage(images[10], 408, 297, null); // plant 3 highlighted
-        if (selectedBox == 3) g2.drawImage(images[11], 408, 297, null); // plant 4 highlighted
-        if (selectedBox == 4) g2.drawImage(images[12], 123, 385, null); // plant 5 highlighted
-        if (selectedBox == 5) g2.drawImage(images[13], 408, 384, null); // plant 6 highlighted
-        if (selectedBox == 6) g2.drawImage(images[13], 408, 384, null); // plant 7 highlighted
-        if (selectedBox == 7) g2.drawImage(images[13], 408, 384, null); // plant 8 highlighted
-        if (selectedBox == 8) g2.drawImage(images[13], 408, 384, null); // plant 9 highlighted
-        if (selectedBox == 9) g2.drawImage(images[13], 408, 384, null); // plant 10 highlighted
-        if (selectedBox == 10) g2.drawImage(images[13], 408, 384, null); // help highlighted
-        if (selectedBox == 11) g2.drawImage(images[13], 408, 384, null); // main menu highlighted
-        if (selectedBox == 12) g2.drawImage(images[13], 408, 384, null); // exit highlighted
+        // Draw Highlighted Boxes & Attributes
+        if (selectedBox == 0) g2.drawImage(images[16], 295, 170, null);
+        if (selectedBox == 1) g2.drawImage(images[17], 431, 174, null);
+        if (selectedBox == 2) g2.drawImage(images[18], 567, 174, null);
+        if (selectedBox == 3) g2.drawImage(images[19], 295, 274, null);
+        if (selectedBox == 4) g2.drawImage(images[20], 431, 274, null);
+        if (selectedBox == 5) g2.drawImage(images[21], 567, 274, null);
+        if (selectedBox == 6) g2.drawImage(images[22], 295, 376, null);
+        if (selectedBox == 7) g2.drawImage(images[23], 431, 376, null);
+        if (selectedBox == 8) g2.drawImage(images[24], 567, 376, null);
+        if (selectedBox == 9) g2.drawImage(images[25], 295, 480, null);
+        if (selectedBox == 10) g2.drawImage(images[4], 1122, 575, null);
+        if (selectedBox == 11) g2.drawImage(images[5], 1070, 30, null);
+
+        for (int i = 0; i < 10; i ++) {
+            if (selectedBox == i) {
+                gifs[i].paintIcon(this, g2, 761, 280);
+                g2.drawImage(images[i + 26], 721, 157, null);
+            }
+        }
 
         g2.dispose();
     }

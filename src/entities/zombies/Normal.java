@@ -1,4 +1,4 @@
-package zombiest;
+package src.entities.zombies;
 
 public class Normal extends Zombie {
     public Normal(String name, int health, int attack_damage, int attack_speed, boolean isAquatic) {

@@ -2,6 +2,9 @@ package src.entities;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+
+import plants.Sun;
+
 import java.util.ArrayList;
 
 import src.entities.handlers.*;
@@ -14,16 +17,19 @@ public abstract class Entity {
     private int y;
     private int width;
     private int height;
-    private float speed;
+    private int speed;
     private int direction;
+    private int damage;
 
     // CONSTRUCTOR
-    public Entity(int x, int y, int width, int height, int direction) {
+    public Entity(int x, int y, int width, int height, int speed, int direction, int damage) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.speed = speed;
         this.direction = direction;
+        this.damage = damage;
     }
 
     // GETTERS
@@ -43,8 +49,16 @@ public abstract class Entity {
         return height;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
     public int getDirection() {
         return direction;
+    }
+
+    public int getdamage() {
+        return damage;
     }
 
     // SETTERS
@@ -56,17 +70,41 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public void checkCollision(CollisionHandler collisionHandler, int newX, int newY) {
-    }
-
     public boolean isMoving(int newX, int newY) {
-        if (this instanceof Zombie || this instanceof Sun) {
-            if (!isCollision(newX, newY)) {
+        if (this instanceof Zombie || this instanceof Bullet) {
+            if (!CollisionHandler.isCollision(newX, newY)) {
                 return true;
             }
             return false;
         }
+        if (this instanceof Sun) {
+            return true;
+        }
+
         return false;
+    }
+
+    public boolean isAttacking(int newX, int newY) {
+        if (this instanceof Plant) {
+            if (Plant.getRange() > 0) {
+                if (CollisionHandler.isCollision(newX, newY)) {
+                    return true;
+                }
+            }
+            else if (Plant.getRange() == -1 ) {
+                return true;
+            }
+        }
+        if (this instanceof Zombie) {
+            if (!CollisionHandler.isCollision(newX, newY)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void checkCollision(CollisionHandler collisionHandler, int newX, int newY) {
     }
 
     // public void checkCollision(CollisionHandler collisionHandler, int newX, int newY) {
@@ -78,7 +116,7 @@ public abstract class Entity {
     //     y = newY;
     // }
 
-    // public boolean isAttacking() {
+    // public boolean isdamageing() {
     //     if (range > 0) {
     //         if ()
     //     }
@@ -87,21 +125,47 @@ public abstract class Entity {
     //     }
     // }
 
-    // public void attack(CollisionHandler collisionHandler) {
+    // public void damage(CollisionHandler collisionHandler) {
     //     // Move the zombie
     //     int newX = x;
     //     int newY = y;
     //     float speed = (float) (Consts.SCALED_TILE / 4.7);
 
-    //     if (isAttacking()) {
+    //     if (isdamageing()) {
     //         newX += speed;
     //     }
     //     checkCollision(collisionHandler, newX, newY);
     // }
 
-    public void movePZ(CollisionHandler collisionHandler, InteractionHandler interactionHandler) {
+    public void move(CollisionHandler collisionHandler, InteractionHandler interactionHandler) {
+        int newX = x;
+        int newY = y;
+        int initialSpeed = speed;
+
+        if (isMoving(newX, newY)) {
+            if (this instanceof Bullet) {
+                newX += speed;
+                direction = 1;
+                interactionHandler.moveRight(newX, newY);
+            }
+            if (this instanceof Sun) {
+                newY += speed;
+                direction = 2;
+                interactionHandler.moveDown(newX, newY);
+            }
+            if (this instanceof Zombie) {
+                newY += speed;
+                direction = 3;
+                interactionHandler.moveLeft(newX, newY);
+            }
+            checkCollision(collisionHandler, newX, newY);
+        }
+        speed = initialSpeed;
     }
 
-    public void moveS(CollisionHandler collisionHandler) {
+    public void attack(CollisionHandler collisionHandler, InteractionHandler interactionHandler) {
+        int initialDamage = damage;
+
+        if (isAttacking())
     }
 }

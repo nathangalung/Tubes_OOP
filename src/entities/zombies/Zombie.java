@@ -52,6 +52,7 @@ public abstract class Zombie extends Entity implements Item {
         this.speed = 10;
         this.isMoving = true;
         this.isAttacking = false;
+        this.bounds = new Rectangle(x, y, width, height);
 
 
         images = ImageLoader.loadZombies();
@@ -167,19 +168,30 @@ public abstract class Zombie extends Entity implements Item {
         }
     }
 
+    public void move(CollisionHandler collisionHandler, InteractionHandler interactionHandler) {
+        if (collisionHandler.checkCollision()) {
+            setX(getX() - speed);
+        } else {
+            setX(getX() - speed);
+        }
+    }
+
+    public void attack(CollisionHandler collisionHandler, InteractionHandler interactionHandler) {
+        if (collisionHandler.checkCollision()) {
+            Plant plant = interactionHandler.getPlant();
+            plant.setHealth(plant.getHealth() - attackDamage);
+        }
+    }
+
     public abstract BufferedImage getIcon();
     public abstract BufferedImage getImage();
     public abstract void interact(Zombie zombie);
 
     public <T extends Zombie> void draw(Graphics2D g, T zombie) {
-        // Draw the appropriate image based on the direction the sim is facing
-        // if (isMoving() && !isAttacking()) {
-        //     imageIndex += (int) ((getDirection() + (System.currentTimeMillis() / 250) % 2) + 4);
-        // }
-
-        // if (!isMoving() && isAttacking()) {
-        //     g.drawImage(images[imageIndex], getX(), getY(), null);
-        // }
+        BufferedImage image = getImage();
+        if (image != null) {
+            g.drawImage(image, getX(), getY(), null);
+        }
     }
 
     // Only For Debugging

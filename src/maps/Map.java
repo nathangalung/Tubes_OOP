@@ -18,10 +18,7 @@ import src.mains.times.GameTime;
 import src.world.House;
 import src.world.Room;
 import src.entities.handlers.CollisionHandler;
-import src.entities.interactables.Door;
-import src.entities.interactables.Toilet;
 import src.entities.plants.Plant;
-import src.entities.sim.Sim;
 
 public class Map {
     // Attributes
@@ -155,6 +152,15 @@ public class Map {
     }
 
     // Others
+    public void reset() {
+        plantsList.clear();
+        zombiesList.clear();
+        isEditingMap = false;
+        isAddingPlant = false;
+        selectedPlant = null;
+        removablePlant = null;
+    }
+
     public void update() {
         if (UserInterface.isviewingGamePause()) return;
         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import src.entities.handlers.InteractionHandler;
-import src.entities.sim.Sim;
 import src.entities.handlers.CollisionHandler;
 
 import java.awt.Color;
@@ -40,6 +39,8 @@ public abstract class Plant extends Entity implements Item {
     // Attributes to indentify tiles map easier
     private Map currentTiles;
 
+    private BufferedImage[] images = new BufferedImage[10];
+
     // Collision and interactions
     private CollisionHandler collisionHandler;
     private InteractionHandler interactionHandler;
@@ -55,7 +56,6 @@ public abstract class Plant extends Entity implements Item {
         this.cooldown = cooldown;
         this.occupied = false;
         this.bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
-        this.imageIndex = imageIndex;
 
         images = ImageLoader.loadPlants();
         interactionHandler = new InteractionHandler(this, currentTiles);
