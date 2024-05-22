@@ -21,7 +21,7 @@ import src.mains.Consts;
 public class MainMenuPanel extends JPanel {
     public static MainMenuPanel mmp = new MainMenuPanel();
 
-    private int selectedBox = 0; // 0 to 5
+    private int selectedBox = 0;
 
     private BufferedImage[] images = ImageLoader.loadMainMenu();
 
@@ -30,7 +30,7 @@ public class MainMenuPanel extends JPanel {
         setFocusTraversalKeysEnabled(false);
         setLayout(null);
 
-        // GamePanel.gameState = "Main Menu";
+        GamePanel.gameState = "Main Menu";
 
         KeyAdapter keyAdapter = new KeyAdapter() {
             @Override
@@ -39,10 +39,10 @@ public class MainMenuPanel extends JPanel {
 
                 // Check if the Enter key was pressed
                 if (keyCode == KeyEvent.VK_ENTER) {
-                    // if (selectedBox == 0) {
-                    //     GamePanel.gameState = "Main Menu: Inventory";
-                    //     PanelHandler.switchPanel(MainMenuPanel.getInstance(), InventoryPanel.getInstance());
-                    // }
+                    if (selectedBox == 0) {
+                        GamePanel.gameState = "Inventory";
+                        PanelHandler.switchPanel(MainMenuPanel.getInstance(), InventoryPanel.getInstance());
+                    }
 
                     // if (selectedBox == 1) {
                     //     GamePanel.gameState = "Main Menu: Load Game";
@@ -52,22 +52,22 @@ public class MainMenuPanel extends JPanel {
                     // }
 
                     if (selectedBox == 2) {
-                        // GamePanel.gameState = "Main Menu: Plants List";
+                        GamePanel.gameState = "Plants List";
                         PanelHandler.switchPanel(MainMenuPanel.getInstance(), PlantsListPanel.getInstance());
                     }
 
                     if (selectedBox == 3) {
-                        // GamePanel.gameState = "Main Menu: Zombies List";
+                        GamePanel.gameState = "Zombies List";
                         PanelHandler.switchPanel(MainMenuPanel.getInstance(), ZombiesListPanel.getInstance());
                     }
 
                     if (selectedBox == 4) {
-                        // GamePanel.gameState = "Main Menu: Help";
+                        GamePanel.gameState = "Main Menu: Help";
                         PanelHandler.switchPanel(MainMenuPanel.getInstance(), HelpPanel.getInstance());
                     }
 
                     if (selectedBox == 5) {
-                        // GamePanel.gameState = "Main Menu: Exit Game";
+                        GamePanel.gameState = "Main Menu: Exit Game";
                         System.exit(0);
                     }
                 }
@@ -146,16 +146,16 @@ public class MainMenuPanel extends JPanel {
         g2.drawImage(images[3], 502, 341, null); // load game
         g2.drawImage(images[4], 502, 441, null); // plants list
         g2.drawImage(images[5], 502, 541, null); // zombies list
-        g2.drawImage(images[6], 1122, 575, null); // help
-        g2.drawImage(images[7], 1122, 38, null); // exit game
+        g2.drawImage(images[6], 1128, 575, null); // help
+        g2.drawImage(images[7], 1128, 35, null); // exit game
         
         // Draw highlighted boxes
         if (selectedBox == 0) g2.drawImage(images[8], 521, 241, null); // start game highlighted
         if (selectedBox == 1) g2.drawImage(images[9], 521, 341, null); // load game highlighted
         if (selectedBox == 2) g2.drawImage(images[10], 521, 441, null); // plants list highlighted
         if (selectedBox == 3) g2.drawImage(images[11], 521, 541, null); // zombies list highlighted
-        if (selectedBox == 4) g2.drawImage(images[12], 1122, 575, null); // about highlighted
-        if (selectedBox == 5) g2.drawImage(images[13], 1122, 38, null); // exit game highlighted
+        if (selectedBox == 4) g2.drawImage(images[12], 1121, 568, null); // about highlighted
+        if (selectedBox == 5) g2.drawImage(images[13], 1123, 30, null); // exit game highlighted
 
         g2.dispose();
     }

@@ -133,7 +133,7 @@ public class UserInterface {
         updateListOfZombiesGame();
 
         if (viewingFlag) {
-            FlagMenu.update();
+            SaveMenu.update();
         }
 
         if (viewingGamePause) {
@@ -153,7 +153,7 @@ public class UserInterface {
         currentSimInventory.draw(g);
 
         if (viewingFlag) {
-            FlagMenu.draw(g);
+            SaveMenu.draw(g);
         }
 
         if (viewingGamePause) {

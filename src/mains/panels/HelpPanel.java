@@ -29,7 +29,7 @@ public class HelpPanel extends JPanel {
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
                     page++;
-                    if (page > 4) {
+                    if (page > 3) {
                         page = 0;
                     }
                 }
@@ -37,24 +37,35 @@ public class HelpPanel extends JPanel {
                 if (keyCode == KeyEvent.VK_LEFT) {
                     page--;
                     if (page < 0) {
-                        page = 4;
+                        page = 3;
                     }
                 }
 
                 if (keyCode == KeyEvent.VK_ESCAPE) {
-                    // if (GamePanel.isCurrentState("Main Menu: Help")) {
-                    //     GamePanel.gameState = "Main Menu";
-                    //     PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
-                    // }
-                    // if (GamePanel.isCurrentState("Inventory: Help")) {
-                    //     GamePanel.gameState = "Inventory";
-                    //     PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
-                    // }
-                    // if (GamePanel.isCurrentState("Playing: Help")) {
-                    //     GamePanel.gameState = "Playing";
-                    //     PanelHandler.switchPanel(HelpPanel.getInstance(), GamePanel.getInstance());
-                    // }
-                    PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
+                    if (GamePanel.isCurrentState("Main Menu: Help")) {
+                        GamePanel.gameState = "Main Menu";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
+                    }
+                    
+                    if (GamePanel.isCurrentState("Inventory: Help")) {
+                        GamePanel.gameState = "Inventory";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
+                    }
+
+                    if (GamePanel.isCurrentState("Plants List: Help")) {
+                        GamePanel.gameState = "Plants List";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), PlantsListPanel.getInstance());
+                    }
+
+                    if (GamePanel.isCurrentState("Zombies List: Help")) {
+                        GamePanel.gameState = "Zombies List";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), ZombiesListPanel.getInstance());
+                    }
+
+                    if (GamePanel.isCurrentState("Playing: Help")) {
+                        GamePanel.gameState = "Playing";
+                        PanelHandler.switchPanel(HelpPanel.getInstance(), GamePanel.getInstance());
+                    }
                 }
                 repaint();
             }

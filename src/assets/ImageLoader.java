@@ -8,13 +8,6 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.File;
 
-// import java.util.List;
-// import java.util.Map;
-// import java.util.ArrayList;
-// import java.util.HashMap;
-
-// import src.mains.Consts;
-
 public class ImageLoader {
     public static BufferedImage readImage(String folder, String fileName) {
         BufferedImage image;
@@ -51,11 +44,61 @@ public class ImageLoader {
     }
 
     public static BufferedImage[] loadInventory() {
-        BufferedImage[] images = new BufferedImage[35];
+        BufferedImage[] images = new BufferedImage[53];
 
         images[0] = readImage("panels/inventoryPanel", "Background");
-        images[1] = readImage("panels/inventoryPanel", "exit_button");
-        images[2] = readImage("panels/inventoryPanel", "start_");
+        images[1] = readImage("panels/inventoryPanel", "Border");
+        images[2] = readImage("panels/inventoryPanel", "Clear");
+        images[3] = readImage("panels/inventoryPanel", "Start");
+        images[4] = readImage("panels/inventoryPanel", "Help");
+        images[5] = readImage("panels/inventoryPanel", "Menu");
+        images[6] = readImage("panels/inventoryPanel", "ClearHighlight");
+        images[7] = readImage("panels/inventoryPanel", "StartHighlight");
+        images[8] = readImage("panels/inventoryPanel", "HelpHighlight");
+        images[9] = readImage("panels/inventoryPanel", "MenuHighlight");
+        images[10] = readImage("panels/inventoryPanel", "Empty");
+        images[11] = readImage("panels/inventoryPanel", "EmptyHighlight");
+        images[12] = readImage("panels/inventoryPanel/cardsColor", "Sunflower");
+        images[13] = readImage("panels/inventoryPanel/cardsColor", "Peashooter");
+        images[14] = readImage("panels/inventoryPanel/cardsColor", "WallNut");
+        images[15] = readImage("panels/inventoryPanel/cardsColor", "SnowPea");
+        images[16] = readImage("panels/inventoryPanel/cardsColor", "Squash");
+        images[17] = readImage("panels/inventoryPanel/cardsColor", "Lilypad");
+        images[18] = readImage("panels/inventoryPanel/cardsColor", "TangleKelp");
+        images[19] = readImage("panels/inventoryPanel/cardsColor", "Cactus");
+        images[20] = readImage("panels/inventoryPanel/cardsColor", "CherryBomb");
+        images[21] = readImage("panels/inventoryPanel/cardsColor", "Jalapeno");
+        images[22] = readImage("panels/inventoryPanel/cardsBW", "Sunflower");
+        images[23] = readImage("panels/inventoryPanel/cardsBW", "Peashooter");
+        images[24] = readImage("panels/inventoryPanel/cardsBW", "WallNut");
+        images[25] = readImage("panels/inventoryPanel/cardsBW", "SnowPea");
+        images[26] = readImage("panels/inventoryPanel/cardsBW", "Squash");
+        images[27] = readImage("panels/inventoryPanel/cardsBW", "Lilypad");
+        images[28] = readImage("panels/inventoryPanel/cardsBW", "TangleKelp");
+        images[29] = readImage("panels/inventoryPanel/cardsBW", "Cactus");
+        images[30] = readImage("panels/inventoryPanel/cardsBW", "CherryBomb");
+        images[31] = readImage("panels/inventoryPanel/cardsBW", "Jalapeno");
+        images[32] = readImage("panels/inventoryPanel/highlightsColor", "Sunflower");
+        images[33] = readImage("panels/inventoryPanel/highlightsColor", "Peashooter");
+        images[34] = readImage("panels/inventoryPanel/highlightsColor", "WallNut");
+        images[35] = readImage("panels/inventoryPanel/highlightsColor", "SnowPea");
+        images[36] = readImage("panels/inventoryPanel/highlightsColor", "Squash");
+        images[37] = readImage("panels/inventoryPanel/highlightsColor", "Lilypad");
+        images[38] = readImage("panels/inventoryPanel/highlightsColor", "TangleKelp");
+        images[39] = readImage("panels/inventoryPanel/highlightsColor", "Cactus");
+        images[40] = readImage("panels/inventoryPanel/highlightsColor", "CherryBomb");
+        images[41] = readImage("panels/inventoryPanel/highlightsColor", "Jalapeno");
+        images[42] = readImage("panels/inventoryPanel/highlightsBW", "Sunflower");
+        images[43] = readImage("panels/inventoryPanel/highlightsBW", "Peashooter");
+        images[44] = readImage("panels/inventoryPanel/highlightsBW", "WallNut");
+        images[45] = readImage("panels/inventoryPanel/highlightsBW", "SnowPea");
+        images[46] = readImage("panels/inventoryPanel/highlightsBW", "Squash");
+        images[47] = readImage("panels/inventoryPanel/highlightsBW", "Lilypad");
+        images[48] = readImage("panels/inventoryPanel/highlightsBW", "TangleKelp");
+        images[49] = readImage("panels/inventoryPanel/highlightsBW", "Cactus");
+        images[50] = readImage("panels/inventoryPanel/highlightsBW", "CherryBomb");
+        images[51] = readImage("panels/inventoryPanel/highlightsBW", "Jalapeno");
+        
 
         return images;
     }
