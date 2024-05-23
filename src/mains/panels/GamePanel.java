@@ -124,15 +124,7 @@ public class GamePanel extends JPanel implements Runnable {
     
             if (UserInterface.isViewingMap()) {
                 map.draw(g2);
-    //         }
-    //         else {
-    //             Plant currentPlantMap = UserInterface.getCurrentPlant();
-    //             Zombie currentZombieMap = UserInterface.getCurrentZombie();
-
-    //             Map currentMap = currentMap.getCurrentMap();
-
-    //             currentMap.draw(g2);
-    //             UserInterface.draw(g2);
+            
             }
         }
         catch (NullPointerException e) {}

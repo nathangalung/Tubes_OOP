@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 import src.mains.Consts;
+import src.mains.panels.InventoryPanel;
 import src.assets.ImageLoader;
+import src.mains.panels.PanelHandler;
 // import src.entities.zombies.Zombie;
 import src.mains.KeyHandler;
 import src.mains.UserInterface;
@@ -20,16 +22,18 @@ public class Map {
     private int[][] map = new int[64][64];
     // private ArrayList<Plant> plantsList;
     // private ArrayList<Zombie> zombiesList;
-    
+    private static int selectedBox = 0;
+    private static int selectedTile = 100;
     // State of the world (is adding a house or selecting a house to visit)
-    private boolean isEditingMap;
-    private boolean isAddingPlant;
+    private boolean isAddingPlant = false;
+    private boolean isRemovingPlant = false;
+    private int[] plantsDeck = InventoryPanel.plantsDeck;
+    private int[] checkTile;
+
     // private CollisionHandler collisionHandler;
     // private Plant removablePlant = null;
     // private Plant selectedPlant = null;
 
-    private int centerX = Consts.WIDTH / 2 - 3 * Consts.SCALED_TILE;
-    private int centerY = Consts.HEIGHT / 2 - 3 * Consts.SCALED_TILE;
 
     // Images of the world
     private BufferedImage[] images;
@@ -37,20 +41,18 @@ public class Map {
     // Cursor position
     // private Cursor cursor;
 
-    private int viewableGrid = (Consts.TILE_SIZE * 32) - 1;
-    private int topLeftX = 26;
-    private int topLeftY = 26;
-
-    // Bounds for each quarter
-    private int lowerBoundsX, upperBoundsX;
-    private int lowerBoundsY, upperBoundsY;
 
     // Constructor 
     public Map() {
+        checkTile = new int[54];
+        for (int i = 0; i < 54; i++) {
+            checkTile[i] = 0;
+        }
         // Attributes
         // this.plantsList = new ArrayList<>();
         // this.zombiesList = new ArrayList<>();
-        this.isEditingMap = false;
+        this.isAddingPlant = false;
+        this.isRemovingPlant = false;
 
         // Load the images of the world
         this.images = ImageLoader.loadMap();
@@ -70,25 +72,43 @@ public class Map {
     //     return plantsList;
     // }
 
-    public boolean isEditingMap() {
-        return isEditingMap;
-    }
-
     public boolean isAddingPlant() {
         return isAddingPlant;
+    }
+
+    public boolean isRemovingPlant() {
+        return isRemovingPlant;
     }
 
     // public ArrayList<Zombie> getZombiesList() {
     //     return zombiesList;
     // }
 
-    public void setIsEditingMap() {
-        this.isEditingMap = !this.isEditingMap;
+    public void setIsAddingPlant() {
+        isAddingPlant = !isAddingPlant;
+        if (isAddingPlant()) {
+            selectedBox = 100;
+            selectedTile = 0;
+        }
+        else {
+            selectedBox = 0;
+            selectedTile = 100;
+        }
     }
 
-    public void setIsAddingPlant() {
-        this.isAddingPlant = !this.isAddingPlant;
+    public void setIsRemovingPlant() {
+        isRemovingPlant = !isRemovingPlant;
+        if (isRemovingPlant()) {
+            selectedBox = 100;
+            selectedTile = 0;
+        }
+        else {
+            selectedBox = 0;
+            selectedTile = 100;
+        }
     }
+
+
 
     // Load the initial state of the map
     
@@ -156,16 +176,176 @@ public class Map {
     //     removablePlant = null;
     // }
 
+    private void boxPressed() {
+        if (selectedBox == 0) {
+            setIsAddingPlant();
+        }
+
+        if (selectedBox == 1) {
+            setIsAddingPlant();
+        }
+
+        if (selectedBox == 2) {
+            setIsAddingPlant();
+        }
+
+        if (selectedBox == 3) {
+            setIsAddingPlant();
+        }
+
+        if (selectedBox == 4) {
+            setIsAddingPlant();
+        }
+
+        if (selectedBox == 5) {
+            setIsAddingPlant();
+        }
+        
+        if (selectedBox == 6) {
+            PanelHandler.switchPanel(GamePanel.getInstance(), GamePanel.getInstance());
+            GamePanel.gameState = "Game: Pause";
+            UserInterface.setViewingGamePause();
+        }
+
+        if (selectedBox == 7) {
+            setIsRemovingPlant();
+        }
+    }
+
+    private void tilePressed() {
+        if (selectedTile >= 0 && selectedTile < 18) {
+            if (isAddingPlant()) {
+                if (checkTile[selectedTile] == 0) checkTile[selectedTile] = 1;
+                setIsAddingPlant();
+            }
+            else {
+                if (checkTile[selectedTile] == 1) checkTile[selectedTile] = 0;
+                setIsRemovingPlant();
+            }
+        }
+        if (selectedTile >= 18 && selectedTile < 36) {
+            if (isAddingPlant()) {
+                if (checkTile[selectedTile] == 0) checkTile[selectedTile] = 1;
+                setIsAddingPlant();
+            }
+            else {
+                if (checkTile[selectedTile] == 1) checkTile[selectedTile] = 0;
+                setIsRemovingPlant();
+            }
+        }
+        if (selectedTile >= 36 && selectedTile < 54) {
+            if (isAddingPlant()) {
+                if (checkTile[selectedTile] == 0) checkTile[selectedTile] = 1;
+                setIsAddingPlant();
+            }
+            else {
+                if (checkTile[selectedTile] == 1) checkTile[selectedTile] = 0;
+                setIsRemovingPlant();
+            }
+        }
+    }
+
     public void update() {
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)) {
+            if (!isAddingPlant() && !isRemovingPlant()) {
+                boxPressed();
+            }
+            else {
+                tilePressed();
+            }
+        }
+
+        if (!isAddingPlant() && !isRemovingPlant()) {
+            int newSelectedBox = selectedBox;
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP) || KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
+                if (selectedBox == 7) {
+                    newSelectedBox = 0;
+                }
+                else {
+                    newSelectedBox = 7;
+                }
+            }
+
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT)) {
+                if (selectedBox == 6) {
+                    newSelectedBox = 0;
+                }
+                else if (selectedBox == 7) {
+                    newSelectedBox = 7;
+                }
+                else {
+                    newSelectedBox++;
+                }
+            }
+
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
+                if (selectedBox == 0) {
+                    newSelectedBox = 6;
+                }
+                else if (selectedBox == 7) {
+                    newSelectedBox = 7;
+                }
+                else {
+                    newSelectedBox--;
+                }
+            }
+
+            if (newSelectedBox >= 0 && newSelectedBox < 8) {
+                selectedBox = newSelectedBox;
+            }
+        }
+        else {
+            int newSelectedTile = selectedTile;
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
+                if (selectedTile >= 0 && selectedTile < 9) {
+                    newSelectedTile += 45;
+                }
+                else {
+                    newSelectedTile -= 9;
+                }
+            }
+
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT)) {
+                if ((selectedTile + 1) % 9 == 0) {
+                    newSelectedTile -= 8;
+                }
+                else {
+                    newSelectedTile++;
+                }
+            }
+
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
+                if (selectedTile >= 45 && selectedTile < 54) {
+                    newSelectedTile -= 45;
+                }
+                else {
+                    newSelectedTile += 9;
+                }
+            }
+
+            if (KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
+                if ((selectedTile) % 9 == 0) {
+                    newSelectedTile += 8;
+                }
+                else {
+                    newSelectedTile--;
+                }
+            }
+
+            if (newSelectedTile >= 0 && newSelectedTile < 54){
+                selectedTile = newSelectedTile;
+            }
+        }
+
         if (UserInterface.isviewingGamePause()) return;
         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
-            if (GamePanel.isCurrentState("Playing")) {
-                GamePanel.gameState = "Playing: Pause";
+            if (GamePanel.isCurrentState("Game")) {
+                GamePanel.gameState = "Game: Pause";
             }
             else if (GamePanel.isCurrentState("Game: Pause")) {
-                GamePanel.gameState = "Playing";
+                GamePanel.gameState = "Game";
             }
-            UserInterface.isViewingMap();
+            UserInterface.setViewingMap();
         }
         // updateSelectedPlant();
 
@@ -175,6 +355,8 @@ public class Map {
     public void draw(Graphics2D g) {
         // Draw the world in quarters with the size of each quarter of 32 x 32
         drawMap(g);
+
+        drawTile(g);
 
         // drawPlants(g);
 
@@ -310,19 +492,41 @@ public class Map {
 
     private void drawMap(Graphics2D g) {
         g.drawImage(images[0], 0, -20, null);
-        for (int y = 0; y < 6; y++) {
-            for (int x = 0; x < 10; x++) {
-                if (y <= 2 && y >= 4) {
-                    g.drawImage(images[10], 173 + (x*98), 70 + (y*110), null);
-                }
-                if (y >= 2 && y < 4) {
-                    g.drawImage(images[11], 173 + (x*98), 70 + (y*110), null);
-                }
-                g.drawImage(images[9], 82, 70 + (y*110), null);
-                g.drawImage(images[12], 1055, 70 + (y*110), null);
+        g.drawImage(images[2], 25, 30, null);
+        g.drawImage(images[3], 815, -10, null);
+        g.drawImage(images[4], 1047, 30, null);
+        g.drawImage(images[5], 1100, 30, null);
+        g.drawImage(images[6], 25, 30, null);
+
+        for (int i = 0; i < 36; i++) {
+            if (i < 6) {
+                g.drawImage(images[9], Consts.PINK_TILES[i].x, Consts.PINK_TILES[i].y, null);
+                g.drawImage(images[12], Consts.BROWN_TILES[i].x, Consts.BROWN_TILES[i].y, null);
             }
+            if (i < 18) g.drawImage(images[11], Consts.BLUE_TILES[i].x, Consts.BLUE_TILES[i].y, null);
+            g.drawImage(images[10], Consts.GREEN_TILES[i].x, Consts.GREEN_TILES[i].y, null);
+        }
+
+        for (int i = 0; i < 6; i ++) {
+            g.drawImage(images[plantsDeck[i] + 14], 195 + (i*100), 22, null);
+        }
+
+        for (int i = 0; i < 6; i ++) {
+            if (selectedBox == i) g.drawImage(images[plantsDeck[i] + 34], 195 + (i*100), 22, null);
+        }
+
+        if (selectedBox == 6) g.drawImage(images[7], 1100, 30, null);
+    }
+
+    private void drawTile(Graphics2D g) {
+        for (int i = 0; i < 54; i++) {
+            if (selectedTile == i && i < 18) g.drawImage(images[13], Consts.GREEN_TILES[i].x, Consts.GREEN_TILES[i].y, null); 
+            if (selectedTile == i && i >= 18 && i < 36) g.drawImage(images[13], Consts.BLUE_TILES[i-18].x, Consts.BLUE_TILES[i-18].y, null);
+            if (selectedTile == i && i >= 36 && i < 54) g.drawImage(images[13], Consts.GREEN_TILES[i-18].x, Consts.GREEN_TILES[i-18].y, null);
         }
     }
+
+    
 
     // private void drawPlants(Graphics2D g) {
     //     try {

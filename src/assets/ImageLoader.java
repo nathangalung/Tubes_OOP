@@ -214,7 +214,7 @@ public class ImageLoader {
     }
 
     public static BufferedImage[] loadMap() {
-        BufferedImage[] images = new BufferedImage[13];
+        BufferedImage[] images = new BufferedImage[54];
 
         images[0] = readImage("maps", "BackgroundMorning");
         images[1] = readImage("maps", "BackgroundNight");
@@ -229,6 +229,47 @@ public class ImageLoader {
         images[10] = readImage("maps/tiles", "Green");
         images[11] = readImage("maps/tiles", "Blue");
         images[12] = readImage("maps/tiles", "Brown");
+        images[13] = readImage("maps/tiles", "Highlight");
+        images[14] = readImage("maps/cardsColor", "Sunflower");
+        images[15] = readImage("maps/cardsColor", "Peashooter");
+        images[16] = readImage("maps/cardsColor", "WallNut");
+        images[17] = readImage("maps/cardsColor", "SnowPea");
+        images[18] = readImage("maps/cardsColor", "Squash");
+        images[19] = readImage("maps/cardsColor", "Lilypad");
+        images[20] = readImage("maps/cardsColor", "TangleKelp");
+        images[21] = readImage("maps/cardsColor", "Cactus");
+        images[22] = readImage("maps/cardsColor", "CherryBomb");
+        images[23] = readImage("maps/cardsColor", "Jalapeno");
+        images[24] = readImage("maps/cardsBW", "Sunflower");
+        images[25] = readImage("maps/cardsBW", "Peashooter");
+        images[26] = readImage("maps/cardsBW", "WallNut");
+        images[27] = readImage("maps/cardsBW", "SnowPea");
+        images[28] = readImage("maps/cardsBW", "Squash");
+        images[29] = readImage("maps/cardsBW", "Lilypad");
+        images[30] = readImage("maps/cardsBW", "TangleKelp");
+        images[31] = readImage("maps/cardsBW", "Cactus");
+        images[32] = readImage("maps/cardsBW", "CherryBomb");
+        images[33] = readImage("maps/cardsBW", "Jalapeno");
+        images[34] = readImage("maps/highlightsColor", "Sunflower");
+        images[35] = readImage("maps/highlightsColor", "Peashooter");
+        images[36] = readImage("maps/highlightsColor", "WallNut");
+        images[37] = readImage("maps/highlightsColor", "SnowPea");
+        images[38] = readImage("maps/highlightsColor", "Squash");
+        images[39] = readImage("maps/highlightsColor", "Lilypad");
+        images[40] = readImage("maps/highlightsColor", "TangleKelp");
+        images[41] = readImage("maps/highlightsColor", "Cactus");
+        images[42] = readImage("maps/highlightsColor", "CherryBomb");
+        images[43] = readImage("maps/highlightsColor", "Jalapeno");
+        images[44] = readImage("maps/highlightsBW", "Sunflower");
+        images[45] = readImage("maps/highlightsBW", "Peashooter");
+        images[46] = readImage("maps/highlightsBW", "WallNut");
+        images[47] = readImage("maps/highlightsBW", "SnowPea");
+        images[48] = readImage("maps/highlightsBW", "Squash");
+        images[49] = readImage("maps/highlightsBW", "Lilypad");
+        images[50] = readImage("maps/highlightsBW", "TangleKelp");
+        images[51] = readImage("maps/highlightsBW", "Cactus");
+        images[52] = readImage("maps/highlightsBW", "CherryBomb");
+        images[53] = readImage("maps/highlightsBW", "Jalapeno");
 
         return images;
     }

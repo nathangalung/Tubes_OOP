@@ -1,0 +1,11 @@
+{
+    "java.project.sourcePaths": [
+        ".",
+        "src\\entities"
+    ],
+    "java.project.referencedLibraries": [
+        "lib\\jackson-core-2.17.0.jar",
+        "lib\\jackson-databind-2.17.0.jar",
+        "lib\\jackson-annotations-2.17.0.jar"
+    ]
+}

@@ -158,8 +158,14 @@ public class InventoryPanel extends JPanel {
                     }
 
                     if (selectedBox == 19) {
+                        plantsInventory = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+                        plantsTemp = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+                        plantsDeck = new int[] {100, 100, 100, 100, 100, 100};
                         checkInventory = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                        sumCheckInventory = 0;
                         checkDeck = new int[] {0, 0, 0, 0, 0, 0};
+                        sumCheckDeck = 0;
+
                         GamePanel.gameState = "Main Menu";
                         PanelHandler.switchPanel(InventoryPanel.getInstance(), MainMenuPanel.getInstance());
                     }
@@ -215,7 +221,7 @@ public class InventoryPanel extends JPanel {
 
                 if (keyCode == KeyEvent.VK_UP) {
                     if (selectedBox >= 0 && selectedBox < 3) {
-                        newSelectedBox += 10;
+                        newSelectedBox += 13;
                     }
                     else if (selectedBox >= 3 && selectedBox < 5) {
                         newSelectedBox += 15;

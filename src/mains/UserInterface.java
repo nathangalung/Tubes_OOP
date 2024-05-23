@@ -99,24 +99,23 @@ public class UserInterface {
     //     cur = currentPlant.;
     // }
 
-    // public static void setViewingMap() {
-    //     viewingMap = !viewingMap;
-    //     currentMap.reset();
-    // }
+    public static void setViewingMap() {
+        viewingMap = !viewingMap;
+    }
 
     public static void setViewingFlag() {
         viewingFlag = !viewingFlag;
     }
 
-    public static void setviewingGamePause() {
+    public static void setViewingGamePause() {
         viewingGamePause = !viewingGamePause;
     }
 
-    public static void setviewingGameWin() {
+    public static void setViewingGameWin() {
         viewingGameWin = !viewingGameWin;
     }
 
-    public static void setviewingGameLose() {
+    public static void setViewingGameLose() {
         viewingGameLose = !viewingGameLose;
     }
 

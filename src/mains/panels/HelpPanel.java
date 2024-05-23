@@ -46,7 +46,7 @@ public class HelpPanel extends JPanel {
                         GamePanel.gameState = "Main Menu";
                         PanelHandler.switchPanel(HelpPanel.getInstance(), MainMenuPanel.getInstance());
                     }
-                    
+
                     if (GamePanel.isCurrentState("Inventory: Help")) {
                         GamePanel.gameState = "Inventory";
                         PanelHandler.switchPanel(HelpPanel.getInstance(), InventoryPanel.getInstance());
@@ -62,8 +62,8 @@ public class HelpPanel extends JPanel {
                         PanelHandler.switchPanel(HelpPanel.getInstance(), ZombiesListPanel.getInstance());
                     }
 
-                    if (GamePanel.isCurrentState("Playing: Help")) {
-                        GamePanel.gameState = "Playing";
+                    if (GamePanel.isCurrentState("Game: Help")) {
+                        GamePanel.gameState = "Game: Pause";
                         PanelHandler.switchPanel(HelpPanel.getInstance(), GamePanel.getInstance());
                     }
                 }
