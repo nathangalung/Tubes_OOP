@@ -206,3 +206,53 @@
 //         g.fillRect(interactionHandler.getX(), interactionHandler.getY(), interactionHandler.getWidth(), interactionHandler.getHeight());
 //     }
 // }
+
+package zombies;
+
+import src.entities.zombies;
+import src.entities.zombies.EntityAction;
+
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+import javax.swing.ImageIcon;
+
+// Parent class Zombie
+public class Zombie extends Entity {
+    private int attack_damage;
+    private int attack_speed;
+    private boolean is_aquatic;
+    private Rectangle bound;
+
+    public Zombie(int x, int y, int width, int height, float speed, int id , int attack_damage, int attack_speed, String name,boolean is_aquatic) {
+        super(x, y, width, height, speed, id, name);;
+        this.attack_damage = attack_damage;
+        this.attack_speed = attack_speed;
+        this.is_aquatic = is_aquatic;
+        bound = new Rectangle(x, y, 64 , 64);
+    }
+
+    public int getAttackDamage() {
+        return this.attack_damage;
+    }
+
+    public int getAttackSpeed() {
+        return this.attack_speed;
+    }
+
+    public boolean getAquatic() {
+        return this.is_aquatic;
+    }
+
+    public void move(){
+        super.move(getX(), getY());
+    }
+
+    public void loadImage(){
+        super.loadImage();
+    }
+
+    // public void draw(Graphics2D g2){
+        
+    // }
+}
