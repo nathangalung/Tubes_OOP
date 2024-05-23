@@ -1,4 +1,6 @@
-// package src.entities;
+package src.entities;
+
+import java.awt.Graphics2D;
 
 // import java.awt.image.BufferedImage;
 // import java.util.List;
@@ -169,3 +171,91 @@
 //         if (isAttacking())
 //     }
 // }
+
+import java.awt.Rectangle;
+
+import javax.swing.ImageIcon;
+
+import src.assets.GifLoader;
+
+public class Entity {
+    private int x,y;
+    private int width;
+    private int height;
+    private float speed;
+    private int id;
+    private String name;
+    private ImageIcon img;
+
+    private Rectangle bound;
+
+    public Entity(int x, int y, int width, int height, float speed, int id , String name ) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.id = id;
+        this.name = name;
+        bound = new Rectangle(x, y, width , height);
+        loadImage();
+    }
+
+    public void initBound(){
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int height(){
+        return height;
+    }
+
+    public float getSpeed(){
+        return speed;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public Rectangle getBound(){
+        return bound;
+    }
+
+    public int getID(){
+        return id;
+    }
+
+    public ImageIcon getImg(){
+        return img;
+    }
+
+    public void setImage(ImageIcon img){
+        this.img = img;
+    }
+
+    public void move(int x, int y){
+        this.x += x;
+        this.y += y;
+    }
+
+    public void loadImage(){
+        String folder= "";
+        String filename = "";
+        img = GifLoader.readGif(folder, filename);
+    }
+
+    // public void draw(Graphics2D g2){
+
+    // }
+}
