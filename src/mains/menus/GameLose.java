@@ -1,14 +1,11 @@
 package src.mains.menus;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import src.assets.ImageLoader;
-import src.main.KeyHandler;
-import src.main.panels.AboutPanel;
-import src.main.panels.GamePanel;
-import src.main.panels.MainMenuPanel;
-import src.main.panels.PanelHandler;
-import src.mains.panels.HelpPanel;
+import src.mains.KeyHandler;
+import src.mains.panels.*;
 
 public class GameLose {
     private static int selectedBox = 0;
@@ -17,13 +14,13 @@ public class GameLose {
 
     private static void boxPressed() {
         if (selectedBox == 0) {
-            PanelHandler.switchPanel(GamePanel.getInstance(), AboutPanel.getInstance());
+            PanelHandler.switchPanel(GamePanel.getInstance(), GamePanel.getInstance());
             GamePanel.gameState = "Playing: Restart";
         }
 
         if (selectedBox == 1) {
             // SAVE HERE
-            PanelHandler.switchPanel(GamePanel.getInstance(), Ga.getInstance());
+            PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
             GamePanel.gameState = "Playing: Save Game";
         }
 
@@ -44,36 +41,54 @@ public class GameLose {
     }
 
     public static void update() {
-        if(KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)){
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)) {
             boxPressed();
         }
 
         int newSelectedBox = selectedBox;
-        if(KeyHandler.isKeyPressed(KeyHandler.KEY_S)){
-            newSelectedBox++;
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_UP)) {
+            if (selectedBox == 0) {
+                newSelectedBox = 4;
+            }
+            else if (selectedBox == 1 || selectedBox == 2) {
+                newSelectedBox = 0;
+            }
+            else {
+                newSelectedBox -= 2;
+            }
         }
-        if(KeyHandler.isKeyPressed(KeyHandler.KEY_W)){
-            newSelectedBox--;
+
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_RIGHT) || KeyHandler.isKeyPressed(KeyHandler.KEY_LEFT)) {
+            if (selectedBox == 0) {
+                newSelectedBox = 0;
+            }
+            else if (selectedBox == 1 || selectedBox == 3) {
+                newSelectedBox++;
+            }
+            else {
+                newSelectedBox--;
+            }
         }
-        if (newSelectedBox >= 0 && newSelectedBox < 2){
+
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_DOWN)) {
+            if (selectedBox == 0) {
+                newSelectedBox = 2;
+            }
+            else if (selectedBox == 1 || selectedBox == 2) {
+                newSelectedBox += 2;
+            }
+            else {
+                newSelectedBox = 0;
+            }
+        }
+
+        if (newSelectedBox >= 0 && newSelectedBox < 5){
             selectedBox = newSelectedBox;
         }
     }
     
-    public static void draw(Graphics2D g){
-        g.setColor(new Color(0, 0, 0, 100));
-        g.fillRect(0, 0, 800, 600);
-
-        g.drawImage(background, 233, 60, null); // Background
-
-        g.drawImage(about, 269, 167, null); // Help button
-        g.drawImage(exit, 269, 262, null); // Save and Exit button
+    public static void draw(Graphics2D g) {
         
-        if(selectedBox == 0){
-            g.drawImage(aboutHighlighted, 265, 163, null);
-        }
-        if(selectedBox == 1){
-            g.drawImage(exitHighlighted, 265, 258, null);
-        }
+
     }
 }

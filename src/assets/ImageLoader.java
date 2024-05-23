@@ -44,7 +44,7 @@ public class ImageLoader {
     }
 
     public static BufferedImage[] loadInventory() {
-        BufferedImage[] images = new BufferedImage[53];
+        BufferedImage[] images = new BufferedImage[52];
 
         images[0] = readImage("panels/inventoryPanel", "Background");
         images[1] = readImage("panels/inventoryPanel", "Border");

@@ -30,7 +30,7 @@ public class InventoryPanel extends JPanel {
     private int[] inventoryY = {110, 220};
     private int[] deckX = {40, 200, 360};
     private int[] deckY = {482, 582};
-    private int sumCheckInventory, sumCheckDeck = 0;
+    private int sumCheckInventory, sumCheckDeck, sumPlantsDeck = 0;
     private int check, temp;
 
     public InventoryPanel() {
@@ -49,6 +49,7 @@ public class InventoryPanel extends JPanel {
                     if (selectedBox >= 0 && selectedBox < 10) {
                         if (checkInventory[selectedBox] == 1) {
                             checkInventory[selectedBox] = 0;
+                            checkInventory[check] = 0;
                             sumCheckInventory = 0;
                         }
                         else if (sumCheckInventory == 0 && sumCheckDeck == 0 && plantsInventory[selectedBox] != 100) {
@@ -58,29 +59,34 @@ public class InventoryPanel extends JPanel {
                         else if (sumCheckInventory == 0 && sumCheckDeck == 1 && plantsInventory[selectedBox] == 100) {
                             // ngeluarin kartu dari deck balikin ke inventory
                             checkDeck[check] = 0;
+                            sumCheckDeck = 0;
                         }
                         else if (sumCheckInventory == 0 && sumCheckDeck == 1 && plantsInventory[selectedBox] != 100) {
                             // nuker antara deck sama inventory
                             checkDeck[check] = 0;
+                            sumCheckDeck = 0;
                         }
                         else if (sumCheckInventory == 1 && sumCheckDeck == 0 && plantsInventory[selectedBox] == 100) {
                             // mindahin kartu dari inventory ada ke inventory kosong
                             checkInventory[check] = 0;
+                            sumCheckInventory = 0;
                         }
                         else {
                             // nuker antara inventory sama inventory
                             temp = plantsInventory[selectedBox];
                             plantsInventory[selectedBox] = plantsInventory[check];
+                            plantsTemp[selectedBox] = plantsInventory[check];
                             plantsInventory[check] = temp;
+                            plantsTemp[check] = temp;
                             checkInventory[check] = 0;
                             sumCheckInventory = 0;
-                            plantsTemp = plantsInventory;
                         }
                     }
 
-                    if (selectedBox >= 10 && selectedBox <= 15) {
+                    if (selectedBox >= 10 && selectedBox < 16) {
                         if (checkDeck[selectedBox - 10] == 1) {
                             checkDeck[selectedBox - 10] = 0;
+                            checkDeck[check] = 0;
                         }
                         else if (sumCheckDeck == 0 && sumCheckInventory == 0 && plantsDeck[selectedBox - 10] != 100) {
                             check = selectedBox - 10;
@@ -91,14 +97,17 @@ public class InventoryPanel extends JPanel {
                             plantsDeck[selectedBox - 10] = plantsInventory[check];
                             plantsInventory[check] = 100;
                             checkInventory[check] = 0;
+                            sumCheckInventory = 0;
                         }
                         else if (sumCheckDeck == 0 && sumCheckInventory == 1 && plantsDeck[selectedBox - 10] != 100) {
                             // nuker kartu antara inventory sama deck
                             checkInventory[check] = 0;
+                            sumCheckInventory = 0;
                         }
                         else if (sumCheckDeck == 1 && sumCheckInventory == 0 && plantsDeck[selectedBox - 10] == 100) {
                             // pindahin kartu dari deck isi ke deck kosong
                             checkDeck[check] = 0;
+                            sumCheckDeck = 0;
                         }
                         else {
                             // tuker kartu antar deck yang udh keisi
@@ -110,21 +119,31 @@ public class InventoryPanel extends JPanel {
                         }
                     }
 
-                    if (selectedBox == 17) {
-                        plantsInventory = plantsTemp;
-                        plantsDeck = new int[] {0, 0, 0, 0, 0, 0};
+                    if (selectedBox == 16) {
+                        for (int i = 0; i < 6; i++) {
+                            plantsInventory[i] = plantsTemp[i];
+                        }
+                        plantsDeck = new int[] {100, 100, 100, 100, 100, 100};
+                        checkInventory = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                        sumCheckInventory = 0;
+                        checkDeck = new int[] {0, 0, 0, 0, 0, 0};
+                        sumCheckDeck = 0;
                     }
 
                     if (selectedBox == 17) {
-                        GamePanel.gameState = "Playing";
-                        checkInventory = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-                        checkDeck = new int[] {0, 0, 0, 0, 0, 0};
-                        PanelHandler.switchPanel(InventoryPanel.getInstance(), GamePanel.getInstance());
+                        for (int i = 0; i < 6; i++) {
+                            sumPlantsDeck += plantsDeck[i];
+                        }
+                        if (sumPlantsDeck < 100) {
+                            checkInventory = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                            checkDeck = new int[] {0, 0, 0, 0, 0, 0};
+                            GamePanel.gameState = "Playing";
+                            PanelHandler.switchPanel(InventoryPanel.getInstance(), GamePanel.getInstance());
+                        }
                     }
 
                     if (selectedBox == 18) {
                         GamePanel.gameState = "Inventory: Help";
-                        // NOTHING SINCE LOAD HASN'T BEEN IMPLEMENTED
                         PanelHandler.switchPanel(InventoryPanel.getInstance(), HelpPanel.getInstance());
                     }
 
@@ -276,6 +295,9 @@ public class InventoryPanel extends JPanel {
                 }
 
                 if (keyCode == KeyEvent.VK_ESCAPE) {
+                    checkInventory = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                    checkDeck = new int[] {0, 0, 0, 0, 0, 0};
+                    
                     GamePanel.gameState = "Main Menu";
                     PanelHandler.switchPanel(InventoryPanel.getInstance(), MainMenuPanel.getInstance());
                 }
@@ -309,129 +331,54 @@ public class InventoryPanel extends JPanel {
         g2.drawImage(images[5], 709, 597, null);
         // Draw boxes
 
-        // for (int i = 0; i < 5; i++) {
-        //     if (plantsInventory[i] == 100 ) {
-        //         if (selectedBox == i) {
-        //             g2.drawImage(images[11], inventoryX[i], inventoryY[0], null);
-        //         }
-        //         else {
-        //             g2.drawImage(images[10], inventoryX[i], inventoryY[0], null);
-        //         }
-        //     }
-        //     else {
-        //         if (selectedBox == i) {
-        //             if (sumCheckDeck + sumCheckInventory == 1) {
-        //                 if (checkInventory[i] == 1) g2.drawImage(images[plantsInventory[i] + 42], inventoryX[i]-6, inventoryY[0]-4, null);
-        //             }
-        //             else {
-        //                 g2.drawImage(images[plantsInventory[i] + 32], inventoryX[i]-6, inventoryY[0]-4, null);
-        //             }
-        //         }
-        //         else {
-        //             if (sumCheckDeck + sumCheckInventory > 0) {
-        //                 g2.drawImage(images[plantsInventory[i] + 22], inventoryX[i], inventoryY[0], null);
-        //             }
-        //             else {
-        //                 g2.drawImage(images[plantsInventory[i] + 12], inventoryX[i], inventoryY[0], null);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // for (int j = 5; j < 10; j++) {
-        //     if (plantsInventory[j] == 100 ) {
-        //         if (selectedBox == j) {
-        //             g2.drawImage(images[11], inventoryX[j-5], inventoryY[1], null);
-        //         }
-        //         else {
-        //             g2.drawImage(images[10], inventoryX[j-5], inventoryY[1], null);
-        //         }
-        //     }
-        //     else {
-        //         if (selectedBox == j) {
-        //             if (sumCheckDeck + sumCheckInventory == 1) {
-        //                 if (checkInventory[j] == 1) g2.drawImage(images[plantsInventory[j] + 42], inventoryX[j-5]-6, inventoryY[1]-4, null);
-        //             }
-        //             else {
-        //                 g2.drawImage(images[plantsInventory[j] + 32], inventoryX[j-5]-6, inventoryY[1]-4, null);
-        //             }
-        //         }
-        //         else {
-        //             if (sumCheckDeck + sumCheckInventory > 0) {
-        //                 g2.drawImage(images[plantsInventory[j] + 22], inventoryX[j-5], inventoryY[1], null);
-        //             }
-        //             else {
-        //                 g2.drawImage(images[plantsInventory[j] + 12], inventoryX[j-5], inventoryY[1], null);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // for (int a = 0; a < 3; a++) {
-        //     if (plantsDeck[a] == 100 ) {
-        //         if (selectedBox == a + 10) {
-        //             g2.drawImage(images[11], deckX[a], deckY[0], null);
-        //         }
-        //         else {
-        //             g2.drawImage(images[10], deckX[a], deckY[0], null);
-        //         }
-        //     }
-        //     else {
-        //         if (selectedBox == a + 10) {
-        //             if (sumCheckDeck + sumCheckInventory == 1) {
-        //                 g2.drawImage(images[plantsInventory[a] + 42], deckX[a]-6, deckY[0]-4, null);
-        //             }
-        //             else {
-        //                 g2.drawImage(images[plantsInventory[a] + 32], deckX[a]-6, deckY[0]-4, null);
-        //             }
-        //         }
-        //         else {
-        //             if (sumCheckDeck + sumCheckInventory > 0) {
-        //                 g2.drawImage(images[plantsInventory[a] + 22], deckX[a], deckY[0], null);
-        //             }
-        //             else {
-        //                 g2.drawImage(images[plantsInventory[a] + 12], deckX[a], deckY[0], null);
-        //             }
-        //         }
-        //     }
-        // }
-        g2.drawImage(images[11], 0, 0, null);
-
         for (int i = 0; i < 5; i++) {
             if (plantsInventory[i] != 100) {
-                g2.drawImage(images[plantsInventory[i] + 12], inventoryX[i], inventoryY[0], null);
-            }
-            else {
                 if (selectedBox == i) {
-                    g2.drawImage(images[11], inventoryX[i], inventoryY[0], null);
+                    if (checkInventory[i] != 1) g2.drawImage(images[plantsInventory[i] + 32], inventoryX[i]-6, inventoryY[0]-4, null);
+                    else g2.drawImage(images[plantsInventory[i] + 42], inventoryX[i]-6, inventoryY[0]-4, null);
                 }
                 else {
-                    g2.drawImage(images[10], inventoryX[i], inventoryY[0], null);
+                    if (checkInventory[i] != 1) g2.drawImage(images[plantsInventory[i] + 12], inventoryX[i], inventoryY[0], null);
+                    else g2.drawImage(images[plantsInventory[i] + 22], inventoryX[i], inventoryY[0], null);
                 }
+            }
+            else {
+                if (selectedBox == i) g2.drawImage(images[plantsTemp[i] + 42], inventoryX[i]-6, inventoryY[0]-4, null);
+                else g2.drawImage(images[plantsTemp[i] + 22], inventoryX[i], inventoryY[0], null);
             }
         }
 
         for (int j = 5; j < 10; j++) {
             if (plantsInventory[j] != 100) {
-                g2.drawImage(images[plantsInventory[j] + 12], inventoryX[j - 5], inventoryY[1], null);
-            }
-            else {
                 if (selectedBox == j) {
-                    g2.drawImage(images[11], inventoryX[j-5], inventoryY[1], null);
+                    if (checkInventory[j] != 1) g2.drawImage(images[plantsInventory[j] + 32], inventoryX[j-5]-6, inventoryY[1]-4, null);
+                    else g2.drawImage(images[plantsInventory[j] + 42], inventoryX[j-5]-6, inventoryY[1]-4, null);
                 }
                 else {
-                    g2.drawImage(images[10], inventoryX[j-5], inventoryY[1], null);
+                    if (checkInventory[j] != 1) g2.drawImage(images[plantsInventory[j] + 12], inventoryX[j-5], inventoryY[1], null);
+                    else g2.drawImage(images[plantsInventory[j] + 22], inventoryX[j-5], inventoryY[1], null);
                 }
+            }
+            else {
+                if (selectedBox == j) g2.drawImage(images[plantsTemp[j] + 42], inventoryX[j-5]-6, inventoryY[1]-4, null);
+                else g2.drawImage(images[plantsTemp[j] + 22], inventoryX[j-5], inventoryY[1], null);
             }
         }
 
         for (int a = 0; a < 3; a++) {
             if (plantsDeck[a] != 100) {
-                g2.drawImage(images[plantsDeck[a] + 12], deckX[a], deckY[0], null); // inventory plant 1
+                if (selectedBox == a + 10) {
+                    if (checkDeck[a] != 1) g2.drawImage(images[plantsDeck[a] + 32], deckX[a]+2, deckY[0]-2, null);
+                    else g2.drawImage(images[plantsDeck[a] + 42], deckX[a]+2, deckY[0]-2, null);
+                }
+                else {
+                    if (checkDeck[a] != 1) g2.drawImage(images[plantsDeck[a] + 12], deckX[a]+8, deckY[0]+2, null);
+                    else g2.drawImage(images[plantsDeck[a] + 22], deckX[a]+8, deckY[0]+2, null);
+                }
             }
             else {
-                if ((selectedBox == a + 10)) {
-                    g2.drawImage(images[11], deckX[a], deckY[0], null);
+                if (selectedBox == a + 10) {
+                    g2.drawImage(images[11], deckX[a], deckY[0]-2, null);
                 }
                 else {
                     g2.drawImage(images[10], deckX[a], deckY[0], null);
@@ -441,11 +388,18 @@ public class InventoryPanel extends JPanel {
 
         for (int b = 3; b < 6; b++) {
             if (plantsDeck[b] != 100) {
-                g2.drawImage(images[plantsDeck[b] + 12], deckX[b - 3], deckY[1], null);
+                if (selectedBox == b + 10) {
+                    if (checkDeck[b] != 1) g2.drawImage(images[plantsDeck[b] + 32], deckX[b-3]+2, deckY[1]-2, null);
+                    else g2.drawImage(images[plantsDeck[b] + 42], deckX[b-3], deckY[0], null);
+                }
+                else {
+                    if (checkDeck[b] != 1) g2.drawImage(images[plantsDeck[b] + 12], deckX[b-3]+8, deckY[1]+2, null);
+                    else g2.drawImage(images[plantsDeck[b] + 22], deckX[b-3], deckY[0], null);
+                }
             }
             else {
-                if ((selectedBox == b + 10)) {
-                    g2.drawImage(images[11], deckX[b-3], deckY[1], null);
+                if (selectedBox == b + 10) {
+                    g2.drawImage(images[11], deckX[b-3], deckY[1]-2, null);
                 }
                 else {
                     g2.drawImage(images[10], deckX[b-3], deckY[1], null);
@@ -453,29 +407,6 @@ public class InventoryPanel extends JPanel {
             }
         }
 
-        
-        
-        // // Draw highlighted boxes
-        
-        for (int i = 0; i < 5; i++) {
-            if (selectedBox == i && sumCheckInventory + sumCheckDeck < 2) g2.drawImage(images[plantsInventory[i] + 32], inventoryX[i] - 6, inventoryY[0] - 4, null); // inventory plant 1
-            if (checkInventory[i] == 1) g2.drawImage(images[plantsInventory[i] + 22], inventoryX[i], inventoryY[0], null); // inventory plant 1
-        }
-
-        for (int j = 5; j < 10; j++) {
-            if (selectedBox == j && sumCheckInventory + sumCheckDeck < 2) g2.drawImage(images[plantsInventory[j] + 32], inventoryX[j-5] - 6, inventoryY[1] - 4, null);
-            if (checkInventory[j] == 1) g2.drawImage(images[plantsInventory[j] + 22], inventoryX[j-5], inventoryY[1], null);
-        }
-
-        for (int a = 0; a < 3; a++) {
-            if ((selectedBox == a + 10) && sumCheckInventory + sumCheckDeck < 2) g2.drawImage(images[plantsDeck[a] + 32], deckX[a] - 6, deckY[0] - 4, null);
-            if (checkDeck[a] == 1) g2.drawImage(images[plantsDeck[a] + 22], deckX[a], deckY[0], null);
-        }
-
-        for (int b = 3; b < 6; b++) {
-            if ((selectedBox == b + 10) && sumCheckInventory + sumCheckDeck < 2) g2.drawImage(images[plantsDeck[b] + 32], deckX[b-3] - 6, deckY[1] - 4, null);
-            if (checkDeck[b] == 1) g2.drawImage(images[plantsDeck[b] + 22], deckX[b-3], deckY[1], null);
-        }
 
         if (selectedBox == 16) g2.drawImage(images[6], 519, 490, null);
         if (selectedBox == 17) g2.drawImage(images[7], 703, 490, null);

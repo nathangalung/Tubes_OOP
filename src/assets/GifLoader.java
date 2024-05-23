@@ -49,4 +49,18 @@ public class GifLoader {
 
         return gifs;
     }
+
+    public static ImageIcon loadSunflower() {
+        ImageIcon gifs = readGif("entities/plants/sunflower", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon loadPeashooter() {
+        ImageIcon gifs = readGif("entities/plants/peasahooter", "Base");
+
+        return gifs;
+    }
+
+    
 }

@@ -12,12 +12,6 @@ import javax.swing.JPanel;
 import src.assets.ImageLoader;
 import src.mains.Consts;
 
-// import src.mains.panels.PanelHandler;
-// import src.mains.panels.InventoryPanel;
-// import src.mains.panels.PlantsListPanel;
-// import src.mains.panels.ZombiesListPanel;
-// import src.mains.panels.HelpPanel;
-
 public class MainMenuPanel extends JPanel {
     public static MainMenuPanel mmp = new MainMenuPanel();
 
@@ -150,10 +144,10 @@ public class MainMenuPanel extends JPanel {
         g2.drawImage(images[7], 1128, 35, null); // exit game
         
         // Draw highlighted boxes
-        if (selectedBox == 0) g2.drawImage(images[8], 521, 241, null); // start game highlighted
-        if (selectedBox == 1) g2.drawImage(images[9], 521, 341, null); // load game highlighted
-        if (selectedBox == 2) g2.drawImage(images[10], 521, 441, null); // plants list highlighted
-        if (selectedBox == 3) g2.drawImage(images[11], 521, 541, null); // zombies list highlighted
+        if (selectedBox == 0) g2.drawImage(images[8], 520, 241, null); // start game highlighted
+        if (selectedBox == 1) g2.drawImage(images[9], 520, 341, null); // load game highlighted
+        if (selectedBox == 2) g2.drawImage(images[10], 520, 441, null); // plants list highlighted
+        if (selectedBox == 3) g2.drawImage(images[11], 520, 541, null); // zombies list highlighted
         if (selectedBox == 4) g2.drawImage(images[12], 1121, 568, null); // about highlighted
         if (selectedBox == 5) g2.drawImage(images[13], 1123, 30, null); // exit game highlighted
 
