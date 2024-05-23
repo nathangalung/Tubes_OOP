@@ -6,24 +6,26 @@ import java.util.ArrayList;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Point;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.ConcurrentModificationException;
 
-import src.entities.plants.Plant;
-import src.entities.zombies.Zombie;
-import src.mains.menus.*;
-import src.mains.panels.*;
+// import src.entities.plants.Plant;
+// import src.entities.zombies.Zombie;
+// import src.mains.menus.*;
+// import src.mains.panels.*;
+import src.maps.Map;
 
 public class UserInterface {
     public static UserInterface ui = new UserInterface();
     
+    private static Map map;
+
     // Attributes
-    private static Map<Plant, Point> plantsListInventory = new HashMap<>();
-    private static Map<Plant, Point> plantsListInventoryDeck = new HashMap<>();
-    private static Map<Plant, Point> plantsListPlayDeck = new HashMap<>();
-    private static Map<Plant, Point> plantsListPlay = new HashMap<>();
-    private static Map<Zombie, Point> zombiesListPlay = new HashMap<>(); 
+    // private static Map<Plant, Point> plantsListInventory = new HashMap<>();
+    // private static Map<Plant, Point> plantsListInventoryDeck = new HashMap<>();
+    // private static Map<Plant, Point> plantsListPlayDeck = new HashMap<>();
+    // private static Map<Plant, Point> plantsListPlay = new HashMap<>();
+    // private static Map<Zombie, Point> zombiesListPlay = new HashMap<>(); 
     
     // User Interface States
     private static boolean viewingMap = true;
@@ -46,8 +48,8 @@ public class UserInterface {
         viewingGameWin = false;
         viewingGameLose = false;
 
-        UserInterface.currentMap = map;
-        UserInterface.currentMap.setIsAddingPlant();
+        UserInterface.map = map;
+        // UserInterface.currentMap.setIsAddingPlant();
     }
 
     // GETTERS
@@ -55,17 +57,21 @@ public class UserInterface {
         return ui;
     }
 
-    public static Tile getTile() {
-        return getTile;
+    public static Map getMap() {
+        return map;
     }
 
-    public static Plant get() {
-        return currentPlant;
-    }
+    // public static Tile getTile() {
+    //     return getTile;
+    // }
 
-    public static Zombie getCurrentZombie() {
-        return currentZombie;
-    }
+    // public static Plant get() {
+    //     return currentPlant;
+    // }
+
+    // public static Zombie getCurrentZombie() {
+    //     return currentZombie;
+    // }
 
     public static boolean isViewingMap() {
         return viewingMap;
@@ -93,10 +99,10 @@ public class UserInterface {
     //     cur = currentPlant.;
     // }
 
-    public static void setViewingMap() {
-        viewingMap = !viewingMap;
-        currentMap.reset();
-    }
+    // public static void setViewingMap() {
+    //     viewingMap = !viewingMap;
+    //     currentMap.reset();
+    // }
 
     public static void setViewingFlag() {
         viewingFlag = !viewingFlag;
@@ -124,86 +130,86 @@ public class UserInterface {
     }
 
     // OTHERS
-    public void reset() {
-        currentMap.reset();
-    }
+    // public void reset() {
+    //     currentMap.reset();
+    // }
 
-    public static void update() {
-        updateListOfPlantsGame();
-        updateListOfZombiesGame();
+    // public static void update() {
+    //     updateListOfPlantsGame();
+    //     updateListOfZombiesGame();
 
-        if (viewingFlag) {
-            SaveMenu.update();
-        }
+    //     if (viewingFlag) {
+    //         SaveMenu.update();
+    //     }
 
-        if (viewingGamePause) {
-            GamePauseMenu.update();
-        }
+    //     if (viewingGamePause) {
+    //         GamePauseMenu.update();
+    //     }
 
-        if (viewingGameWin) {
-            GameWinMenu.update();
-        }
+    //     if (viewingGameWin) {
+    //         GameWinMenu.update();
+    //     }
 
-        if (viewingGameLose) {
-            GameLoseMenu.update();
-        }
-    }
+    //     if (viewingGameLose) {
+    //         GameLoseMenu.update();
+    //     }
+    // }
     
-    public static void draw(Graphics2D g) {
-        currentSimInventory.draw(g);
+    // public static void draw(Graphics2D g) {
+    //     currentSimInventory.draw(g);
 
-        if (viewingFlag) {
-            SaveMenu.draw(g);
-        }
+    //     if (viewingFlag) {
+    //         SaveMenu.draw(g);
+    //     }
 
-        if (viewingGamePause) {
-            GamePauseMenu.draw(g);
-        }
+    //     if (viewingGamePause) {
+    //         GamePauseMenu.draw(g);
+    //     }
 
-        if (viewingGameWin) {
-            GameWinMenu.draw(g);
-        }
+    //     if (viewingGameWin) {
+    //         GameWinMenu.draw(g);
+    //     }
 
-        if (viewingGameLose) {
-            GameLoseMenu.draw(g);
-        }
-    }
+    //     if (viewingGameLose) {
+    //         GameLoseMenu.draw(g);
+    //     }
+    // }
 
-    private static void updateListOfPlantsGame() {
-        Map map = UserInterface.getMap();
-        ArrayList<Plant> listOfPlantsGame = map.getListOfPlantsGame();
-        try {
-            for (Plant plant : listOfPlantsGame) {
-                if (plant.getHealth() > 0) {
-                    continue;
-                }
-                if (plant.getHealth() <= 0) {
-                    plant.setHealth(0);
-                    listOfPlantsGame.remove(plant);
-                }
-            }
-        }
-        catch (ConcurrentModificationException cme) {
-        }
-    }
+    // private static void updateListOfPlantsGame() {
+    //     Map map = UserInterface.getMap();
+    //     ArrayList<Plant> listOfPlantsGame = map.getListOfPlantsGame();
+    //     try {
+    //         for (Plant plant : listOfPlantsGame) {
+    //             if (plant.getHealth() > 0) {
+    //                 continue;
+    //             }
+    //             if (plant.getHealth() <= 0) {
+    //                 plant.setHealth(0);
+    //                 listOfPlantsGame.remove(plant);
+    //             }
+    //         }
+    //     }
+    //     catch (ConcurrentModificationException cme) {
+    //     }
+    // }
 
-    private static void updateListOfZombiesGame() {
-        Map map = UserInterface.getMap();
-        ArrayList<Zombie> listOfZombiesGame = map.getListOfZombiesGame();
-        try {
-            for (Zombie zombie : listOfZombiesGame) {
-                if (zombie.getHealth() > 0) {
-                    continue;
-                }
-                if (zombie.getHealth() <= 0) {
-                    zombie.setHealth(0);
-                    listOfZombiesGame.remove(zombie);
-                }
-            }
-        }
-        catch (ConcurrentModificationException cme) {
-        }
-    }
+    // private static void updateListOfZombiesGame() {
+    //     Map map = UserInterface.getMap();
+    //     ArrayList<Zombie> listOfZombiesGame = map.getListOfZombiesGame();
+    //     try {
+    //         for (Zombie zombie : listOfZombiesGame) {
+    //             if (zombie.getHealth() > 0) {
+    //                 continue;
+    //             }
+    //             if (zombie.getHealth() <= 0) {
+    //                 zombie.setHealth(0);
+    //                 listOfZombiesGame.remove(zombie);
+    //             }
+    //         }
+    //     }
+    //     catch (ConcurrentModificationException cme) {
+    //     }
+    // }
 
     public static void drawCenteredText(Graphics2D g, BufferedImage image, int x, int y, String str, Font f) {
         String text = str;

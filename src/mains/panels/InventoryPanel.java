@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import src.assets.ImageLoader;
 // import src.entities.plants.Plant;
-
+import src.mains.GameLoader;
 import src.mains.Consts;
 
 public class InventoryPanel extends JPanel {
@@ -52,6 +52,10 @@ public class InventoryPanel extends JPanel {
                             checkInventory[check] = 0;
                             sumCheckInventory = 0;
                         }
+                        else if (sumCheckInventory == 0 && sumCheckDeck == 0 && plantsInventory[selectedBox] == 100) {
+                            checkInventory[check] = 0;
+                            sumCheckInventory = 0;
+                        }
                         else if (sumCheckInventory == 0 && sumCheckDeck == 0 && plantsInventory[selectedBox] != 100) {
                             check = selectedBox;
                             checkInventory[selectedBox] = 1;
@@ -88,6 +92,10 @@ public class InventoryPanel extends JPanel {
                             checkDeck[selectedBox - 10] = 0;
                             checkDeck[check] = 0;
                         }
+                        else if (sumCheckDeck == 0 && sumCheckInventory == 0 && plantsDeck[selectedBox - 10] == 100) {
+                            checkInventory[selectedBox - 10] = 0;
+                            sumCheckDeck = 0;
+                        }
                         else if (sumCheckDeck == 0 && sumCheckInventory == 0 && plantsDeck[selectedBox - 10] != 100) {
                             check = selectedBox - 10;
                             checkDeck[selectedBox - 10] = 1;
@@ -95,6 +103,7 @@ public class InventoryPanel extends JPanel {
                         else if (sumCheckDeck == 0 && sumCheckInventory == 1 && plantsDeck[selectedBox - 10] == 100) {
                             // masukin kartu dari inventory ke deck
                             plantsDeck[selectedBox - 10] = plantsInventory[check];
+                            plantsTemp[check] = plantsInventory[check];
                             plantsInventory[check] = 100;
                             checkInventory[check] = 0;
                             sumCheckInventory = 0;
@@ -120,7 +129,7 @@ public class InventoryPanel extends JPanel {
                     }
 
                     if (selectedBox == 16) {
-                        for (int i = 0; i < 6; i++) {
+                        for (int i = 0; i < 10; i++) {
                             plantsInventory[i] = plantsTemp[i];
                         }
                         plantsDeck = new int[] {100, 100, 100, 100, 100, 100};
@@ -129,7 +138,7 @@ public class InventoryPanel extends JPanel {
                         checkDeck = new int[] {0, 0, 0, 0, 0, 0};
                         sumCheckDeck = 0;
                     }
-
+ 
                     if (selectedBox == 17) {
                         for (int i = 0; i < 6; i++) {
                             sumPlantsDeck += plantsDeck[i];
@@ -138,6 +147,7 @@ public class InventoryPanel extends JPanel {
                             checkInventory = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                             checkDeck = new int[] {0, 0, 0, 0, 0, 0};
                             GamePanel.gameState = "Playing";
+                            GameLoader.startNewGame();
                             PanelHandler.switchPanel(InventoryPanel.getInstance(), GamePanel.getInstance());
                         }
                     }

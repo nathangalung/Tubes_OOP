@@ -6,6 +6,9 @@ import javax.swing.*;
 
 import src.mains.Consts;
 import src.mains.KeyHandler;
+import src.mains.UserInterface;
+import src.maps.Map;
+
 
 public class GamePanel extends JPanel implements Runnable {
     private static GamePanel gp = new GamePanel();
@@ -13,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static String gameState;
     // public static GameTime time;
 
-    // public static Map map;
+    public static Map map;
 
     private GamePanel() {
         setPreferredSize(new Dimension(Consts.WIDTH, Consts.HEIGHT));
@@ -88,13 +91,13 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             if (isCurrentState("Main Menu")) return;
 
-            if (isCurrentState("Main Menu: Help") || isCurrentState("Playing: Help") || isCurrentState("Play: Game Pause")) return;
+            if (isCurrentState("Main Menu: Help") || isCurrentState("Playing: Help") || isCurrentState("Playing: Game Pause")) return;
     
-            if (isCurrentState("Main Menu: Inventory") || isCurrentState("Inventory")) return;
+            if (isCurrentState("Inventory") || isCurrentState("PlantsList") || isCurrentState("ZombiesList")) return;
 
-            // if (UserInterface.isViewingMap()) {
-            //     map.update();
-            // }
+            if (UserInterface.isViewingMap()) {
+                map.update();
+            }
             // else {
             //      currentPlant = UserInterface.getCurrentPlant();
             //     Zombie currentZombie = UserInterface.getCurrentZombie();
@@ -106,21 +109,21 @@ public class GamePanel extends JPanel implements Runnable {
         catch (NullPointerException e) {}
     }
     
-    // @Override
-    // public void paintComponent(Graphics g) {
-    //     super.paintComponent(g);
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
-    //     Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
 
-    //     try {
-    //         if (isCurrentState("Main Menu")) return;
+        try {
+            if (isCurrentState("Main Menu")) return;
 
-    //         if (isCurrentState("Main Menu: Help") || isCurrentState("Playing: Help")) return;
+            if (isCurrentState("Main Menu: Help") || isCurrentState("Playing: Help")) return;
     
-    //         if (isCurrentState("Main Menu: Inventory") || isCurrentState("Inventory")) return;
+            if (isCurrentState("Inventory") || isCurrentState("Plants List") || isCurrentState("Zombies List")) return;
     
-    //         if (UserInterface.isViewingMap()) {
-    //             map.draw(g2);
+            if (UserInterface.isViewingMap()) {
+                map.draw(g2);
     //         }
     //         else {
     //             Plant currentPlantMap = UserInterface.getCurrentPlant();
@@ -130,11 +133,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     //             currentMap.draw(g2);
     //             UserInterface.draw(g2);
-    //         }
-    //     }
-    //     catch (NullPointerException e) {}
+            }
+        }
+        catch (NullPointerException e) {}
         
     //     // To free resources
-    //     g2.dispose();
-    // }
+        g2.dispose();
+    }
 }

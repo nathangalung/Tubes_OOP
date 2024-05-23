@@ -201,24 +201,6 @@ public class ImageLoader {
         return images;
     }
 
-    public static BufferedImage[] loadInventoryCard() {
-        BufferedImage[] images = new BufferedImage[10];
-
-        images[0] = readImage("entities/items/inventory", "Sunflower");
-        images[1] = readImage("entities/items/inventory", "Peashooter");
-        images[2] = readImage("entities/items/inventory", "WallNut");
-        images[3] = readImage("entities/items/inventory", "SnowPea");
-        images[4] = readImage("entities/items/inventory", "Squash");
-        images[5] = readImage("entities/items/inventory", "LilyPad");
-        images[6] = readImage("entities/items/inventory", "TangleKelp");
-        images[7] = readImage("entities/items/inventory", "Cactus");
-        images[8] = readImage("entities/items/inventory", "CherryBomb");
-        images[9] = readImage("entities/items/inventory", "Jalapeno");
-        images[10] = readImage("entities/items/inventory", "PotatoMine");
-
-        return images;
-    }
-
     public static BufferedImage[] loadPlay() {
         BufferedImage[] images = new BufferedImage[5];
 
@@ -232,12 +214,21 @@ public class ImageLoader {
     }
 
     public static BufferedImage[] loadMap() {
-        BufferedImage[] images = new BufferedImage[4];
+        BufferedImage[] images = new BufferedImage[13];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box");
-        images[1] = readImage("menus/world_menu", "house_info_box");
-        images[2] = readImage("menus/world_menu", "help_box");
-        images[3] = readImage("menus/world_menu", "world_help");
+        images[0] = readImage("maps", "BackgroundMorning");
+        images[1] = readImage("maps", "BackgroundNight");
+        images[2] = readImage("maps", "SunTab");
+        images[3] = readImage("maps", "ZombieBar");
+        images[4] = readImage("maps", "ZombieHead");
+        images[5] = readImage("maps", "Pause");
+        images[6] = readImage("maps", "Shovel");
+        images[7] = readImage("maps", "PauseHighlight");
+        images[8] = readImage("maps", "ShovelHighlight");
+        images[9] = readImage("maps/tiles", "Pink");
+        images[10] = readImage("maps/tiles", "Green");
+        images[11] = readImage("maps/tiles", "Blue");
+        images[12] = readImage("maps/tiles", "Brown");
 
         return images;
     }

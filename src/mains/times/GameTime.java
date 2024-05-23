@@ -3,7 +3,7 @@ package src.mains.times;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import src.entities.plants.Plant;
+// import src.entities.plants.Plant;
 import src.mains.Consts;
 import src.mains.UserInterface;
 import src.maps.Map;
@@ -23,7 +23,7 @@ public class GameTime implements Runnable {
     public static int morningRemaining = Consts.SECOND * Consts.MORNING;
     public static int nightRemaining = Consts.SECOND * Consts.NIGHT;
 
-    private static ArrayList<CooldownTimer> cooldownPlantsList = new ArrayList<>();
+    // private static ArrayList<CooldownTimer> cooldownPlantsList = new ArrayList<>();
 
     private GameTime() {}
 
@@ -47,46 +47,46 @@ public class GameTime implements Runnable {
         return gtThread;
     }
 
-    public static ArrayList<CooldownTimer> getCooldownPlantsList() {
-        return cooldownPlantsList;
-    }
+    // public static ArrayList<CooldownTimer> getCooldownPlantsList() {
+    //     return cooldownPlantsList;
+    // }
 
-    public static CooldownTimer getcooldownTimer(Plant plant, String activity) {
-        try {
-            for (CooldownTimer cooldownTimer : cooldownPlantsList) {
-                Plant cooldownPlant = cooldownTimer.getPlant();
+    // public static CooldownTimer getcooldownTimer(Plant plant, String activity) {
+    //     try {
+    //         for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+    //             Plant cooldownPlant = cooldownTimer.getPlant();
 
-                boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
+    //             boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
 
-                if (isPlantCooldown) {
-                    return cooldownTimer;
-                }
-            }
-        }
-        catch (ConcurrentModificationException cme) {
+    //             if (isPlantCooldown) {
+    //                 return cooldownTimer;
+    //             }
+    //         }
+    //     }
+    //     catch (ConcurrentModificationException cme) {
 
-        }
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     // IMPLEMENTATION OF INTERFACE
     @Override
     public void run() {
         while (gtThread.isAlive()) {
             if (UserInterface.isviewingGamePause()) continue;
-            if (cooldownPlantsList.isEmpty()) continue;
+            // if (cooldownPlantsList.isEmpty()) continue;
 
             try {
                 Thread.sleep(Consts.THREAD_ONE_SECOND);
 
-                for (CooldownTimer cooldownTimer : cooldownPlantsList) {
-                    int cooldownRemaining = cooldownTimer.getTimeRemaining();
+                // for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+                //     int cooldownRemaining = cooldownTimer.getTimeRemaining();
 
-                    if (cooldownRemaining <= 0) cooldownPlantsList.remove(cooldownTimer);
+                //     if (cooldownRemaining <= 0) cooldownPlantsList.remove(cooldownTimer);
 
-                    cooldownTimer.setTimeRemaining(cooldownRemaining - 1);
-                }
+                //     cooldownTimer.setTimeRemaining(cooldownRemaining - 1);
+                // }
                 decrementTimeRemaining();
 
                 Map map = UserInterface.getMap();
@@ -105,32 +105,32 @@ public class GameTime implements Runnable {
         }
     }
 
-    public static boolean isAlive(Plant plant, String activity) {
-        if (cooldownPlantsList.isEmpty()) return false;
+    // public static boolean isAlive(Plant plant, String activity) {
+    //     if (cooldownPlantsList.isEmpty()) return false;
 
-        boolean isAlive = false;
-        try {
-            for (CooldownTimer cooldownTimer : cooldownPlantsList) {
-                Plant cooldownPlant = cooldownTimer.getPlant();
+    //     boolean isAlive = false;
+    //     try {
+    //         for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+    //             Plant cooldownPlant = cooldownTimer.getPlant();
 
-                boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
+    //             boolean isPlantCooldown = plant.getName().equals(cooldownPlant.getName());
 
-                if (isPlantCooldown) {
-                    isAlive = true;
-                }
-            }
-        }
-        catch (ConcurrentModificationException cme) {}
-        catch (NullPointerException npe) {}
+    //             if (isPlantCooldown) {
+    //                 isAlive = true;
+    //             }
+    //         }
+    //     }
+    //     catch (ConcurrentModificationException cme) {}
+    //     catch (NullPointerException npe) {}
 
-        return isAlive;
-    }
+    //     return isAlive;
+    // }
 
-    // SETTERS
-    public static void addcooldownTimer(Plant plant, String activity, int duration) {
-        CooldownTimer cooldownTimer = new CooldownTimer(plant, timeRemaining, duration);
-        cooldownPlantsList.add(cooldownTimer);
-    }
+    // // SETTERS
+    // public static void addcooldownTimer(Plant plant, String activity, int duration) {
+    //     CooldownTimer cooldownTimer = new CooldownTimer(plant, timeRemaining, duration);
+    //     cooldownPlantsList.add(cooldownTimer);
+    // }
 
     public static void decrementTimeRemaining() {
         timeRemaining--;
@@ -142,13 +142,13 @@ public class GameTime implements Runnable {
         }
         if (timeRemaining == 0) {
             gtThread.isInterrupted();
-            if (zombiesList.isEmpty()) {
-                UserInterface.isviewingGameWin();
-            }
-            else {
-                UserInterface.isviewingGameLose();
+            // if (zombiesList.isEmpty()) {
+            //     UserInterface.isviewingGameWin();
+            // }
+            // else {
+            //     UserInterface.isviewingGameLose();
             
-            }
+            // }
         }
     }
 
@@ -159,11 +159,11 @@ public class GameTime implements Runnable {
     public static void decreaseTimeRemaining(int time) {
         timeRemaining -= time;
 
-        for (CooldownTimer cooldownTimer : cooldownPlantsList) {
-            int timeRemaining = cooldownTimer.getTimeRemaining();
+        // for (CooldownTimer cooldownTimer : cooldownPlantsList) {
+        //     int timeRemaining = cooldownTimer.getTimeRemaining();
 
-            cooldownTimer.setTimeRemaining(timeRemaining - time);
-        }
+        //     cooldownTimer.setTimeRemaining(timeRemaining - time);
+        // }
 
         // Map map = UserInterface.getMap();
         // ArrayList<Plant> plantsList = map.getPlantsList();
