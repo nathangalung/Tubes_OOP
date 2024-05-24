@@ -46,7 +46,7 @@ public abstract class Plant extends Entity implements Item {
     private InteractionHandler interactionHandler;
 
     public Plant(int x, int y, int width, int height, int index, String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
-        super(x, y, width, height, 1, 1, );
+        super(x, y, width, height, 1, 1, 1);
         this.name = name;
         this.cost = cost;
         this.health = health;

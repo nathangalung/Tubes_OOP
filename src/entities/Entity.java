@@ -188,7 +188,7 @@ public class Entity {
 
     private Rectangle bound;
 
-    public Entity(int x, int y, int width, int height, float speed, int direction) {
+    public Entity(int x, int y, int width, int height, int speed, int direction) {
         this.x = x;
         this.y = y;
         this.width = width;
