@@ -57,9 +57,9 @@ public abstract class Plant extends Entity implements Item {
         this.occupied = false;
         this.bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
-        images = ImageLoader.loadPlants();
-        interactionHandler = new InteractionHandler(this, currentTiles);
-        collisionHandler = new CollisionHandler(this, currentTiles);
+        // images = ImageLoader.loadPlants();
+        // interactionHandler = new InteractionHandler(this, currentTiles);
+        // collisionHandler = new CollisionHandler(this, currentTiles);
     }
 
     // GETTERS
