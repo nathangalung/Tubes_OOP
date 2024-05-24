@@ -1,12 +1,12 @@
 package zombies;
 
-import zombiest.Zombie;
+import zombies.Zombie;
 
 public class Conehead extends Zombie {
-    private boolean isCone;
+    private boolean isCone = true;
 
-    public Conehead(String name, int health, int attack_damage, int attack_speed, boolean isAquatic) {
-        super(0, 0, 1, 1, 1, "Conehead Zombie", 250, 100, 1, false);
+    public Conehead(int x, int y) {
+        super(x,  y, 0, 0, 1, -1, false,100, 1, 250);
         this.isCone = true;
     }
 

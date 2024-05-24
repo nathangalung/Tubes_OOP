@@ -1,7 +1,28 @@
-package src.entities.zombies;
+package zombies;
+import zombies.Zombie;
 
 public class Newspaper extends Zombie {
-    public Newspaper(String name, int health, int attack_damage, int attack_speed, boolean is_aquatic) {
-        super(0, 0, 1, 1, 9, "Newspaper Zombie", health, attack_damage, attack_speed, is_aquatic);
+    private static int paper = 100 ;
+    private boolean isPaper = true;
+
+    public Newspaper(int x, int y, int width, int height, int speed, int direction, boolean is_aquatic, int attack_damage, int attack_speed, int health) {
+        super(x,  y, width, height, speed, direction, is_aquatic, attack_damage, attack_speed, health);
+        setHealth(health + paper);
     }
+
+    public void speedUp(){
+        if(isPaper == false){
+            setSpeed(getSpeed()+ 2);
+            setAttackS(getAttackSpeed() + 1);
+        }
+    }
+
+    public boolean getisPaper(){
+        return isPaper;
+    }
+
+    public void setisPaper(){
+        isPaper = false;
+    }
+
 }

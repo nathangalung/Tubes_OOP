@@ -1,11 +1,10 @@
 package src.entities.zombies;
 
 public class PoleVaulting extends Zombie {
-    private boolean is_jump;
+    private boolean is_jump = false;
 
-    public PoleVaulting(String name, int health, int attack_damage, int attack_speed, boolean is_aquatic) {
-        super(0, 0, 1, 1, 2, "Pole Vaulting Zombie", 175, 100, 1, false);
-        this.is_jump = true;
+    public PoleVaulting(int x, int y) {
+        super(x, y, 1, 1, 2, -1, false, 100, 1, false);
     }
 
     public boolean getJump() {
@@ -13,6 +12,6 @@ public class PoleVaulting extends Zombie {
     }
 
     public void setJump(boolean is_jump) {
-        this.is_jump = false;
+        this.is_jump = true;
     }
 }
