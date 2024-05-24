@@ -1,13 +1,18 @@
 package zombies;
 
+import javax.swing.ImageIcon;
+
+import src.assets.GifLoader;
 import zombies.Zombie;
 
 public class Conehead extends Zombie {
     private boolean isCone = true;
+    private ImageIcon[] gifs;
 
     public Conehead(int x, int y) {
         super(x,  y, 0, 0, 1, -1, false,100, 1, 250);
         this.isCone = true;
+        this.setGif(GifLoader.loadConehead);
     }
 
     public boolean getCone() {
@@ -17,4 +22,10 @@ public class Conehead extends Zombie {
     public void setCone(boolean isCone) {
         this.isCone = false;
     }
+
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
+    }
+
 }
