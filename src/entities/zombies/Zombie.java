@@ -273,7 +273,4 @@ public class Zombie extends Entity {
     public void setGif(ImageIcon[] gifs) {
         this.gifs = gifs;
     }
-    // public void draw(Graphics2D g2){
-        
-    // }
 }

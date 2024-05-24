@@ -16,14 +16,4 @@ public class Normal extends Zombie {
     public ImageIcon[] getGifs() {
         return gifs;
     }
-
-    // public void draw(Graphics g2){
-    //     g2.drawImage(getImg(), getX(), getY(), null);
-    // }
-
-    // @Override
-    // public void loadImage() {
-    //     // TODO Auto-generated method stub
-    //     super.loadImage();
-    // }
 }

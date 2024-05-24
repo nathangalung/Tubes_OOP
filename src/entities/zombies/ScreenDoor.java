@@ -13,7 +13,6 @@ public class ScreenDoor extends Zombie {
         this.setGif(GifLoader.loadScreenDoor());
 
     }
-
     public void setShield(){
         isShield = false;
     }
