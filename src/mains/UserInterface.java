@@ -11,8 +11,8 @@ import java.util.ConcurrentModificationException;
 
 // import src.entities.plants.Plant;
 // import src.entities.zombies.Zombie;
-// import src.mains.menus.*;
-// import src.mains.panels.*;
+import src.mains.menus.*;
+import src.mains.panels.*;
 import src.maps.Map;
 
 public class UserInterface {
@@ -33,6 +33,7 @@ public class UserInterface {
     private static boolean viewingGamePause = false;
     private static boolean viewingGameWin = false;
     private static boolean viewingGameLose = false;
+    private static boolean viewingGameSave = false;
 
     //ONLY FOR DEBUGGING
     private static boolean debug = false;
@@ -47,6 +48,7 @@ public class UserInterface {
         viewingGamePause = false;
         viewingGameWin = false;
         viewingGameLose = false;
+        viewingGameSave = false;
 
         UserInterface.map = map;
         // UserInterface.currentMap.setIsAddingPlant();
@@ -81,16 +83,20 @@ public class UserInterface {
         return viewingFlag;
     }
 
-    public static boolean isviewingGamePause() {
+    public static boolean isViewingGamePause() {
         return viewingGamePause;
     }
 
-    public static boolean isviewingGameWin() {
+    public static boolean isViewingGameWin() {
         return viewingGameWin;
     }
 
-    public static boolean isviewingGameLose() {
+    public static boolean isViewingGameLose() {
         return viewingGameLose;
+    }
+
+    public static boolean isViewingGameSave() {
+        return viewingGameSave;
     }
 
     // // SETTERS
@@ -119,6 +125,13 @@ public class UserInterface {
         viewingGameLose = !viewingGameLose;
     }
 
+    public static void setViewingGameSave() {
+        if (isViewingGamePause()) setViewingGamePause();
+        if (isViewingGameWin()) setViewingGameWin();
+        if (isViewingGameLose()) setViewingGameLose();
+        viewingGameSave = !viewingGameSave;
+    }
+
     // ONLY FOR DEBUGGING
     public static boolean isDebug() {
         return debug;
@@ -133,58 +146,52 @@ public class UserInterface {
     //     currentMap.reset();
     // }
 
-    // public static void update() {
-    //     updateListOfPlantsGame();
-    //     updateListOfZombiesGame();
+    public static void update() {
+    //     updatePlantsListGame();
+    //     updateZombiesListGame();
 
     //     if (viewingFlag) {
     //         SaveMenu.update();
     //     }
 
-    //     if (viewingGamePause) {
-    //         GamePauseMenu.update();
-    //     }
+        if (isViewingGamePause()) {
+            GamePauseMenu.update();
+        }
 
-    //     if (viewingGameWin) {
-    //         GameWinMenu.update();
-    //     }
+        if (isViewingGameWin()) {
+            GameWinMenu.update();
+        }
 
-    //     if (viewingGameLose) {
-    //         GameLoseMenu.update();
-    //     }
-    // }
+        if (isViewingGameLose()) {
+            GameLoseMenu.update();
+        }
+    }
     
-    // public static void draw(Graphics2D g) {
-    //     currentSimInventory.draw(g);
+    public static void draw(Graphics2D g) {
 
-    //     if (viewingFlag) {
-    //         SaveMenu.draw(g);
-    //     }
+        if (viewingFlag) {
+        }
 
-    //     if (viewingGamePause) {
-    //         GamePauseMenu.draw(g);
-    //     }
+        if (isViewingGamePause()) GamePauseMenu.draw(g);
 
-    //     if (viewingGameWin) {
-    //         GameWinMenu.draw(g);
-    //     }
+        if (isViewingGameWin()) GameWinMenu.draw(g);
 
-    //     if (viewingGameLose) {
-    //         GameLoseMenu.draw(g);
-    //     }
-    // }
+        if (isViewingGameLose()) GameLoseMenu.draw(g);
 
-    // private static void updateListOfPlantsGame() {
+        // if (viewingGameSave()) GameSaveMenu.draw(g);
+    }
+
+    // private static void updatePlantsListGame() {
     //     Map map = UserInterface.getMap();
-    //     ArrayList<Plant> listOfPlantsGame = map.getListOfPlantsGame();
+    //     ArrayList<Plant> plantsListGame = map.getplantsListGame();
     //     try {
-    //         for (Plant plant : listOfPlantsGame) {
+    //         for (Plant plant : plantsListGame) {
     //             if (plant.getHealth() > 0) {
     //                 continue;
     //             }
     //             if (plant.getHealth() <= 0) {
     //                 plant.setHealth(0);
-    //                 listOfPlantsGame.remove(plant);
+    //                 plantsListGame.remove(plant);
     //             }
     //         }
     //     }
@@ -192,17 +199,17 @@ public class UserInterface {
     //     }
     // }
 
-    // private static void updateListOfZombiesGame() {
+    // private static void updateZombiesListGame() {
     //     Map map = UserInterface.getMap();
-    //     ArrayList<Zombie> listOfZombiesGame = map.getListOfZombiesGame();
+    //     ArrayList<Zombie> zombiesListGame = map.getzombiesListGame();
     //     try {
-    //         for (Zombie zombie : listOfZombiesGame) {
+    //         for (Zombie zombie : zombiesListGame) {
     //             if (zombie.getHealth() > 0) {
     //                 continue;
     //             }
     //             if (zombie.getHealth() <= 0) {
     //                 zombie.setHealth(0);
-    //                 listOfZombiesGame.remove(zombie);
+    //                 zombiesListGame.remove(zombie);
     //             }
     //         }
     //     }
@@ -220,11 +227,11 @@ public class UserInterface {
         g.drawString(str, x + centerX, y);
     }
 
-    public static void drawCenteredText(Graphics2D g, BufferedImage image, int x, int y, int offset, String str, Font f) {
-        String text = str;
-        Font font = f;
-        FontMetrics metrics = g.getFontMetrics(font);
-        int textWidth = metrics.stringWidth(text);
+    public static void drawCenteredText(Graphics2D g, BufferedImage image, int x, int y, int offset, String str, int size) {
+        Font f = new Font("Monsterrat", Font.BOLD, size);
+        g.setFont(f);
+        FontMetrics metrics = g.getFontMetrics(f);
+        int textWidth = metrics.stringWidth(str);
         int centerX = (image.getWidth() - textWidth) / 2;
 
         g.drawString(str, x + centerX + offset, y);

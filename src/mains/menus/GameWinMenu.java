@@ -7,10 +7,10 @@ import src.assets.ImageLoader;
 import src.mains.KeyHandler;
 import src.mains.panels.*;
 
-public class GameWin {
+public class GameWinMenu {
     private static int selectedBox = 0;
 
-    private static BufferedImage[] images = ImageLoader.loadGameLose();
+    private static BufferedImage[] images = ImageLoader.loadGameWin();
 
     private static void boxPressed() {
         if (selectedBox == 0) {
@@ -18,11 +18,11 @@ public class GameWin {
             GamePanel.gameState = "Game: Next";
         }
 
-        if (selectedBox == 1) {
-            // SAVE HERE
-            PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
-            GamePanel.gameState = "Game: Save Game";
-        }
+        // if (selectedBox == 1) {
+        //     // SAVE HERE
+        //     PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
+        //     GamePanel.gameState = "Game: Save Game";
+        // }
 
         if (selectedBox == 2) {
             PanelHandler.switchPanel(GamePanel.getInstance(), InventoryPanel.getInstance());
@@ -88,12 +88,12 @@ public class GameWin {
     }
     
     public static void draw(Graphics2D g) {
-        g.drawImage(images[0], 0, 0, null);
-        g.drawImage(images[1], 0, 0, null);
-        g.drawImage(images[2], 0, 0, null);
-        g.drawImage(images[3], 0, 0, null);
-        g.drawImage(images[4], 0, 0, null);
-        g.drawImage(images[5], 0, 0, null);
+        g.drawImage(images[0], 302, 95, null);
+        g.drawImage(images[1], 540, 240, null);
+        g.drawImage(images[2], 400, 350, null);
+        g.drawImage(images[3], 680, 350, null);
+        g.drawImage(images[4], 400, 460, null);
+        g.drawImage(images[5], 680, 460, null);
 
 
         if (selectedBox == 0) g.drawImage(images[6], 0, 0, null);

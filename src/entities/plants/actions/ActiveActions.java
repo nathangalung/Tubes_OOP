@@ -1,20 +1,20 @@
-package plants.actions;
+package src.entities.plants.actions;
 
-import mains.Consts;
-import mains.UserInterface;
-import mains.times.GameTime;
-import maps.Map;
-import plants.Plant;
+import src.mains.Consts;
+import src.mains.UserInterface;
+import src.mains.times.GameTime;
+import src.maps.Map;
+import src.entities.plants.Plant;
 
 public class ActiveActions {
-    public static void spawn(Plant Plant, Map map) {
+    public static void spawn(Plant plant, Map map) {
         Thread spawning = new Thread() {
             @Override
             public void run() {
                 int initialDurationWorked = sim.getDurationWorked();
                 sim.setStatus("Working");
 
-                GameTime.addActivityTimer(sim, "Working", duration, duration);
+                GameTime.addCooldownTimer(sim, "Working", duration, duration);
                 
                 while (GameTime.isAlive(sim, "Working")) {
                     try {

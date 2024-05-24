@@ -12,12 +12,6 @@ public class GameTime implements Runnable {
     private static GameTime gt = new GameTime();
     private static Thread gtThread = new Thread(gt);
 
-    // public static int DAY_DURATION = Consts.SECOND * Consts.DAY;
-    // public static int MORNING_DURATION = Consts.SECOND * Consts.MORNING;
-    // public static int NIGHT_DURATION = Consts.SECOND * Consts.NIGHT;
-    // public static int ZOMBIE_SPAWN_START = Consts.SECOND * 20;
-    // public static int ZOMBIE_SPAWN_END = Consts.SECOND * 160;
-
     public static int day;
     public static int timeRemaining = Consts.SECOND * Consts.GAME;
     public static int morningRemaining = Consts.SECOND * Consts.MORNING;
@@ -74,7 +68,7 @@ public class GameTime implements Runnable {
     @Override
     public void run() {
         while (gtThread.isAlive()) {
-            if (UserInterface.isviewingGamePause()) continue;
+            if (UserInterface.isViewingGamePause()) continue;
             // if (cooldownPlantsList.isEmpty()) continue;
 
             try {
@@ -127,7 +121,7 @@ public class GameTime implements Runnable {
     // }
 
     // // SETTERS
-    // public static void addcooldownTimer(Plant plant, String activity, int duration) {
+    // public static void addCooldownTimer(Plant plant, String activity, int duration) {
     //     CooldownTimer cooldownTimer = new CooldownTimer(plant, timeRemaining, duration);
     //     cooldownPlantsList.add(cooldownTimer);
     // }
