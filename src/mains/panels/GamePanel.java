@@ -95,16 +95,8 @@ public class GamePanel extends JPanel implements Runnable {
     
             if (isCurrentState("Inventory") || isCurrentState("PlantsList") || isCurrentState("ZombiesList")) return;
 
-            if (UserInterface.isViewingMap()) {
-                map.update();
-            }
-            // else {
-            //      currentPlant = UserInterface.getCurrentPlant();
-            //     Zombie currentZombie = UserInterface.getCurrentZombie();
-            //     Map currentMap = currentZombie.getPlantCurrentMap();
-                
-            //     UserInterface.draw();
-            // }
+            if (UserInterface.isViewingMap()) map.update();
+            if (UserInterface.isViewingGamePause()) UserInterface.update();
         }
         catch (NullPointerException e) {}
     }
@@ -118,14 +110,14 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             if (isCurrentState("Main Menu")) return;
 
-            if (isCurrentState("Main Menu: Help") || isCurrentState("Playing: Help")) return;
+            if (isCurrentState("Main Menu: Help") || isCurrentState("Game: Help")) return;
     
             if (isCurrentState("Inventory") || isCurrentState("Plants List") || isCurrentState("Zombies List")) return;
     
             if (UserInterface.isViewingMap()) {
                 map.draw(g2);
-            
             }
+            if (UserInterface.isViewingGamePause()) UserInterface.draw(g2);
         }
         catch (NullPointerException e) {}
         

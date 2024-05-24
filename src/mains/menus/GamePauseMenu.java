@@ -4,13 +4,14 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import src.assets.ImageLoader;
+import src.mains.UserInterface;
 import src.mains.KeyHandler;
 import src.mains.panels.*;
 
-public class GamePause {
+public class GamePauseMenu {
     private static int selectedBox = 0;
 
-    private static BufferedImage[] images = ImageLoader.loadGameLose();
+    private static BufferedImage[] images = ImageLoader.loadGamePause();
 
     private static void boxPressed() {
         if (selectedBox == 0) {
@@ -18,11 +19,11 @@ public class GamePause {
             GamePanel.gameState = "Game: Resume";
         }
 
-        if (selectedBox == 1) {
-            // SAVE HERE
-            PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
-            GamePanel.gameState = "Game: Save Game";
-        }
+        // if (selectedBox == 1) {
+        //     // SAVE HERE
+        //     PanelHandler.switchPanel(GamePanel.getInstance(), SavePanel.getInstance());
+        //     GamePanel.gameState = "Game: Save Game";
+        // }
 
         if (selectedBox == 2) {
             PanelHandler.switchPanel(GamePanel.getInstance(), InventoryPanel.getInstance());
@@ -43,6 +44,12 @@ public class GamePause {
     public static void update() {
         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ENTER)) {
             boxPressed();
+        }
+
+        if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
+            PanelHandler.switchPanel(GamePanel.getInstance(), GamePanel.getInstance());
+            UserInterface.setViewingGamePause();
+            GamePanel.gameState = "Game";
         }
 
         int newSelectedBox = selectedBox;
@@ -88,18 +95,18 @@ public class GamePause {
     }
     
     public static void draw(Graphics2D g) {
-        g.drawImage(images[0], 0, 0, null);
-        g.drawImage(images[1], 0, 0, null);
-        g.drawImage(images[2], 0, 0, null);
-        g.drawImage(images[3], 0, 0, null);
-        g.drawImage(images[4], 0, 0, null);
-        g.drawImage(images[5], 0, 0, null);
+        g.drawImage(images[0], 302, 95, null);
+        g.drawImage(images[1], 540, 240, null);
+        g.drawImage(images[2], 400, 350, null);
+        g.drawImage(images[3], 680, 350, null);
+        g.drawImage(images[4], 400, 460, null);
+        g.drawImage(images[5], 680, 460, null);
 
 
-        if (selectedBox == 0) g.drawImage(images[6], 0, 0, null);
-        if (selectedBox == 1) g.drawImage(images[7], 0, 0, null);
-        if (selectedBox == 2) g.drawImage(images[8], 0, 0, null);
-        if (selectedBox == 3) g.drawImage(images[9], 0, 0, null);
-        if (selectedBox == 4) g.drawImage(images[10], 0, 0, null);
+        if (selectedBox == 0) g.drawImage(images[6], 540, 240, null);
+        if (selectedBox == 1) g.drawImage(images[7], 400, 350, null);
+        if (selectedBox == 2) g.drawImage(images[8], 680, 350, null);
+        if (selectedBox == 3) g.drawImage(images[9], 400, 460, null);
+        if (selectedBox == 4) g.drawImage(images[10], 680, 460, null);
     }
 }

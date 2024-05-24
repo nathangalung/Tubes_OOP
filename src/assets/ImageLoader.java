@@ -201,18 +201,6 @@ public class ImageLoader {
         return images;
     }
 
-    public static BufferedImage[] loadPlay() {
-        BufferedImage[] images = new BufferedImage[5];
-
-        images[0] = readImage("panels/playPanel", "Background");
-        images[1] = readImage("panels/playPanel", "Menu");
-        images[2] = readImage("panels/playPanel", "Inventory");
-        images[3] = readImage("panels/playPanel", "Help");
-        images[4] = readImage("panels/playPanel", "Pause");
-
-        return images;
-    }
-
     public static BufferedImage[] loadMap() {
         BufferedImage[] images = new BufferedImage[54];
 
@@ -275,34 +263,55 @@ public class ImageLoader {
     }
 
     public static BufferedImage[] loadGamePause() {
-        BufferedImage[] images = new BufferedImage[4];
+        BufferedImage[] images = new BufferedImage[11];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box");
-        images[1] = readImage("menus/world_menu", "house_info_box");
-        images[2] = readImage("menus/world_menu", "help_box");
-        images[3] = readImage("menus/world_menu", "world_help");
+        images[0] = readImage("menus/gamePauseMenu", "Background");
+        images[1] = readImage("menus/gamePauseMenu", "Resume");
+        images[2] = readImage("menus/gamePauseMenu", "Save");
+        images[3] = readImage("menus/gamePauseMenu", "Inventory");
+        images[4] = readImage("menus/gamePauseMenu", "Help");
+        images[5] = readImage("menus/gamePauseMenu", "Menu");
+        images[6] = readImage("menus/gamePauseMenu", "ResumeHighlight");
+        images[7] = readImage("menus/gamePauseMenu", "SaveHighlight");
+        images[8] = readImage("menus/gamePauseMenu", "InventoryHighlight");
+        images[9] = readImage("menus/gamePauseMenu", "HelpHighlight");
+        images[10] = readImage("menus/gamePauseMenu", "MenuHighlight");
 
         return images;
     }
 
     public static BufferedImage[] loadGameWin() {
-        BufferedImage[] images = new BufferedImage[4];
+        BufferedImage[] images = new BufferedImage[11];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box");
-        images[1] = readImage("menus/world_menu", "house_info_box");
-        images[2] = readImage("menus/world_menu", "help_box");
-        images[3] = readImage("menus/world_menu", "world_help");
+        images[0] = readImage("menus/gameWinMenu", "Background");
+        images[1] = readImage("menus/gameWinMenu", "Next");
+        images[2] = readImage("menus/gameWinMenu", "Save");
+        images[3] = readImage("menus/gameWinMenu", "Inventory");
+        images[4] = readImage("menus/gameWinMenu", "Help");
+        images[5] = readImage("menus/gameWinMenu", "Menu");
+        images[6] = readImage("menus/gameWinMenu", "NextHighlight");
+        images[7] = readImage("menus/gameWinMenu", "SaveHighlight");
+        images[8] = readImage("menus/gameWinMenu", "InventoryHighlight");
+        images[9] = readImage("menus/gameWinMenu", "HelpHighlight");
+        images[10] = readImage("menus/gameWinMenu", "MenuHighlight");
 
         return images;
     }
 
     public static BufferedImage[] loadGameLose() {
-        BufferedImage[] images = new BufferedImage[4];
+        BufferedImage[] images = new BufferedImage[11];
 
-        images[0] = readImage("menus/world_menu", "sim_preview_box");
-        images[1] = readImage("menus/world_menu", "house_info_box");
-        images[2] = readImage("menus/world_menu", "help_box");
-        images[3] = readImage("menus/world_menu", "world_help");
+        images[0] = readImage("menus/gameLoseMenu", "Background");
+        images[1] = readImage("menus/gameLoseMenu", "Restart");
+        images[2] = readImage("menus/gameLoseMenu", "Save");
+        images[3] = readImage("menus/gameLoseMenu", "Inventory");
+        images[4] = readImage("menus/gameLoseMenu", "Help");
+        images[5] = readImage("menus/gameLoseMenu", "Menu");
+        images[6] = readImage("menus/gameLoseMenu", "RestartHighlight");
+        images[7] = readImage("menus/gameLoseMenu", "SaveHighlight");
+        images[8] = readImage("menus/gameLoseMenu", "InventoryHighlight");
+        images[9] = readImage("menus/gameLoseMenu", "HelpHighlight");
+        images[10] = readImage("menus/gameLoseMenu", "MenuHighlight");
 
         return images;
     }

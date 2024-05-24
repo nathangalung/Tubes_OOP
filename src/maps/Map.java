@@ -1,6 +1,7 @@
 package src.maps;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -337,16 +338,17 @@ public class Map {
             }
         }
 
-        if (UserInterface.isviewingGamePause()) return;
         if (KeyHandler.isKeyPressed(KeyHandler.KEY_ESCAPE)) {
             if (GamePanel.isCurrentState("Game")) {
                 GamePanel.gameState = "Game: Pause";
+                UserInterface.setViewingGamePause();
             }
             else if (GamePanel.isCurrentState("Game: Pause")) {
                 GamePanel.gameState = "Game";
+                UserInterface.setViewingGamePause();
             }
-            UserInterface.setViewingMap();
         }
+        
         // updateSelectedPlant();
 
         // updateUnaddedPlant();
@@ -492,11 +494,11 @@ public class Map {
 
     private void drawMap(Graphics2D g) {
         g.drawImage(images[0], 0, -20, null);
-        g.drawImage(images[2], 25, 30, null);
-        g.drawImage(images[3], 815, -10, null);
-        g.drawImage(images[4], 1047, 30, null);
-        g.drawImage(images[5], 1100, 30, null);
-        g.drawImage(images[6], 25, 30, null);
+        g.drawImage(images[2], 25, 20, null);
+        g.drawImage(images[3], 815, -20, null);
+        g.drawImage(images[4], 1047, 20, null);
+        g.drawImage(images[5], 1100, 20, null);
+        g.drawImage(images[6], 25, 600, null);
 
         for (int i = 0; i < 36; i++) {
             if (i < 6) {
@@ -508,14 +510,16 @@ public class Map {
         }
 
         for (int i = 0; i < 6; i ++) {
-            g.drawImage(images[plantsDeck[i] + 14], 195 + (i*100), 22, null);
+            g.drawImage(images[plantsDeck[i] + 14], 195 + (i*100), 10, null);
         }
 
         for (int i = 0; i < 6; i ++) {
-            if (selectedBox == i) g.drawImage(images[plantsDeck[i] + 34], 195 + (i*100), 22, null);
+            if (selectedBox == i) g.drawImage(images[plantsDeck[i] + 34], 195 + (i*100), 10, null);
         }
 
-        if (selectedBox == 6) g.drawImage(images[7], 1100, 30, null);
+        if (selectedBox == 6) g.drawImage(images[7], 1096, 16, null);
+        if (selectedBox == 7) g.drawImage(images[8], 21, 596, null);
+        UserInterface.drawCenteredText(g, images[2], 26, 56, 20, "50", 40);
     }
 
     private void drawTile(Graphics2D g) {
