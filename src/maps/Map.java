@@ -236,34 +236,49 @@ public class Map extends JPanel {
     private void tilePressed() {
         if (selectedTile >= 0 && selectedTile < 18) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 100 ) {
+                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
                     checkTile[selectedTile] = plantsDeck[selectedCheck];
                     plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.GREEN_TILES[selectedTile].x, Consts.GREEN_TILES[selectedTile].y));
                 }
                 setIsAddingPlant();
             }
             else {
-                if (checkTile[selectedTile] != 100) checkTile[selectedTile] = 100;
+                if (checkTile[selectedTile] != 100) {
+                    checkTile[selectedTile] = 100;
+                    plantsList.removeIf(plant -> plant.getX() == Consts.GREEN_TILES[selectedTile].x && plant.getY() == Consts.GREEN_TILES[selectedTile].y);
+                }
                 setIsRemovingPlant();
             }
         }
-        if (selectedTile >= 18 && selectedTile < 36) {
+        if (selectedTile >= 18 && selectedTile < 36 && (plantsDeck[selectedCheck] == 5 || plantsDeck[selectedCheck] == 6)) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 0) checkTile[selectedTile] = 1;
+                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
+                    checkTile[selectedTile] = plantsDeck[selectedCheck];
+                    plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.BLUE_TILES[selectedTile].x, Consts.BLUE_TILES[selectedTile].y));
+                }
                 setIsAddingPlant();
             }
             else {
-                if (checkTile[selectedTile] == 1) checkTile[selectedTile] = 0;
+                if (checkTile[selectedTile] != 100) {
+                    checkTile[selectedTile] = 100;
+                    plantsList.removeIf(plant -> plant.getX() == Consts.BLUE_TILES[selectedTile].x && plant.getY() == Consts.BLUE_TILES[selectedTile].y);
+                }
                 setIsRemovingPlant();
             }
         }
-        if (selectedTile >= 36 && selectedTile < 54) {
+        if (selectedTile >= 36 && selectedTile < 54 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 0) checkTile[selectedTile] = 1;
+                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
+                    checkTile[selectedTile] = plantsDeck[selectedCheck];
+                    plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.GREEN_TILES[selectedTile].x, Consts.GREEN_TILES[selectedTile].y));
+                }
                 setIsAddingPlant();
             }
             else {
-                if (checkTile[selectedTile] == 1) checkTile[selectedTile] = 0;
+                if (checkTile[selectedTile] != 100) {
+                    checkTile[selectedTile] = 100;
+                    plantsList.removeIf(plant -> plant.getX() == Consts.GREEN_TILES[selectedTile].x && plant.getY() == Consts.GREEN_TILES[selectedTile].y);
+                }
                 setIsRemovingPlant();
             }
         }

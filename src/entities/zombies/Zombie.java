@@ -207,10 +207,8 @@
 //     }
 // }
 
-package zombies;
+package src.entities.zombies;
 
-import src.entities.zombies;
-import src.entities.zombies.EntityAction;
 import src.entities.Entity;
 
 import java.awt.Graphics2D;
@@ -264,10 +262,6 @@ public class Zombie extends Entity {
 
     public void move(int x, int y){
         super.move(x, y);
-    }
-
-    public void loadImage(){
-        super.loadImage();
     }
 
     public void setGif(ImageIcon gif){
