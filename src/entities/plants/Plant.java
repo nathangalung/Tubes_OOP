@@ -1,21 +1,23 @@
 package src.entities.plants;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
+// import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+// import java.util.Map;
 
-import src.entities.handlers.InteractionHandler;
-import src.entities.handlers.CollisionHandler;
+import javax.swing.ImageIcon;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+// import src.entities.handlers.InteractionHandler;
+// import src.entities.handlers.CollisionHandler;
 
-import src.assets.ImageLoader;
+// import java.awt.Color;
+// import java.awt.Graphics2D;
+
+// import src.assets.ImageLoader;
 import src.entities.Entity;
-import src.items.Item;
-import src.entities.zombies.Zombie;
+import src.entities.Item;
+// import src.entities.zombies.Zombie;
 
 
 // Parent class plant
@@ -34,19 +36,17 @@ public abstract class Plant extends Entity implements Item {
     private boolean isAttack;
     protected boolean occupied;
     private Rectangle bounds;
-    private List<Plant> plantsList = new ArrayList<Plant>();
 
     // Attributes to indentify tiles map easier
-    private Map currentTiles;
 
-    private BufferedImage[] images = new BufferedImage[10];
+    private ImageIcon[] gifs;
 
     // Collision and interactions
-    private CollisionHandler collisionHandler;
-    private InteractionHandler interactionHandler;
+    // private CollisionHandler collisionHandler;
+    // private InteractionHandler interactionHandler;
 
-    public Plant(int x, int y, int width, int height, int index, String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
-        super(x, y, width, height, 1, 1, 1);
+    public Plant(int x, int y, int width, int height, String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
+        super(x, y, width, height, 1, 1);
         this.name = name;
         this.cost = cost;
         this.health = health;
@@ -87,6 +87,10 @@ public abstract class Plant extends Entity implements Item {
         return this.range;
     }
 
+    public ImageIcon[] getGifs() {
+        return this.gifs;
+    }
+
     public int getCooldown() {
         return this.cooldown;
     }
@@ -107,17 +111,13 @@ public abstract class Plant extends Entity implements Item {
         return this.bounds;
     }
 
-    public Map getCurrentTiles() {
-        return this.currentTiles;
-    }
+    // public InteractionHandler getInteractionHandler() {
+    //     return this.interactionHandler;
+    // }
 
-    public InteractionHandler getInteractionHandler() {
-        return this.interactionHandler;
-    }
-
-    public CollisionHandler getCollisionHandler() {
-        return this.collisionHandler;
-    }
+    // public CollisionHandler getCollisionHandler() {
+    //     return this.collisionHandler;
+    // }
 
     // SETTERS
     public void setHealth(int health) {
@@ -136,50 +136,54 @@ public abstract class Plant extends Entity implements Item {
         this.cooldown = cooldown;
     }
 
-    public void setCurrentTiles(Map currentTiles) {
-        if (currentTiles != null) {
-            this.currentTiles.removePlant(this);
-        }
+    // public void setCurrentTiles(Map currentTiles) {
+    //     if (currentTiles != null) {
+    //         this.currentTiles.removePlant(this);
+    //     }
 
-        this.currentTiles = currentTiles;
-        this.currentTiles.addPlant(this);
-        collisionHandler = new CollisionHandler(this, currentTiles);
-        interactionHandler.new InteractionHandler(this, currentTiles);
-    }
+    //     this.currentTiles = currentTiles;
+    //     this.currentTiles.addPlant(this);
+    //     collisionHandler = new CollisionHandler(this, currentTiles);
+    //     interactionHandler.new InteractionHandler(this, currentTiles);
+    // }
 
     public void updateBounds() {
         this.bounds.setLocation(getX(), getY());
     }
 
-    public void update() {
-        if (health <= 0) {
-            currentTiles.removePlant(this);
-            plantsList.remove(this);
-        }
-        if (isAttacking()) {
-            attack(collisionHandler, interactionHandler, zombie);
-        }
+    // public void update() {
+    //     if (health <= 0) {
+    //         currentTiles.removePlant(this);
+    //         plantsList.remove(this);
+    //     }
+    //     if (isAttacking()) {
+    //         attack(collisionHandler, interactionHandler, zombie);
+    //     }
+    // }
+
+    public void setGif(ImageIcon[] gifs) {
+        this.gifs = gifs;
     }
 
-    public abstract BufferedImage getIcon();
-    public abstract BufferedImage getImage();
-    public abstract void interact(Zombie zombie);
+    public void actionStart() {};
+    public void actionStop() {};
+    // public abstract void interact(Zombie zombie);
 
-    public <T extends Plant> void draw(Graphics2D g, T plant) {
-        if (isAttacking()) g.drawImage(plant.getImage(), plant.getX(), plant.getY(), null);
-        else g.drawImage(plant.getIcon(), plant.getX(), plant.getY(), null);
-    }
+    // public <T extends Plant> void draw(Graphics2D g, T plant) {
+    //     if (isAttacking()) g.drawImage(plant.getImage(), plant.getX(), plant.getY(), null);
+    //     else g.drawImage(plant.getIcon(), plant.getX(), plant.getY(), null);
+    // }
 
 
     // Only For Debugging
-    public void drawCollisionBox(Graphics2D g) {
-        g.setColor(new Color(255, 0, 0, 64)); // Transparent red color
-        g.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
-    }
+    // public void drawCollisionBox(Graphics2D g) {
+    //     g.setColor(new Color(255, 0, 0, 64)); // Transparent red color
+    //     g.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+    // }
 
 
-    public void drawInteractionRange(Graphics2D g) {
-        g.setColor(new Color(255, 255, 0, 64)); // Transparent yellow color
-        g.fillRect(interactionHandler.getX(), interactionHandler.getY(), interactionHandler.getWidth(), interactionHandler.getHeight());
-    }
+    // public void drawInteractionRange(Graphics2D g) {
+    //     g.setColor(new Color(255, 255, 0, 64)); // Transparent yellow color
+    //     g.fillRect(interactionHandler.getX(), interactionHandler.getY(), interactionHandler.getWidth(), interactionHandler.getHeight());
+    // }
 }

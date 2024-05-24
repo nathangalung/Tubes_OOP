@@ -1,18 +1,17 @@
 package src.entities.plants;
 
-import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import src.assets.ImageLoader;
-import src.entities.zombies.Zombie;
-import src.main.Consts;
-import src.main.time.GameTime;
+import javax.swing.ImageIcon;
 
-public class Squash extends Plant {
-    private boolean isSquash;
-    private Thread animateNotOccupiedThread;
-    private Thread animateOccupiedThread;
+import src.assets.GifLoader;
+import src.entities.Item;
 
-    private BufferedImage[] images;
+public class Squash extends Plant implements Item {
+    private Timer attackTimer1, attackTimer2;
+    private boolean isSquashed;
+    private ImageIcon[] gifs;
 
     public Squash(int x, int y) {
         super(
@@ -20,7 +19,6 @@ public class Squash extends Plant {
             y, 
             1, 
             1, 
-            4, 
             "Squash", 
             50, 
             100, 
@@ -30,96 +28,128 @@ public class Squash extends Plant {
             20
         );
         
-        isSquash = false;
         getBounds().setSize(64, 64);
+        this.setGif(GifLoader.loadSquash());
+        actionStart();
 
-        images = ImageLoader.loadSquash();
+        // images = ImageLoader.loadSquash();
     }
 
     public boolean getSquash() {
-        return this.isSquash;
+        return this.isSquashed;
     }
 
-    public void setSquash(boolean is_squash) {
-        this.isSquash = true;
+    public void setSquash(boolean isSquash) {
+        this.isSquashed = !this.isSquashed;
     }
 
-    private void animateNotOccupied() {
-        animateNotOccupiedThread = new Thread() {
+    
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
+        
+    }
+
+    @Override
+    public void actionStart() {
+        attackTimer1 = new Timer();
+        attackTimer1.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                while (!isOccupied()) {
-                    try {
-                        setImageIndex(0);
-                        Thread.sleep(Consts.THREAD_ONE_SECOND);
-                        setImageIndex(1);
-                        Thread.sleep(Consts.THREAD_ONE_SECOND);
-                    }
-                    catch (InterruptedException ie) {}
+                if (isSquashed) {
+                    attackTimer1.cancel();
+                    attackTimer2 = new Timer();
+                    attackTimer2.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            setHealth(0);
+                        }
+                    }, 200);
                 }
             }
-        };
-        animateNotOccupiedThread.start();
-    }
-
-    private void animateOccupied(Zombie zombie) {
-        animateOccupiedThread = new Thread() {
-            @Override
-            public void run() {
-                images[2] = ImageLoader.changezombieColor(images[2], zombie);
-                images[3] = ImageLoader.changezombieColor(images[3], zombie);
-                while (isOccupied()) {
-                    try {
-                        setImageIndex(2);
-                        Thread.sleep(Consts.THREAD_ONE_SECOND);
-                        setImageIndex(3);
-                        Thread.sleep(Consts.THREAD_ONE_SECOND);
-                    }
-                    catch (InterruptedException ie) {}
-                }
-            }
-        };
-        animateOccupiedThread.start();
+        }, 0, 100);
     }
 
     @Override
-    public void changeOccupiedState() {
-        this.occupied = !this.occupied;
-    }
+    public void actionStop() {}
 
-    @Override
-    public BufferedImage getIcon() {
-        return icon;
-    }
+    // private void animateNotOccupied() {
+    //     animateNotOccupiedThread = new Thread() {
+    //         @Override
+    //         public void run() {
+    //             while (!isOccupied()) {
+    //                 try {
+    //                     setImageIndex(0);
+    //                     Thread.sleep(Consts.THREAD_ONE_SECOND);
+    //                     setImageIndex(1);
+    //                     Thread.sleep(Consts.THREAD_ONE_SECOND);
+    //                 }
+    //                 catch (InterruptedException ie) {}
+    //             }
+    //         }
+    //     };
+    //     animateNotOccupiedThread.start();
+    // }
 
-    @Override
-    public BufferedImage getImage() {
-        return images[getImageIndex()];
-    }
+    // private void animateOccupied(Zombie zombie) {
+    //     animateOccupiedThread = new Thread() {
+    //         @Override
+    //         public void run() {
+    //             images[2] = ImageLoader.changezombieColor(images[2], zombie);
+    //             images[3] = ImageLoader.changezombieColor(images[3], zombie);
+    //             while (isOccupied()) {
+    //                 try {
+    //                     setImageIndex(2);
+    //                     Thread.sleep(Consts.THREAD_ONE_SECOND);
+    //                     setImageIndex(3);
+    //                     Thread.sleep(Consts.THREAD_ONE_SECOND);
+    //                 }
+    //                 catch (InterruptedException ie) {}
+    //             }
+    //         }
+    //     };
+    //     animateOccupiedThread.start();
+    // }
 
-    @Override
-    public void interact (Zombie zombie) {
-        Thread squash = new Thread() {
-            @Override
-            public void run() {
-                changeOccupiedState();
-                zombie.setStatus(activityStatus);
+    // @Override
+    // public void changeOccupiedState() {
+    //     this.occupied = !this.occupied;
+    // }
 
-                animateNotOccupiedThread.interrupt();
-                animateOccupied(zombie);
+    // @Override
+    // public BufferedImage getIcon() {
+    //     return icon;
+    // }
+
+    // @Override
+    // public BufferedImage getImage() {
+    //     return images[getImageIndex()];
+    // }
+
+    // @Override
+    // public void interact (Zombie zombie) {
+    //     Thread squash = new Thread() {
+    //         @Override
+    //         public void run() {
+    //             changeOccupiedState();
+    //             zombie.setStatus(activityStatus);
+
+    //             animateNotOccupiedThread.interrupt();
+    //             animateOccupied(zombie);
                 
-                GameTime.addActivityTimer(zombie, activityStatus, duration, duration);
+    //             GameTime.addActivityTimer(zombie, activityStatus, duration, duration);
 
-                while (GameTime.isAlive(zombie, activityStatus)) continue;
+    //             while (GameTime.isAlive(zombie, activityStatus)) continue;
 
-                changeOccupiedState();
-                animateNotOccupied();
-                zombie.resetStatus();
+    //             changeOccupiedState();
+    //             animateNotOccupied();
+    //             zombie.resetStatus();
 
-                // reset the images
-                images = ImageLoader.loadSquash();
-            }
-        };
-        squash.start();
-    }
+    //             // reset the images
+    //             images = ImageLoader.loadSquash();
+    //         }
+    //     };
+    //     squash.start();
+    // }
+
 }

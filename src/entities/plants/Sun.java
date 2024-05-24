@@ -1,4 +1,4 @@
-package plants;
+package src.entities.plants;
 
 public class Sun extends Exception{
     private static int jumlah = 25;

@@ -1,44 +1,46 @@
-package plants;
+package src.entities.plants;
 
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Peashooter extends Plant {
-    private boolean isReadyToAttack;
-    private ScheduledExecutorService scheduler;
+import javax.swing.ImageIcon;
 
-    public Peashooter(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
-        super(0, 0, 1, 1, 1, "Peashooter", 100, 100, 25, 4, -1, 10);
-        this.isReadyToAttack = true; // set awal ready to attack
-        this.scheduler = Executors.newSingleThreadScheduledExecutor();
+import src.assets.GifLoader;
+import src.entities.Item;
+
+public class Peashooter extends Plant implements Item {
+    private Timer actionTimer;
+    private ImageIcon[] gifs;
+
+    public Peashooter(int x, int y) {
+        super(x, y, 1, 1, "Peashooter", 100, 100, 25, 4, -1, 10);
+        this.setGif(GifLoader.loadPeashooter());
+        actionStart();
     } 
 
-    public int getHealth() {
-        return health;
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
     }
 
-    public int getAttackDamage() {
-        return attack_damage;
-    }
-    
-    public int getAttackSpeed() {
-        return attack_speed;
-    }
-    
-    public int getRange() {
-        return range;
-    }
+    @Override
+    public void actionStart() {}
 
-    public int getCooldown() {
-        return cooldown;
-    }
-    public void setHealth(int health) {
-        this.health = health;
-    }
-    
-    public boolean isReadyToAttack() {
-        return isReadyToAttack;
-    }
+    @Override
+    public void actionStop() {}
+
+    // public void action() {
+    //     // ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    //     // executor.scheduleAtFixedRate(() -> {
+    //     //     List<Zombie> zombies = getZombiesInLane();
+    //     //     if (zombies.size() > 0) {
+    //     //         Pea pea = new Pea((int) this.getX() + 50, (int) this.getY(), "Normal");
+    //     //         pea.setLane((int) this.getY());
+    //     //         addPea(pea);
+    //     //     }
+    //     // }, 0, 2000, TimeUnit.MILLISECONDS);
+    // }
 }

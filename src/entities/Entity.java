@@ -176,15 +176,12 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-import src.assets.GifLoader;
-
 public class Entity {
     private int x,y;
     private int width;
     private int height;
-    private float speed;
+    private int speed;
     private int direction;
-    private ImageIcon img;
 
     private Rectangle bound;
 
@@ -196,10 +193,9 @@ public class Entity {
         this.speed = speed;
         this.direction = direction;
         bound = new Rectangle(x, y, width , height);
-        loadImage();
     }
 
-    public void initBound(){
+    public void initBound() {
     }
 
     public int getX() {
@@ -214,11 +210,11 @@ public class Entity {
         return width;
     }
 
-    public int height() {
+    public int getHeight() {
         return height;
     }
 
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
@@ -230,22 +226,8 @@ public class Entity {
         return bound;
     }
 
-    public ImageIcon getImg() {
-        return img;
-    }
-
-    public void setImage(ImageIcon img){
-        this.img = img;
-    }
-
     public void move(int x, int y){
         this.x += x;
         this.y += y;
-    }
-
-    public void loadImage(){
-        String folder= "";
-        String filename = "";
-        img = GifLoader.readGif(folder, filename);
     }
 }

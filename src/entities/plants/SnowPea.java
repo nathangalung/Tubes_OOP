@@ -1,14 +1,37 @@
-package plants;
+package src.entities.plants;
 
-public class SnowPea extends Plant {
-    private  boolean is_readyAttack = true;
-    protected boolean is_slow = true;
+import java.awt.Image;
+import java.util.Timer;
 
-    public SnowPea(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
-        super(0, 0, 1, 1, 3, "Snow Pea", 175, 100, 25, 4, -1, 10);
+import javax.swing.ImageIcon;
+
+import src.assets.GifLoader;
+import src.entities.Item;
+
+public class SnowPea extends Plant implements Item {
+    private Timer actionTimer;
+    private ImageIcon[] gifs;
+    // private  boolean is_readyAttack = true;
+    // protected boolean is_slow = true;
+
+    public SnowPea(int x, int y) {
+        super(x, y, 1, 1, "Snow Pea", 175, 100, 25, 4, -1, 10);
+        this.setGif(GifLoader.loadSquash());
+        actionStart();
     }
 
-    public boolean getSlow() {
-        return this.is_slow;
+    // public boolean getSlow() {
+    //     return this.is_slow;
+    // }
+
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
     }
+
+    @Override
+    public void actionStart() {}
+
+    @Override
+    public void actionStop() {}
 }

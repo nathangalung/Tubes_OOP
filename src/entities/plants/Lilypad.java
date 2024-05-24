@@ -1,18 +1,26 @@
-package plants;
+package src.entities.plants;
 
-public class Lilypad extends Plant {
-    private boolean is_media;
+import javax.swing.ImageIcon;
 
-    public Lilypad(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
-        super(0, 0, 1, 1, 5, "Lilypad", 25, 100, 0, 0, 0, 10);
-        this.is_media = false;
+import src.assets.GifLoader;
+import src.entities.Item;
+
+public class Lilypad extends Plant implements Item {
+    private ImageIcon[] gifs;
+
+    public Lilypad(int x, int y) {
+        super(x, y,  1, 1, "Lilypad", 25, 100, 0, 0, 0, 10);
+        this.setGif(GifLoader.loadLilypad());
     }
 
-    public boolean getMedia() {
-        return this.is_media;
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
     }
 
-    public void setMedia(boolean is_media) {
-        this.is_media = !is_media;
-    }
+    @Override
+    public void actionStart() {}
+
+    @Override
+    public void actionStop() {}
 }

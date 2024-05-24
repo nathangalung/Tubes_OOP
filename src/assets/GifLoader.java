@@ -57,8 +57,65 @@ public class GifLoader {
         return gifs;
     }
 
-    public static ImageIcon loadPeashooter() {
-        ImageIcon gifs = readGif("entities/plants/peasahooter", "Base");
+    public static ImageIcon[] loadPeashooter() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/peashooter", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadWallNut() {
+        ImageIcon[] gifs = new ImageIcon[3];
+        gifs[0] = readGif("entities/plants/wallnut", "Base1");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadSnowPea() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/snowpea", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadSquash() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/squash", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadLilypad() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/lilypad", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadTangleKelp() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/tanglekelp", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadCactus() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/cactus", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadCherryBomb() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/cherrybomb", "Base");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadJalapeno() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/jalapeno", "Base");
 
         return gifs;
     }

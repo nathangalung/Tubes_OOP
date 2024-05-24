@@ -22,16 +22,18 @@ import src.mains.panels.PanelHandler;
 import src.mains.KeyHandler;
 import src.mains.UserInterface;
 import src.mains.panels.GamePanel;
+import src.entities.Spawner;
 // import src.entities.handlers.CollisionHandler;
-// import src.entities.plants.Plant;
+import src.entities.plants.Plant;
 
 public class Map extends JPanel {
     // Attributes
     private int[][] map = new int[64][64];
-    // private ArrayList<Plant> plantsList;
+    private ArrayList<Plant> plantsList = new ArrayList<>();
     // private ArrayList<Zombie> zombiesList;
     private static int selectedBox = 0;
     private static int selectedTile = 100;
+    private static int selectedCheck;
     // State of the world (is adding a house or selecting a house to visit)
     private boolean isAddingPlant = false;
     private boolean isRemovingPlant = false;
@@ -191,26 +193,32 @@ public class Map extends JPanel {
 
     private void boxPressed() {
         if (selectedBox == 0) {
+            selectedCheck = selectedBox;
             setIsAddingPlant();
         }
 
         if (selectedBox == 1) {
+            selectedCheck = selectedBox;
             setIsAddingPlant();
         }
 
         if (selectedBox == 2) {
+            selectedCheck = selectedBox;
             setIsAddingPlant();
         }
 
         if (selectedBox == 3) {
+            selectedCheck = selectedBox;
             setIsAddingPlant();
         }
 
         if (selectedBox == 4) {
+            selectedCheck = selectedBox;
             setIsAddingPlant();
         }
 
         if (selectedBox == 5) {
+            selectedCheck = selectedBox;
             setIsAddingPlant();
         }
         
@@ -228,8 +236,10 @@ public class Map extends JPanel {
     private void tilePressed() {
         if (selectedTile >= 0 && selectedTile < 18) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 100) checkTile[selectedTile] = plantsDeck[0];
-                
+                if (checkTile[selectedTile] == 100 ) {
+                    checkTile[selectedTile] = plantsDeck[selectedCheck];
+                    plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.GREEN_TILES[selectedTile].x, Consts.GREEN_TILES[selectedTile].y));
+                }
                 setIsAddingPlant();
             }
             else {
@@ -548,10 +558,18 @@ public class Map extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        for (int i = 0; i < checkTile.length; i++) {
-            if (checkTile[i] != 100) {
-                gifs[0].paintIcon(this, g2, Consts.GREEN_TILES[i].x, Consts.GREEN_TILES[i].y);
-            }
+        for (Plant p: plantsList) {
+            p.getGifs()[0].paintIcon(this, g2, p.getX(), p.getY());
+        }
+    }
+
+    private void drawZombies(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        for (Plant p: plantsList) {
+            p.getGifs()[0].paintIcon(this, g2, p.getX(), p.getY());
         }
     }
 

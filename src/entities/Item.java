@@ -1,6 +1,6 @@
 package src.entities;
 
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 public interface Item {
     int getX();
@@ -9,6 +9,5 @@ public interface Item {
     int getHeight();
     int getSpeed();
     int getDirection();
-    int getAttack();
-    BufferedImage getImage();
+    ImageIcon[] getGif();
 }

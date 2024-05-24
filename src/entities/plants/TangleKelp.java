@@ -1,18 +1,31 @@
-package plants;
+package src.entities.plants;
 
-public class TangleKelp extends Plant {
-    private boolean is_tangle;
+import java.util.Timer;
 
-    public TangleKelp(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown) {
-        super(0, 0, 1, 1, 6, "Tangle Kelp", 25, 100, 0, 0, 0, 20);
-        this.is_tangle = false;
+import javax.swing.ImageIcon;
+
+import src.assets.GifLoader;
+import src.entities.Item;
+
+public class TangleKelp extends Plant implements Item {
+    private Timer attackTimer1, attackTimer2;
+    private boolean isSquashed;
+    private ImageIcon[] gifs;
+
+    public TangleKelp(int x, int y) {
+        super(x, y, 1, 1, "Tangle Kelp", 25, 100, 0, 0, 0, 20);
+        this.setGif(GifLoader.loadTangleKelp());
+        actionStart();
     }
 
-    public boolean getTangle() {
-        return this.is_tangle;
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
     }
 
-    public void setTangle(boolean is_tangle) {
-        this.is_tangle = true;
-    }
+    @Override
+    public void actionStart() {}
+
+    @Override
+    public void actionStop() {}
 }
