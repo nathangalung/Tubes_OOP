@@ -3,9 +3,21 @@ import zombies.Zombie;
 
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
+import src.assets.GifLoader;
+
 public class Normal extends Zombie {
+    private ImageIcon[] gifs;
+    
     public Normal(int x, int y) {
-        super( x, y, 1, 1, 1, -1, false,100 , 1, 125);
+        super( x, y, 1, 1, 10, -1, false,100 , 1, 125);
+        this.setGif(GifLoader.loadNormal());
+    }
+
+    @Override
+    public ImageIcon[] getGif() {
+        return gifs;
     }
 
     // public void draw(Graphics g2){
