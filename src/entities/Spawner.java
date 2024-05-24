@@ -5,7 +5,7 @@ import java.awt.image.*;
 import javax.swing.ImageIcon;
 
 import src.entities.plants.*;
-// import src.entities.zombies.*;
+import src.entities.zombies.*;
 
 public class Spawner {
     public static int countZombies = 0;
@@ -26,19 +26,19 @@ public class Spawner {
         return p;
     }
 
-    // public static Zombie createZombie(int index, int x, int y) {
-    //     Zombie z = null;
-    //     if (index == 0) z = new Normal(x, y);
-    //     else if (index == 1) z = new Conhead(x, y);
-    //     else if (index == 2) z = new PoleVaulting(x, y);
-    //     else if (index == 3) z = new Buckethead(x, y);
-    //     else if (index == 4) z = new DuckyTube(x, y);
-    //     else if (index == 5) z = new DolphinRider(x, y);
-    //     else if (index == 6) z = new JackInTheBox(x, y);
-    //     else if (index == 7) z = new ScreenDoor(x, y);
-    //     else if (index == 8) z = new Football(x, y);
-    //     else if (index == 9) z = new Newspaper(x, y);
+    public static Zombie createZombie(int index, int x, int y) {
+        Zombie z = null;
+        if (index == 0) z = new Normal(x, y);
+        else if (index == 1) z = new Conehead(x, y);
+        else if (index == 2) z = new PoleVaulting(x, y);
+        else if (index == 3) z = new Buckethead(x, y);
+        else if (index == 4) z = new DuckyTube(x, y);
+        else if (index == 5) z = new DolphinRider(x, y);
+        else if (index == 6) z = new JackInTheBox(x, y);
+        else if (index == 7) z = new ScreenDoor(x, y);
+        else if (index == 8) z = new Football(x, y);
+        else if (index == 9) z = new Newspaper(x, y);
 
-    //     return z;
-    // }
+        return z;
+    }
 }

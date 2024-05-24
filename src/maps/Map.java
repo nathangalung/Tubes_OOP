@@ -23,9 +23,10 @@ import src.mains.KeyHandler;
 import src.mains.UserInterface;
 import src.mains.panels.GamePanel;
 import src.entities.Spawner;
+import src.entities.Sun;
 // import src.entities.handlers.CollisionHandler;
 import src.entities.plants.Plant;
-import src.main.time.GameTime;
+import src.mains.times.GameTime;
 
 public class Map extends JPanel {
     // Attributes
@@ -403,6 +404,8 @@ public class Map extends JPanel {
 
         // drawZombies(g);
 
+        drawSun(g);
+
         // drawPlantSelector(g);
 
         // drawSelectedPlant(g);
@@ -563,7 +566,6 @@ public class Map extends JPanel {
 
         if (selectedBox == 6) g.drawImage(images[7], 1096, 16, null);
         if (selectedBox == 7) g.drawImage(images[8], 21, 596, null);
-        UserInterface.drawCenteredText(g, images[2], 26, 56, 20, "50", 40);
     }
 
     private void drawTile(Graphics2D g) {
@@ -573,7 +575,7 @@ public class Map extends JPanel {
             if (selectedTile == i && i >= 36 && i < 54) g.drawImage(images[13], Consts.GREEN_TILES[i-18].x, Consts.GREEN_TILES[i-18].y, null);
         }
     }
-    
+
     private void drawPlants(Graphics g) {
         super.paintComponent(g);
 
@@ -592,6 +594,10 @@ public class Map extends JPanel {
         for (Plant z: plantsList) {
             z.getGifs()[0].paintIcon(this, g2, z.getX(), z.getY());
         }
+    }
+
+    private void drawSun(Graphics2D g) {
+        UserInterface.drawCenteredText(g, images[2], 26, 56, 20, String.valueOf(Sun.sum), 40);
     }
 
     // private void drawPlants(Graphics2D g) {

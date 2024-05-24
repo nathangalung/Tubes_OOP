@@ -218,18 +218,19 @@ import javax.swing.ImageIcon;
 
 // Parent class Zombie
 public class Zombie extends Entity {
-    private int attack_damage;
-    private int attack_speed;
+    private String name;
     private int health;
-    private boolean is_aquatic;
-    private ImageIcon gif;
+    private int attackDamage;
+    private int attackSpeed;
+    private boolean isAquatic;
+    private ImageIcon[] gifs;
 
-    public Zombie(int x, int y, int width, int height, int speed, int direction, boolean is_aquatic, int attack_damage, int attack_speed, int health) {
-        super(x, y, width, height, speed, direction);
+    public Zombie(int x, int y, int width, int height, String name, int health, int attackDamage, int attackSpeed, boolean isAquatic) {
+        super(x, y, width, height, 10, 3);
         this.health = health;
-        this.attack_damage = attack_damage;
-        this.attack_speed = attack_speed;
-        this.is_aquatic = is_aquatic;
+        this.attackDamage = attackDamage;
+        this.attackSpeed = attackSpeed;
+        this.isAquatic = isAquatic;
 
     }
 
@@ -238,34 +239,39 @@ public class Zombie extends Entity {
     }
     
     public int getAttackDamage() {
-        return this.attack_damage;
+        return this.attackDamage;
     }
     
     public int getAttackSpeed() {
-        return this.attack_speed;
+        return this.attackSpeed;
     }
     
     public boolean getAquatic() {
-        return this.is_aquatic;
+        return this.isAquatic;
     }
+
+    public ImageIcon[] getGifs() {
+        return this.gifs;
+    }
+
     public void setHealth(int health){
         this.health = health;
     }
 
-    public void setAttackD(int attack_damage){
-        this.attack_damage = attack_damage;
+    public void setAttackD(int attackDamage){
+        this.attackDamage = attackDamage;
     }
 
-    public void setAttackS(int attack_speed){
-        this.attack_speed = attack_speed;
+    public void setAttackS(int attackSpeed){
+        this.attackSpeed = attackSpeed;
     }
 
     public void move(int x, int y){
         super.move(x, y);
     }
 
-    public void setGif(ImageIcon gif){
-        this.gif = gif;
+    public void setGif(ImageIcon[] gifs) {
+        this.gifs = gifs;
     }
     // public void draw(Graphics2D g2){
         

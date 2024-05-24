@@ -1,9 +1,8 @@
-package zombies;
+package src.entities.zombies;
 
 import javax.swing.ImageIcon;
 
 import src.assets.GifLoader;
-import zombies.Zombie;
 
 public class Football extends Zombie {
     private boolean isArmor = true;
@@ -21,15 +20,16 @@ public class Football extends Zombie {
         }
     }
 
-    public void setisArmor(){
+    public void setisArmor() {
         isArmor = false;
     }
 
-    public boolean getisArmor(){
+    public boolean getisArmor() {
         return isArmor;
     }
 
     @Override
-    public ImageIcon[] getGif() {
+    public ImageIcon[] getGifs() {
         return gifs;
+    }
 }

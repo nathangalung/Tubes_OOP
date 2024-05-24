@@ -1,42 +1,31 @@
 package src.entities;
 
-import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+
+import src.mains.times.GameTime;
 
 public class Sun extends Entity implements Item {
     private static int x = (int) (Math.random() * (910 - 160 + 1)) + 160;
-    private static int y = 0;
-    private static int width = 25;
-    private static int height = 25;
     private static int speed = 5;
-    private static int direction = 2;
-    private static int attack = 0;
+    public static int sum = 50;
+
+    private ImageIcon[] gifs;
 
     public Sun() {
-        super(x, 0, 1, 1, speed, direction);
+        super(x, 0, 1, 1, speed, 2);
     }
 
-    
+
     public int getX() {
         return x;
     }
 
-    public int getY() {
-        return y;
+    public ImageIcon[] getGif() {
+        return gifs;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public BufferedImage getImage() {
-        return null;
+    public void setGif(ImageIcon[] gifs) {
+        this.gifs = gifs;
     }
 }

@@ -1,11 +1,13 @@
-package zombies;
-import zombies.Zombie;
+package src.entities.zombies;
+
+import javax.swing.ImageIcon;
 
 public class JackInTheBox extends Zombie {
+    private ImageIcon[] gifs;
     private boolean isNotExplode = true;
 
-    public JackInTheBox(int x, int y, int width, int height, int speed, int direction, boolean is_aquatic, int attack_damage, int attack_speed, int health) {
-        super(x,  y, width, height, speed, direction, is_aquatic, attack_damage, attack_speed, health);
+    public JackInTheBox(int x, int y) {
+        super(x,  y, 1, 1, 10, 3, true, 100, 1, 335);
     }
 
     public void setExplode(){
@@ -14,5 +16,10 @@ public class JackInTheBox extends Zombie {
 
     public boolean getExplode(){
         return isNotExplode;
+    }
+
+    @Override
+    public ImageIcon[] getGifs() {
+        return gifs;
     }
 }

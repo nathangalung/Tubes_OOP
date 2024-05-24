@@ -22,6 +22,7 @@ public class PoleVaulting extends Zombie {
     }
 
     @Override
-    public ImageIcon[] getGif() {
+    public ImageIcon[] getGifs() {
         return gifs;
+    }
 }

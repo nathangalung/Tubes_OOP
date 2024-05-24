@@ -1,4 +1,4 @@
-package zombies;
+package src.entities.zombies;
 
 import javax.swing.ImageIcon;
 
@@ -9,8 +9,8 @@ public class ScreenDoor extends Zombie {
     private ImageIcon[] gifs;
 
     public ScreenDoor(int x, int y) {
-        super(x, y, 1, 1, 1, -1,false, 1500, 0, 300 );
-        this.setGif(GifLoader.loadScreenDoor);
+        super(x, y, 1, 1, 10, -1,false, 1500, 0, 300 );
+        this.setGif(GifLoader.loadScreenDoor());
 
     }
 
@@ -23,7 +23,7 @@ public class ScreenDoor extends Zombie {
     }
 
     @Override
-    public ImageIcon[] getGif() {
+    public ImageIcon[] getGifs() {
         return gifs;
     }
 

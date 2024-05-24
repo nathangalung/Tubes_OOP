@@ -129,14 +129,22 @@ public class GameTime implements Runnable {
     public static void decrementTimeRemaining() {
         timeRemaining--;
         System.out.println("Game Time: " + (250 - timeRemaining));
+        if (timeRemaining == 250) {
+            System.out.println("Morning");
+        }
+        if (timeRemaining == 150) {
+            System.out.println("Night");
+        }
         if (timeRemaining == 125) {
             UserInterface.isViewingFlag();
         }
         if (timeRemaining == 50) {
+            System.out.println("Morning");
             incrementDay();
         }
         if (timeRemaining == 0) {
             gtThread.isInterrupted();
+            UserInterface.isViewingGameLose();
             // if (zombiesList.isEmpty()) {
             //     UserInterface.isviewingGameWin();
             // }

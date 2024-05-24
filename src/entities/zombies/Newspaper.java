@@ -1,28 +1,35 @@
-package zombies;
-import zombies.Zombie;
+package src.entities.zombies;
+
+import javax.swing.ImageIcon;
 
 public class Newspaper extends Zombie {
-    private static int paper = 100 ;
+    private static int paper = 150;
     private boolean isPaper = true;
+    private ImageIcon[] gifs;
 
-    public Newspaper(int x, int y, int width, int height, int speed, int direction, boolean is_aquatic, int attack_damage, int attack_speed, int health) {
-        super(x,  y, width, height, speed, direction, is_aquatic, attack_damage, attack_speed, health);
-        setHealth(health + paper);
+    public Newspaper(int x, int y) {
+        super(x,  y, 1, 1, 10, 3, false, 100, 1, 181);
+        setHealth(181 + paper);
     }
 
-    public void speedUp(){
+    public void speedUp() {
         if(isPaper == false){
             setSpeed(getSpeed()+ 2);
             setAttackS(getAttackSpeed() + 1);
         }
     }
 
-    public boolean getisPaper(){
+    public boolean getIsPaper(){
         return isPaper;
     }
 
-    public void setisPaper(){
+    public void setIsPaper(){
         isPaper = false;
+    }
+
+    @Override
+    public ImageIcon[] getGifs() {
+        return gifs;
     }
 
 }

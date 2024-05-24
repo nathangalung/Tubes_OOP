@@ -1,17 +1,16 @@
-package zombies;
+package src.entities.zombies;
 
 import javax.swing.ImageIcon;
 
 import src.assets.GifLoader;
-import zombies.Zombie;
 
 public class Buckethead extends Zombie {
     private boolean isBucket = true;
     private ImageIcon[] gifs;
 
     public Buckethead(int x, int y) {
-        super(x,  y, 1, 1, 1, -1, false, 100, 1, 300);
-        this.setGif(GifLoader.loadBuckethead);
+        super(x,  y, 1, 1, 10, -1, false, 100, 1, 300);
+        this.setGif(GifLoader.loadBuckethead());
     }
 
     public boolean getIsBucket() {
@@ -23,7 +22,7 @@ public class Buckethead extends Zombie {
     }
 
     @Override
-    public ImageIcon[] getGif() {
+    public ImageIcon[] getGifs() {
         return gifs;
     }
 }
