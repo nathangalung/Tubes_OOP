@@ -9,7 +9,7 @@ public class Conehead extends Zombie {
     private ImageIcon[] gifs;
 
     public Conehead(int x, int y) {
-        super(x,  y, 1, 1, "Conehead Zombie", 250, 100, 10, false);
+        super(x,  y, 1, 1, "Conehead Zombie", 250, 100, 1, false);
         this.isCone = true;
         this.setGif(GifLoader.loadConehead());
     }
