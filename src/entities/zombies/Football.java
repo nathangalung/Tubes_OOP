@@ -9,7 +9,7 @@ public class Football extends Zombie {
     private ImageIcon[] gifs;
 
     public Football(int x, int y, int width, int height, int speed, int direction, boolean is_aquatic, int attack_damage, int attack_speed, int health) {
-        super(x, y, 1, 1, 10, -1, false, 100, 1, 320);
+        super(x, y, 1, 1, "Football Zombie", 320, 100, 1, false);
         this.setGif(GifLoader.loadFootball());
     }
 

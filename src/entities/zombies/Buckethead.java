@@ -9,7 +9,7 @@ public class Buckethead extends Zombie {
     private ImageIcon[] gifs;
 
     public Buckethead(int x, int y) {
-        super(x,  y, 1, 1, 10, -1, false, 100, 1, 300);
+        super(x,  y, 1, 1, "Buckethead Zombie", 175, 100, 10, false);
         this.setGif(GifLoader.loadBuckethead());
     }
 

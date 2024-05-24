@@ -7,7 +7,7 @@ public class DuckyTube extends Zombie {
     protected boolean isPool = false;
 
     public DuckyTube(int x, int y) {
-        super(x,  y, 0, 0, 10, -1, true, 100, 1, 100);
+        super(x,  y, 1, 1, "Duckytube Zombie", 100, 100, 10, true);
     }
 
     // public boolean getPool(boolean isPool) {

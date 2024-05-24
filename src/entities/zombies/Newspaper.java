@@ -8,7 +8,7 @@ public class Newspaper extends Zombie {
     private ImageIcon[] gifs;
 
     public Newspaper(int x, int y) {
-        super(x,  y, 1, 1, 10, 3, false, 100, 1, 181);
+        super(x,  y, 1, 1, "Newspaper Zombie", 125, 100, 10, false);
         setHealth(181 + paper);
     }
 

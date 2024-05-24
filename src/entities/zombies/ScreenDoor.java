@@ -9,7 +9,7 @@ public class ScreenDoor extends Zombie {
     private ImageIcon[] gifs;
 
     public ScreenDoor(int x, int y) {
-        super(x, y, 1, 1, 10, -1,false, 1500, 0, 300 );
+        super(x, y, 1, 1, "Screen Door Zombie", 125, 100, 10, false );
         this.setGif(GifLoader.loadScreenDoor());
 
     }

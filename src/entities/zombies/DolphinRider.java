@@ -8,7 +8,7 @@ public class DolphinRider extends Zombie {
     private ImageIcon[] gifs;
     
     public DolphinRider(int x, int y) {
-        super(x,  y, 1, 1, 10, -1, true, 100, 1, 335);
+        super(x,  y, 1, 1, "Dolphin Rider Zombie", 335, 100, 10, true);
         isJump = false;
     }
 

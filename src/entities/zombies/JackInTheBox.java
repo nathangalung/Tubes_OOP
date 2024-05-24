@@ -7,7 +7,7 @@ public class JackInTheBox extends Zombie {
     private boolean isNotExplode = true;
 
     public JackInTheBox(int x, int y) {
-        super(x,  y, 1, 1, 10, 3, true, 100, 1, 335);
+        super(x,  y, 1, 1, "Jack In The Box Zombie", 335, 100, 10, false);
     }
 
     public void setExplode(){
