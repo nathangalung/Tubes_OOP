@@ -25,6 +25,7 @@ import src.mains.panels.GamePanel;
 import src.entities.Spawner;
 // import src.entities.handlers.CollisionHandler;
 import src.entities.plants.Plant;
+import src.main.time.GameTime;
 
 public class Map extends JPanel {
     // Attributes
@@ -236,7 +237,7 @@ public class Map extends JPanel {
     private void tilePressed() {
         if (selectedTile >= 0 && selectedTile < 18) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
+                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 && plantsDeck[selectedCheck] != 6)) {
                     checkTile[selectedTile] = plantsDeck[selectedCheck];
                     plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.GREEN_TILES[selectedTile].x, Consts.GREEN_TILES[selectedTile].y));
                 }
@@ -250,25 +251,25 @@ public class Map extends JPanel {
                 setIsRemovingPlant();
             }
         }
-        if (selectedTile >= 18 && selectedTile < 36 && (plantsDeck[selectedCheck] == 5 || plantsDeck[selectedCheck] == 6)) {
+        if (selectedTile >= 18 && selectedTile < 36) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
+                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] == 5 || plantsDeck[selectedCheck] == 6)) {
                     checkTile[selectedTile] = plantsDeck[selectedCheck];
-                    plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.BLUE_TILES[selectedTile].x, Consts.BLUE_TILES[selectedTile].y));
+                    plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.BLUE_TILES[selectedTile - 18].x, Consts.BLUE_TILES[selectedTile - 18].y));
                 }
                 setIsAddingPlant();
             }
             else {
                 if (checkTile[selectedTile] != 100) {
                     checkTile[selectedTile] = 100;
-                    plantsList.removeIf(plant -> plant.getX() == Consts.BLUE_TILES[selectedTile].x && plant.getY() == Consts.BLUE_TILES[selectedTile].y);
+                    plantsList.removeIf(plant -> plant.getX() == Consts.BLUE_TILES[selectedTile - 18].x && plant.getY() == Consts.BLUE_TILES[selectedTile - 18].y);
                 }
                 setIsRemovingPlant();
             }
         }
-        if (selectedTile >= 36 && selectedTile < 54 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
+        if (selectedTile >= 36 && selectedTile < 54) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 || plantsDeck[selectedCheck] != 6)) {
+                if (checkTile[selectedTile] == 100 && (plantsDeck[selectedCheck] != 5 && plantsDeck[selectedCheck] != 6)) {
                     checkTile[selectedTile] = plantsDeck[selectedCheck];
                     plantsList.add(Spawner.createPlant(plantsDeck[selectedCheck], Consts.GREEN_TILES[selectedTile].x, Consts.GREEN_TILES[selectedTile].y));
                 }
@@ -531,7 +532,12 @@ public class Map extends JPanel {
     // }
 
     private void drawMap(Graphics2D g) {
-        g.drawImage(images[0], 0, -20, null);
+        if (GameTime.timeRemaining >= 150 || GameTime.timeRemaining < 50) {
+            g.drawImage(images[0], 0, 0, null);
+        }
+        else {
+            g.drawImage(images[1], 0, 0, null);
+        }
         g.drawImage(images[2], 25, 20, null);
         g.drawImage(images[3], 815, -20, null);
         g.drawImage(images[4], 1047, 20, null);
@@ -583,8 +589,8 @@ public class Map extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        for (Plant p: plantsList) {
-            p.getGifs()[0].paintIcon(this, g2, p.getX(), p.getY());
+        for (Plant z: plantsList) {
+            z.getGifs()[0].paintIcon(this, g2, z.getX(), z.getY());
         }
     }
 

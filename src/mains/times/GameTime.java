@@ -128,6 +128,7 @@ public class GameTime implements Runnable {
 
     public static void decrementTimeRemaining() {
         timeRemaining--;
+        System.out.println("Game Time: " + (250 - timeRemaining));
         if (timeRemaining == 125) {
             UserInterface.isViewingFlag();
         }

@@ -66,7 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
             fps++;
             time += deltaTime;
             if (time > 1.0) {
-                System.out.println("Game Window - FPS: " + fps);
+                System.out.println("Game FPS: " + fps);
+                
                 fps = 0;
                 time = 0;
             }

@@ -120,5 +120,73 @@ public class GifLoader {
         return gifs;
     }
 
-    
+    public static ImageIcon[] loadNormal() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/normal", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadConehead() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/conehead", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadPoleVaulting() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/polevaulting", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadBuckethead() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/buckethead", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadDuckyTube() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/duckytube", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadDolphinRider() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/dolphinrider", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadJackInTheBox() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/jackinthebox", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadScreenDoor() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/screendoor", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadFootball() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/football", "Walk");
+
+        return gifs;
+    }
+
+    public static ImageIcon[] loadNewspaper() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/zombies/newspaper", "Walk");
+
+        return gifs;
+    }
 }
