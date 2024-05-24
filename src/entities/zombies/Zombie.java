@@ -211,6 +211,7 @@ package zombies;
 
 import src.entities.zombies;
 import src.entities.zombies.EntityAction;
+import src.entities.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
