@@ -222,37 +222,57 @@ import javax.swing.ImageIcon;
 public class Zombie extends Entity {
     private int attack_damage;
     private int attack_speed;
+    private int health;
     private boolean is_aquatic;
-    private Rectangle bound;
+    private ImageIcon gif;
 
-    public Zombie(int x, int y, int width, int height, float speed, int id , int attack_damage, int attack_speed, String name,boolean is_aquatic) {
-        super(x, y, width, height, speed, id, name);;
+    public Zombie(int x, int y, int width, int height, int speed, int direction, boolean is_aquatic, int attack_damage, int attack_speed, int health) {
+        super(x, y, width, height, speed, direction);
+        this.health = health;
         this.attack_damage = attack_damage;
         this.attack_speed = attack_speed;
         this.is_aquatic = is_aquatic;
-        bound = new Rectangle(x, y, 64 , 64);
+
     }
 
+    public int getHealth(){
+        return health;
+    }
+    
     public int getAttackDamage() {
         return this.attack_damage;
     }
-
+    
     public int getAttackSpeed() {
         return this.attack_speed;
     }
-
+    
     public boolean getAquatic() {
         return this.is_aquatic;
     }
+    public void setHealth(int health){
+        this.health = health;
+    }
 
-    public void move(){
-        super.move(getX(), getY());
+    public void setAttackD(int attack_damage){
+        this.attack_damage = attack_damage;
+    }
+
+    public void setAttackS(int attack_speed){
+        this.attack_speed = attack_speed;
+    }
+
+    public void move(int x, int y){
+        super.move(x, y);
     }
 
     public void loadImage(){
         super.loadImage();
     }
 
+    public void setGif(ImageIcon gif){
+        this.gif = gif;
+    }
     // public void draw(Graphics2D g2){
         
     // }

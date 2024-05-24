@@ -1,13 +1,13 @@
 package zombies;
 
-import zombiest.Zombie;
+import zombies.Zombie;
 
 public class Buckethead extends Zombie {
-    private boolean isBucket;
+    private boolean isBucket = true;
 
-    public Buckethead(String name, int health, int attack_damage, int attack_speed, boolean isAquatic) {
-        super(0, 0, 1, 1, 3, "Buckethead Zombie", 300, 100, 1, false);
-        this.isBucket = true;
+    public Buckethead(int x, int y) {
+        super(x,  y, 1, 1, 1, -1, false, 100, 1, 300);
+
     }
 
     public boolean getIsBucket() {

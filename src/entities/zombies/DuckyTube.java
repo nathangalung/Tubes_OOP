@@ -1,17 +1,18 @@
-package zombiest;
+package zombies;
+import zombies.Zombie;
 
 public class DuckyTube extends Zombie {
     protected boolean isPool = false;
 
-    public DuckyTube(String name, int health, int attack_damage, int attack_speed, boolean isAquatic) {
-        super(0, 0, 1, 1, 4, "Ducky Tube Zombie", 100, 100, 1, true);
+    public DuckyTube(int x, int y) {
+        super(x,  y, 0, 0, 1, -1, true, 100, 1, 100);
     }
 
-    public boolean getPool(boolean isPool) {
-        return this.isPool;
-    }
+    // public boolean getPool(boolean isPool) {
+    //     return this.isPool;
+    // }
 
-    public void setPool(boolean isPool) {
-        this.isPool = !isPool;
-    }
+    // public void setPool(boolean isPool) {
+    //     this.isPool = !isPool;
+    // }
 }

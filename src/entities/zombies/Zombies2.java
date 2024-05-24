@@ -11,12 +11,16 @@ public class Zombies2 extends Entity2 {
     private Boolean isAquatic;
     private Point position;
     private long lastAttackTime;
+    private static int id = 0;
+    private int z_id;
 
     public Zombies2(int x, int y, String name, int health, int attack_damage, int attack_speed, boolean isAquatic){
         super(x, y, name, health, attack_damage, attack_speed);
         this.isAquatic = isAquatic;
         this.isWalking = true;
         this.position = new Point(x,y);
+        z_id = this.getID();
+        id++;
     }
 
     public void move(){
@@ -41,6 +45,10 @@ public class Zombies2 extends Entity2 {
         }   
     }
 
+    public int getID(){
+        return id;
+    }
+
     public void walk(){
         isWalking = true;
     }
@@ -51,5 +59,9 @@ public class Zombies2 extends Entity2 {
 
     public void hurt(int attack_damage){
         super.setHealth(getHealth() - attack_damage);
+    }
+
+    public void update(){
+
     }
 }

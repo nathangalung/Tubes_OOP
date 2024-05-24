@@ -238,6 +238,10 @@ public class Entity {
         this.img = img;
     }
 
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
+    
     public void move(int x, int y){
         this.x += x;
         this.y += y;
