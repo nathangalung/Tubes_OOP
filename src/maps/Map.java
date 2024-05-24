@@ -1,14 +1,21 @@
 package src.maps;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import src.mains.Consts;
 import src.mains.panels.InventoryPanel;
+import src.assets.GifLoader;
 import src.assets.ImageLoader;
 import src.mains.panels.PanelHandler;
 // import src.entities.zombies.Zombie;
@@ -18,7 +25,7 @@ import src.mains.panels.GamePanel;
 // import src.entities.handlers.CollisionHandler;
 // import src.entities.plants.Plant;
 
-public class Map {
+public class Map extends JPanel {
     // Attributes
     private int[][] map = new int[64][64];
     // private ArrayList<Plant> plantsList;
@@ -31,6 +38,7 @@ public class Map {
     private int[] plantsDeck = InventoryPanel.plantsDeck;
     private int[] checkTile;
 
+
     // private CollisionHandler collisionHandler;
     // private Plant removablePlant = null;
     // private Plant selectedPlant = null;
@@ -38,6 +46,8 @@ public class Map {
 
     // Images of the world
     private BufferedImage[] images;
+    private ImageIcon[] gifs;
+    private JLabel gifLabel;
     
     // Cursor position
     // private Cursor cursor;
@@ -47,7 +57,7 @@ public class Map {
     public Map() {
         checkTile = new int[54];
         for (int i = 0; i < 54; i++) {
-            checkTile[i] = 0;
+            checkTile[i] = 100;
         }
         // Attributes
         // this.plantsList = new ArrayList<>();
@@ -57,6 +67,8 @@ public class Map {
 
         // Load the images of the world
         this.images = ImageLoader.loadMap();
+        this.gifs = GifLoader.loadSunflower();
+
 
         for (int y = 0 ; y < 64 ; y++) {
             for (int x = 0 ; x < 64 ; x++) {
@@ -216,11 +228,12 @@ public class Map {
     private void tilePressed() {
         if (selectedTile >= 0 && selectedTile < 18) {
             if (isAddingPlant()) {
-                if (checkTile[selectedTile] == 0) checkTile[selectedTile] = 1;
+                if (checkTile[selectedTile] == 100) checkTile[selectedTile] = plantsDeck[0];
+                
                 setIsAddingPlant();
             }
             else {
-                if (checkTile[selectedTile] == 1) checkTile[selectedTile] = 0;
+                if (checkTile[selectedTile] != 100) checkTile[selectedTile] = 100;
                 setIsRemovingPlant();
             }
         }
@@ -360,7 +373,7 @@ public class Map {
 
         drawTile(g);
 
-        // drawPlants(g);
+        drawPlants(g);
 
         // drawZombies(g);
 
@@ -529,8 +542,18 @@ public class Map {
             if (selectedTile == i && i >= 36 && i < 54) g.drawImage(images[13], Consts.GREEN_TILES[i-18].x, Consts.GREEN_TILES[i-18].y, null);
         }
     }
-
     
+    private void drawPlants(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        for (int i = 0; i < checkTile.length; i++) {
+            if (checkTile[i] != 100) {
+                gifs[0].paintIcon(this, g2, Consts.GREEN_TILES[i].x, Consts.GREEN_TILES[i].y);
+            }
+        }
+    }
 
     // private void drawPlants(Graphics2D g) {
     //     try {

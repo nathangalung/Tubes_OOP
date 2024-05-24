@@ -50,8 +50,9 @@ public class GifLoader {
         return gifs;
     }
 
-    public static ImageIcon loadSunflower() {
-        ImageIcon gifs = readGif("entities/plants/sunflower", "Base");
+    public static ImageIcon[] loadSunflower() {
+        ImageIcon[] gifs = new ImageIcon[1];
+        gifs[0] = readGif("entities/plants/sunflower", "Base");
 
         return gifs;
     }

@@ -10,7 +10,7 @@ public class Spawner {
     private ImageIcon[] image;
     public static int countZombies = 0;
     
-    public Spawner(){
+    public Spawner() {
 
     }
 

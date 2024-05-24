@@ -183,20 +183,18 @@ public class Entity {
     private int width;
     private int height;
     private float speed;
-    private int id;
-    private String name;
+    private int direction;
     private ImageIcon img;
 
     private Rectangle bound;
 
-    public Entity(int x, int y, int width, int height, float speed, int id , String name ) {
+    public Entity(int x, int y, int width, int height, float speed, int direction) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.speed = speed;
-        this.id = id;
-        this.name = name;
+        this.direction = direction;
         bound = new Rectangle(x, y, width , height);
         loadImage();
     }
@@ -204,39 +202,35 @@ public class Entity {
     public void initBound(){
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
-    public int height(){
+    public int height() {
         return height;
     }
 
-    public float getSpeed(){
+    public float getSpeed() {
         return speed;
     }
 
-    public String getName(){
-        return name;
+    public int getDirection() {
+        return direction;
     }
 
-    public Rectangle getBound(){
+    public Rectangle getBound() {
         return bound;
     }
 
-    public int getID(){
-        return id;
-    }
-
-    public ImageIcon getImg(){
+    public ImageIcon getImg() {
         return img;
     }
 
@@ -254,8 +248,4 @@ public class Entity {
         String filename = "";
         img = GifLoader.readGif(folder, filename);
     }
-
-    // public void draw(Graphics2D g2){
-
-    // }
 }

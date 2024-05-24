@@ -28,17 +28,11 @@ public class HelpPanel extends JPanel {
                 int keyCode = e.getKeyCode();
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
-                    page++;
-                    if (page > 3) {
-                        page = 0;
-                    }
+                    if (page < 4) page++;
                 }
 
                 if (keyCode == KeyEvent.VK_LEFT) {
-                    page--;
-                    if (page < 0) {
-                        page = 3;
-                    }
+                    if (page > 0) page--;
                 }
 
                 if (keyCode == KeyEvent.VK_ESCAPE) {

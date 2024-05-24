@@ -154,9 +154,6 @@ public class ZombiesListPanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        gifLabel = new JLabel();
-        this.add(gifLabel);
-
         g2.drawImage(images[0], 0, 0, null); // background
         g2.drawImage(images[1], 221, 49, null); // almanac
         g2.drawImage(images[2], 1128, 575, null); // help

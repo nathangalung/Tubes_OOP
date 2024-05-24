@@ -14,9 +14,9 @@ public abstract class Consts {
 
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 9; x++) {
-                if (y < 2) GREEN_TILES[y*9 + x] = new Point(170 + (x*100), 80 + (y*108));
-                else if (y >= 4) GREEN_TILES[(y-2)*9 + x] = new Point(170 + (x*100), 80 + (y*108));
-                else BLUE_TILES[(y-2)*9 + x] = new Point(170 + (x*100), 80 + (y*108));
+                if (y < 2) GREEN_TILES[y*9 + x] = new Point(170 + (x*101), 80 + (y*108));
+                else if (y >= 4) GREEN_TILES[(y-2)*9 + x] = new Point(170 + (x*101), 80 + (y*108));
+                else BLUE_TILES[(y-2)*9 + x] = new Point(170 + (x*101), 80 + (y*108));
             }
             PINK_TILES[y] = new Point(70, 80 + (y*108)); 
             BROWN_TILES[y] = new Point(1070, 80 + (y*108)); 
