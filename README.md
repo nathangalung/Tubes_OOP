@@ -11,3 +11,6 @@ Program ini adalah sebuah permainan berbasis Command Line Interface (CLI) yang d
 18222104 Adinda Khairunnisa Indraputri  
 18222122 Bryan P. Hutagalung  
 18222130 Regan Adiesta Mahendra
+
+**Cara Compile Program:**
+
