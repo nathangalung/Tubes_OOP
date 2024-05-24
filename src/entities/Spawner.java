@@ -72,7 +72,6 @@ public class Spawner {
         System.out.printf("- TIME : %d%n", gameTick);
         channel.publishUpdate(gameTick);
 
-        // Mekanisme spawning zombie
         if (gameTick > 20 && gameTick < 160 && gameTick % 3 == 0) {
             spawnZombie(gameTick);
         }
@@ -81,7 +80,6 @@ public class Spawner {
 
     public Point randomSpawnZ(int zombietype){
         int y = random.nextInt(10);
-        int x = ;
 
 
 

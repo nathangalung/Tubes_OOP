@@ -20,10 +20,6 @@ public class SnowPea extends Plant implements Item {
         actionStart();
     }
 
-    // public boolean getSlow() {
-    //     return this.is_slow;
-    // }
-
     @Override
     public ImageIcon[] getGif() {
         return gifs;

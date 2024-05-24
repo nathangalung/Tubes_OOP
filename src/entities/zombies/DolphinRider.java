@@ -12,14 +12,6 @@ public class DolphinRider extends Zombie {
         isJump = false;
     }
 
-    // public boolean getPool(boolean isPool) {
-    //     return this.isPool;
-    // }
-
-    // public void setPool(boolean isPool) {
-    //     this.isPool = !isPool;
-    // }
-
     public boolean getJump() {
         return this.isJump;
     }
